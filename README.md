@@ -1,4 +1,4 @@
-![Project Status](https://img.shields.io/badge/status-in%2Dprogress-blue)
+![Project Status](https://img.shields.io/badge/status-in--progress-blue)
 ![Project Version](https://img.shields.io/badge/version-0.0.0-lightgrey)
 
 # Amelify: The Modular, AI-Driven Shell for Personal Productivity
