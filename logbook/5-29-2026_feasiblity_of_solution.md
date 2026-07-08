@@ -1,7 +1,7 @@
 ---
 title: "Architecture Pivot & Core Setup Complete"
 date: 06-03-2026
-status: in-progress
+status: planning
 version: 0.0.0
 ---
 

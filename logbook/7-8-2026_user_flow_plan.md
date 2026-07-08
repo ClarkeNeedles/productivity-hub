@@ -1,3 +1,10 @@
+---
+title: "User flow plan"
+date: 7-8-2026
+status: planning
+version: 0.0.0
+---
+
 # 🗺️ System User Flow & Lifecycle
 
 ```mermaid

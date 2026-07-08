@@ -1,3 +1,10 @@
+---
+title: "Frontend plan"
+date: 7-8-2026
+status: planning
+version: 0.0.0
+---
+
 # 📂 Finalized Frontend Directory Structure
 ```
 frontend/
