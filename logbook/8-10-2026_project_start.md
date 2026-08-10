@@ -2,7 +2,7 @@
 title: "project start"
 date: 8-10-2026
 status: in-progress
-version: 0.0.0
+version: 0.1.0
 ---
 
 # 1. Updated Navigation & Workspace Layout
