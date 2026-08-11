@@ -1,4 +1,4 @@
-![Project Status](https://img.shields.io/badge/status-in%2Dprogress-blue)
+![Project Status](https://img.shields.io/badge/status-in--progress-yellowgreen)
 ![Version](https://img.shields.io/badge/version-0.1.0-blue)
 
 # Amelify
