@@ -1,7 +1,7 @@
 ---
 title: "User flow plan"
 date: 7-8-2026
-status: planning
+project-phase: planning
 version: 0.0.0
 ---
 

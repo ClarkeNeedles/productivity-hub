@@ -1,7 +1,7 @@
 ---
 title: "Log Title: Short Description"
 date: MONTH-DAY-YEAR
-status: in-progress
+project-phase: in-progress
 version: 0.0.0
 ---
 

@@ -1,7 +1,7 @@
 ---
 title: "Project Blueprint: Modular PWA Hub"
 date: 06-10-2026
-status: planning
+project-phase: planning
 version: 0.0.0
 ---
 

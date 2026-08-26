@@ -1,7 +1,7 @@
 ---
 title: "App Planning & Architecture Design"
 date: 05-25-2026
-status: planning
+project-phase: planning
 version: 0.0.0
 ---
 

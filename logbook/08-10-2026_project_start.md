@@ -1,7 +1,7 @@
 ---
 title: "project start"
 date: 8-10-2026
-status: in-progress
+project-phase: in-progress
 version: 0.1.0
 ---
 
