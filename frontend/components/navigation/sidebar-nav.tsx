@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { Blocks, Gauge, Settings } from "lucide-react";
 
 type SidebarNavProps = {
   expanded: boolean;
@@ -11,35 +12,10 @@ type SidebarNavProps = {
 };
 
 const menuItems = [
-  { label: "Dashboard", href: "/dashboard", icon: "gauge" },
-  { label: "Modules", href: "/modules", icon: "blocks" },
-  { label: "Settings", href: "/settings", icon: "⚙" },
+  { label: "Dashboard", href: "/dashboard", icon: Gauge },
+  { label: "Modules", href: "/modules", icon: Blocks },
+  { label: "Settings", href: "/settings", icon: Settings },
 ];
-
-function MenuIcon({ icon }: { icon: string }) {
-  if (icon === "gauge") {
-    return (
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
-        <path d="M4.5 15a7.5 7.5 0 1 1 15 0" strokeLinecap="round" />
-        <path d="m12 12 3.5-3.5" strokeLinecap="round" />
-        <path d="M6.5 18h11" strokeLinecap="round" />
-      </svg>
-    );
-  }
-
-  if (icon === "blocks") {
-    return (
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
-        <path d="M4 5.5 8 3l4 2.5v4L8 12l-4-2.5v-4Z" strokeLinejoin="round" />
-        <path d="m12 5.5 4-2.5 4 2.5v4L16 12l-4-2.5v-4Z" strokeLinejoin="round" />
-        <path d="m8 12 4-2.5 4 2.5v4L12 18.5 8 16v-4Z" strokeLinejoin="round" />
-        <path d="m12 18.5 4-2.5 4 2.5v4l-4 2.5-4-2.5v-4Z" strokeLinejoin="round" />
-      </svg>
-    );
-  }
-
-  return <span>{icon}</span>;
-}
 
 export default function SidebarNav({
   expanded,
@@ -100,6 +76,8 @@ export default function SidebarNav({
           <ul className="flex flex-col gap-2">
             {menuItems.map((item) => {
               const active = pathname === item.href;
+              const Icon = item.icon;
+
               return (
                 <li key={item.href}>
                   <Link
@@ -107,10 +85,10 @@ export default function SidebarNav({
                     className={`group flex w-full items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-colors ${active ? "bg-blue-50 text-blue-600 dark:bg-blue-500/10 dark:text-blue-400" : "text-slate-600 hover:bg-slate-100 hover:text-slate-900 dark:text-slate-400 dark:hover:bg-white/5 dark:hover:text-white"} ${showLabels ? "" : "justify-center"}`}
                   >
                     <span
-                      className={`flex h-5 w-5 items-center justify-center text-lg leading-none ${active ? "text-blue-600 dark:text-blue-400" : "text-slate-400"}`}
+                      className={`w-5 text-center text-lg leading-none ${active ? "text-blue-600 dark:text-blue-400" : "text-slate-400"}`}
                       aria-hidden="true"
                     >
-                      <MenuIcon icon={item.icon} />
+                      <Icon size={20} strokeWidth={1.8} />
                     </span>
                     {showLabels && <span>{item.label}</span>}
                   </Link>
