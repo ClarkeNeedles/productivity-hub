@@ -30,7 +30,7 @@ export default function ModuleCard({ module, onOpen, onRemove }: ModuleCardProps
         <div className="absolute end-3 top-3">
           <button
             type="button"
-            className="flex h-8 w-8 items-center justify-center rounded-lg bg-white/90 text-slate-500 opacity-0 shadow-sm transition-opacity group-hover:opacity-100 hover:text-slate-900 dark:bg-slate-950/90 dark:text-slate-400 dark:hover:text-white"
+            className="flex h-8 w-8 items-center justify-center rounded-lg bg-white/90 text-slate-500 shadow-sm hover:text-slate-900 dark:bg-slate-950/90 dark:text-slate-400 dark:hover:text-white"
             onClick={(event) => {
               event.stopPropagation();
               setMenuOpen((current) => !current);
