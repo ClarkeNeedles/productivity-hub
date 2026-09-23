@@ -1,15 +1,5 @@
-import SidebarNav from '@/components/navigation/sidebar-nav';
+import AppShell from '@/components/navigation/app-shell';
 
 export default function AppLayout({ children }: { children: React.ReactNode }) {
-  return (
-    <div className="flex h-screen w-screen overflow-hidden bg-background">
-      {/* Global Sidebar Nav */}
-      <SidebarNav />
-      
-      {/* Side-by-side Page Canvas */}
-      <main className="flex-1 overflow-y-auto p-6">
-        {children}
-      </main>
-    </div>
-  );
+  return <AppShell>{children}</AppShell>;
 }
