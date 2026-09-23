@@ -18,7 +18,9 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
       <div
         className={`min-h-screen transition-all duration-300 ${expanded ? "lg:ml-72" : "lg:ml-[90px]"}`}
       >
-        <main className="mx-auto max-w-[1600px] p-4 sm:p-6 lg:p-8">{children}</main>
+        <main className="mx-auto max-w-[1600px] px-4 pt-20 pb-4 sm:px-6 sm:pt-20 sm:pb-6 lg:p-8">
+          {children}
+        </main>
       </div>
     </div>
   );
