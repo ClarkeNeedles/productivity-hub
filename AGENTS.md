@@ -16,7 +16,7 @@
 - Keep components focused and place repeated data or configuration in named constants when that improves scanning.
 - Use short comments only to label meaningful sections or explain non-obvious behavior. Do not comment straightforward code.
 - Use lowercase file naming like "sidebar-nav.tsx" when naming new files
-- Run Prettier on changed frontend files before completing a change.
+- Run Prettier on changed frontend code files before completing a change. Markdown documentation is excluded by the repository `.prettierignore` file so intentional indentation is preserved.
 
 ## Frontend Conventions
 
