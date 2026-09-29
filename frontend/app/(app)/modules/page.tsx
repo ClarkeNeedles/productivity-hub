@@ -2,8 +2,8 @@
 
 import { ArrowLeft } from "lucide-react";
 import { useState } from "react";
-import ModuleCard from "@/components/modules/module-card";
-import { AddModuleModule } from "@/components/modules/add-module-module";
+import ModuleCard from "@/components/module-card";
+import { AddModuleModule } from "@/modules/add-module-module";
 import { BaseModule } from "@/types/module";
 
 export default function ModulesPage() {
