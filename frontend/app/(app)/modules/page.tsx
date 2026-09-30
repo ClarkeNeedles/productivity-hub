@@ -1,15 +1,28 @@
 "use client";
 
 import { ArrowLeft } from "lucide-react";
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import ModuleCard from "@/components/module-card";
-import { AddModuleModule } from "@/modules/add-module-module";
-import { BaseModule } from "@/types/module";
+import ModulePage from "@/components/module-page"
+import { AddModuleModule } from "@/modules/add-module";
+import { BaseModule } from "@/types/base-module";
 
 export default function ModulesPage() {
-  const [modules, setModules] = useState<BaseModule[]>([]);
-  const [focusedModule, setFocusedModule] = useState<BaseModule | null>(null);
-  const addModule = new AddModuleModule();
+  const [modules, setModules] = useState<BaseModule<any, any, any>[]>([]);
+  const [focusedModule, setFocusedModule] = useState<BaseModule<any, any, any> | null>(null);
+
+  // Stabilize utility module instance to avoid instantiation memory leak loops on render
+  // useMemo ensures object is created exactly once
+  const addModuleUtility = useMemo(() => {
+    return new AddModuleModule({ onAddModule: addModuleFromCatalog });
+  }, []);
+
+  // Adding module logic for AddModuleModule
+  // Adds the module to the list and route user to module list view
+  function addModuleFromCatalog(module: BaseModule<any, any, any>) {
+    setModules((current) => [...current, module]);
+    setFocusedModule(null);
+  }
 
   if (focusedModule) {
     return (
@@ -22,16 +35,12 @@ export default function ModulesPage() {
           <ArrowLeft size={17} aria-hidden="true" />
           Back to modules
         </button>
+        
         <div className="mt-10">
-          {focusedModule.renderFocusView({ onAddModule: addModuleFromCatalog })}
+          <ModulePage module={focusedModule} />
         </div>
       </section>
     );
-  }
-
-  function addModuleFromCatalog(module: BaseModule) {
-    setModules((current) => [...current, module]);
-    setFocusedModule(null);
   }
 
   return (
@@ -45,17 +54,18 @@ export default function ModulesPage() {
       <div className="grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3">
         {modules.map((module) => (
           <ModuleCard
-            key={module.instanceId}
+            key={module.id}
             module={module}
             onOpen={setFocusedModule}
             onRemove={(moduleToRemove) =>
               setModules((current) =>
-                current.filter((item) => item.instanceId !== moduleToRemove.instanceId)
+                current.filter((item) => item.id !== moduleToRemove.id)
               )
             }
           />
         ))}
-        <ModuleCard module={addModule} onOpen={setFocusedModule} />
+        {/* Add module module is always visible at the end of module grid list */}
+        <ModuleCard module={addModuleUtility} onOpen={setFocusedModule} />
       </div>
     </section>
   );
