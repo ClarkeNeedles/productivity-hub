@@ -24,13 +24,21 @@ Thank you for your interest in contributing! This document outlines our reposito
 
 - **Directory Mapping:** Follow the existing Next.js App Router workspace under `frontend/app/` and shared layout element placements under `frontend/components/`.
 - **Absolute Path Resolution:** Always use the absolute `@/` path aliases configured in `tsconfig.json` (e.g., `import { BaseModule } from "@/types/base-module"`) when importing elements. Brittle relative paths like `../` or `../../` are strictly prohibited to maintain cleanliness and refactoring safety.
-- **Inline Component Prop Typing:** Avoid separate external `type Props = { ... }` or `interface` code blocks for localized React components. Instead, write the type object literal directly inline within the function parameter signature. To prevent structural syntax collisions with JavaScript object destructuring renaming aliases, accept the unified `props` object parameter directly and destructure its keys on the very first line of the component body:
+- **Component Prop Typing:** Explicitly define React component properties using dedicated `Props` or `[Component]Props` type blocks placed directly above the component definition. Avoid inline parameter type object literals to ensure long property maps, optional event callbacks, and structural configurations remain readable and easily extensible:
   ```tsx
-  export default function ModuleCard(props: {
+  type ModuleCardProps = {
     module: BaseModule<any, any, any>;
     onOpen: (module: BaseModule<any, any, any>) => void;
-  }) {
-    const { module, onOpen } = props;
+    onOpenSettings?: (module: BaseModule<any, any, any>) => void;
+    onRemove?: (module: BaseModule<any, any, any>) => void;
+  };
+
+  export default function ModuleCard({
+    module,
+    onOpen,
+    onOpenSettings,
+    onRemove,
+  }: ModuleCardProps) {
     return <article>...</article>;
   }
   ```

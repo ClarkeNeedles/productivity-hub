@@ -1,12 +1,8 @@
 import type { ReactNode } from "react";
+import type { BaseModule } from "@/types/base-module";
 
 export abstract class ModulePage {
-  constructor(private readonly _pageSubtitle: string) {}
-
-  public get pageSubtitle(): string { return this._pageSubtitle; }
-  
-  // Supplies the primary interactive canvas grid and operational dashboard interfaces for this page view.
-  abstract renderContentArea(): ReactNode;
-  // Yields optional auxiliary tools, secondary telemetry feeds, or contextual settings widgets at the base of the layout.
-  abstract renderSecondaryUtilities(): ReactNode;
+  // Inject the parent module context directly into the render signature
+  abstract renderContentArea(module: BaseModule<any, any, any>): ReactNode; // Primary page view
+  abstract renderSecondaryUtilities(module: BaseModule<any, any, any>): ReactNode; // Optional widgets at the base of the layout
 }

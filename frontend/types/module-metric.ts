@@ -1,6 +1,6 @@
 import type { ReactNode } from 'react';
 
-export interface DashboardWidget {
+export interface ModuleMetric {
   readonly id: string;
   readonly name: string;
 

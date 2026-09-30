@@ -9,7 +9,7 @@ type ModulePageProps = {
 export default function ModulePage({
   module,
 }: ModulePageProps) {
-  const secondaryContent = module.page.renderSecondaryUtilities();
+  const secondaryContent = module.page.renderSecondaryUtilities(module);
 
   return (
     <div className="space-y-6 max-w-7xl mx-auto p-6">
@@ -25,7 +25,7 @@ export default function ModulePage({
       </header>
 
       <main className="min-h-[400px] w-full">
-        {module.page.renderContentArea()}
+        {module.page.renderContentArea(module)}
       </main>
 
       {secondaryContent && (
