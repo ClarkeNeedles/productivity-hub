@@ -1,4 +1,6 @@
-import type { ReactNode } from "react";
+import type { ModuleCard } from "./module-card";
+import type { ModulePage } from "./module-page";
+import type { ModuleSettingsPage } from "./module-settings-page";
 
 export type ModuleOptions = {
   sourceModuleToken: string;
@@ -12,26 +14,37 @@ export type ModuleOptions = {
   textSummaryExport: string;
 };
 
-export type ModuleActions = {
-  onAddModule: (module: BaseModule) => void;
-};
+export abstract class BaseModule<
+  TCard extends ModuleCard = ModuleCard,
+  TPage extends ModulePage = ModulePage,
+  TSettings extends ModuleSettingsPage = ModuleSettingsPage
+> {
+  private readonly _moduleId: string;
+  private readonly _instanceId: string;
+  private readonly _moduleTitle: string;
+  private readonly _moduleCard: TCard;
+  private readonly _modulePage: TPage;
+  private readonly _moduleSettingsPage: TSettings;
 
-export abstract class BaseModule {
-  readonly moduleId: string;
-  readonly instanceId: string;
-  readonly moduleTitle: string;
-  readonly showOptionsMenu: boolean;
-
-  protected constructor(moduleId: string, moduleTitle: string, showOptionsMenu = true) {
-    this.moduleId = moduleId;
-    this.instanceId = crypto.randomUUID();
-    this.moduleTitle = moduleTitle;
-    this.showOptionsMenu = showOptionsMenu;
+  protected constructor(
+    moduleId: string,
+    moduleTitle: string,
+    moduleCard: TCard,
+    modulePage: TPage,
+    moduleSettingsPage: TSettings
+  ) {
+    this._moduleId = moduleId;
+    this._instanceId = crypto.randomUUID();
+    this._moduleTitle = moduleTitle;
+    this._moduleCard = moduleCard;
+    this._modulePage = modulePage;
+    this._moduleSettingsPage = moduleSettingsPage;
   }
 
-  abstract renderCompactPreview(): ReactNode;
-
-  abstract renderFocusView(actions: ModuleActions): ReactNode;
-
-  abstract exposeOptions(): ModuleOptions;
+  public get moduleId(): string { return this._moduleId; }
+  public get instanceId(): string { return this._instanceId; }
+  public get moduleTitle(): string { return this._moduleTitle; }
+  public get moduleCard(): TCard { return this._moduleCard; }
+  public get modulePage(): TPage { return this._modulePage; }
+  public get moduleSettingsPage(): TSettings { return this._moduleSettingsPage; }
 }
