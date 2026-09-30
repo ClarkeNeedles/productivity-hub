@@ -5,40 +5,34 @@ project-phase: in-progress
 version: 0.3.0
 ---
 
-implemented new types for the module structure
-    DashboardWidgets --> for both module cards and module pages (small and large)
-    ModuleCard --> Uses dashboard widgets
-    ModulePage --> uses dashboard widgets
-    ModuleSettingsPage --> extends ModulePage
-    BaseModule --> A generics class that has a ModuleCard, ModulePage, ModuleSettingsPage
-                   It strictly enforces that the developer usese a class that extends these base classes when creating a new module
+# Module Architecture & Feature Updates
 
-I want to look into even putting the jsx formatting code and main formatting as part of the base classes in way
-take the main <div> wrappers which include the size and formatting for the card or page and try not to duplicate it per module
-    still working on this a little
+## 🏗️ Architecture & Type System
+* **Implemented new module types:** Created a robust structure to enforce consistency across all modules.
+    * `ModuleMetric`: Powers both small (cards) and large (pages) layouts.
+    * `ModuleCard`: Renders the card UI using dashboard widgets.
+    * `ModulePage`: Renders the full page UI using dashboard widgets.
+    * `ModuleSettingsPage`: Extends `ModulePage` for custom configurations.
+    * `BaseModule`: A strict generic class requiring extending classes to use `ModuleCard`, `ModulePage`, and `ModuleSettingsPage`.
+* **Standardised data structures:** Formatted data structures into types that sync cleanly with components, providing a clean abstraction layer so modules only need to supply data.
 
-formatted the data structures into the types and they work with corresponding components very well
-    provides a nice form of abstraction so that modules just need to fill out the data structures with information
+## 🧪 Features & Modules
+* **Started habit tracker module:** Initiated a new habit tracking module.
+* **Leveraged dependency injection:** Injected dependencies from the parent module into rendering functions to make assets like titles reusable.
 
-started creating a new habit tracker module
-    used dependency injection from the parent module into the rendering functions so we can reuse the title and other things in the future
+## ⚙️ Configuration & Documentation
+* **Created `config/` directory:** Dedicated space for user settings.
+* **Added `add-modules.ts`:** Handles available module listings via a factory function.
+* **Refactored documentation:** 
+    * Created `CONTRIBUTING.md` (adapted from `AGENTS.md`) for coding guidelines.
+    * Updated `AGENTS.md` to reference both the `README.md` (functionality) and `CONTRIBUTING.md`.
 
-created a config/ folder so that we can hold user settings for certain types
-    crated add-modules.ts config file that holds the list of modules you can add
-    this is done by using a factory function
+## 🔄 In Progress
+* **UI wrapper abstraction:** Experimenting with moving main layout `<div>` wrappers into base classes to prevent duplicating sizing and formatting code across modules.
+* **Module card splitting:** Looking into dividing `ModuleCard` into a title section and a center-aligned `ModuleMetric` section (supporting up to 2 metrics).
 
-created a CONTRIBUTING.md file which is essentially the old AGENTS.md file but for users
-    AGENTS.md now points at both README.md for how it works
-    CONTRIBUTING.md for coding guidelines
-
-start looking into making the module-card into two parts
-    title and ModuleMetric section
-    the ModuleMetric section could have up to 2 metrics that are center aligned
-
-TODO
-try and move more of the module specific html code into the corresponding components tsx files
-still need to link the settings page to the settings icon
-once a module is added, it should be removed from the list of modules that can be added or hidden
-    only one copy of each module
-    once a module is removed, it appears back in the add module page
-start adding the stat widgets sections for the modules cards
+## 📝 TODO
+- [ ] Move more module-specific HTML code directly into their respective `.tsx` component files.
+- [ ] Link the `ModuleSettingsPage` to the module settings icon.
+- [ ] Hide or remove active modules from the "Add Modules" list so only one copy can exist at a time (and restore them to the list if deleted).
+- [ ] Add stat widgets sections to the module cards. (`ModuleMetric` type)
