@@ -22,11 +22,18 @@
 
 - Follow the existing App Router structure under `frontend/app/` and shared component structure under `frontend/components/`.
 - **Module Import Resolution:** Always use the absolute `@/` path aliases defined in `tsconfig.json` (e.g., `import { BaseModule } from "@/types/base-module"`) when importing files. Avoid brittle relative paths like `../` or `../../` to ensure the codebase remains clean and easy to refactor.
+- **React Component Prop Typing:** Avoid separate external `type Props = { ... }` wrappers for component definitions. Instead, type the `props` object directly in the function parameter signature and destructure the properties on the very first line of the function body. This keeps types closely coupled to their variable names and prevents syntax collisions with JavaScript object destructuring renaming aliases.
 - Reuse existing layout, navigation, and styling patterns before introducing new abstractions.
 - Keep shared Tailwind design tokens in `frontend/app/globals.css`.
 - Prefer semantic HTML and accessible labels for interactive controls.
 - Use CSS logical properties such as `ms-*`, `me-*`, `ps-*`, `pe-*`, `start-*`, and `end-*` when they fit the layout.
 - Keep user-facing text easy to extract for future internationalization.
+
+## TypeScript & Architecture Conventions
+
+- **Parameter Properties Shorthand:** Prefer modern TypeScript parameter properties in constructors to automatically declare, assign, and enforce modifiers on class fields simultaneously. Avoid verbose property mapping boilerplate in constructor function bodies.
+- **Protected Backing Fields:** For abstract core classes, use the `protected` modifier for internal backing fields prefixed with a leading underscore (e.g., `_title`) only if custom `get`/`set` methods are required. This hides raw variables from consuming React views while permitting inheritance access for concrete child subclasses. If no getters/setters are needed, use standard `public readonly` signature fields.
+- **Clean Contextual Naming:** Avoid redundant type prefixing on class instance property names. Prefer succinct, context-aware naming paths (e.g., `module.title`, `module.card`, `module.page`) over repetitive constructs (e.g., `module.moduleTitle`, `module.moduleCard`).
 
 ## Validation
 

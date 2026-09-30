@@ -3,6 +3,7 @@
 import { ArrowLeft } from "lucide-react";
 import { useState, useMemo } from "react";
 import ModuleCard from "@/components/module-card";
+import ModulePage from "@/components/module-page"
 import { AddModuleModule } from "@/modules/add-module-module";
 import { BaseModule } from "@/types/base-module";
 
@@ -11,10 +12,13 @@ export default function ModulesPage() {
   const [focusedModule, setFocusedModule] = useState<BaseModule<any, any, any> | null>(null);
 
   // Stabilize utility module instance to avoid instantiation memory leak loops on render
+  // useMemo ensures object is created exactly once
   const addModuleUtility = useMemo(() => {
     return new AddModuleModule({ onAddModule: addModuleFromCatalog });
   }, []);
 
+  // Adding module logic for AddModuleModule
+  // Adds the module to the list and route user to module list view
   function addModuleFromCatalog(module: BaseModule<any, any, any>) {
     setModules((current) => [...current, module]);
     setFocusedModule(null);
@@ -33,7 +37,7 @@ export default function ModulesPage() {
         </button>
         
         <div className="mt-10">
-          {focusedModule.modulePage.renderWorkspace([], [])}
+          <ModulePage module={focusedModule} />
         </div>
       </section>
     );
@@ -50,16 +54,17 @@ export default function ModulesPage() {
       <div className="grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3">
         {modules.map((module) => (
           <ModuleCard
-            key={module.instanceId}
+            key={module.id}
             module={module}
             onOpen={setFocusedModule}
             onRemove={(moduleToRemove) =>
               setModules((current) =>
-                current.filter((item) => item.instanceId !== moduleToRemove.instanceId)
+                current.filter((item) => item.id !== moduleToRemove.id)
               )
             }
           />
         ))}
+        {/* Add module module is always visible at the end of module grid list */}
         <ModuleCard module={addModuleUtility} onOpen={setFocusedModule} />
       </div>
     </section>

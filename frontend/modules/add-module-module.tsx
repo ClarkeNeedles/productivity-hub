@@ -28,7 +28,7 @@ class AddModuleCard extends ModuleCard {
     super(false, false);
   }
 
-  public initializeDefaultTelemetry(): DashboardWidget[] {
+  public initializeDefaultStats(): DashboardWidget[] {
     return [];
   }
 
@@ -46,23 +46,7 @@ class AddModuleCard extends ModuleCard {
 
 class AddModulePage extends ModulePage {
   constructor(private actionsContext: CustomModuleActions) {
-    super();
-  }
-
-  public renderHeader(breadcrumbs: ModuleBreadcrumb[], actions: ModuleAction[]): ReactNode {
-    return (
-      <div className="flex items-center gap-3">
-        <span className="flex h-11 w-11 items-center justify-center rounded-xl bg-blue-100 text-blue-600 dark:bg-blue-500/10 dark:text-blue-400">
-          <Blocks size={24} aria-hidden="true" />
-        </span>
-        <div>
-          <p className="text-sm font-medium text-blue-600 dark:text-blue-400">Module library</p>
-          <h2 className="text-2xl font-semibold text-slate-900 dark:text-white">
-            Choose a module
-          </h2>
-        </div>
-      </div>
-    );
+    super("Module library");
   }
 
   public renderContentArea(): ReactNode {

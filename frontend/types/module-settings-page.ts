@@ -5,7 +5,7 @@ export abstract class ModuleSettingsPage extends ModulePage {
   private _lifeScoreFactor: number;
 
   constructor(lifeScoreFactor = 1.0) {
-    super();
+    super("Settings");
     this._lifeScoreFactor = lifeScoreFactor
   }
 

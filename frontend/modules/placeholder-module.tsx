@@ -10,7 +10,7 @@ class PlaceholderCard extends ModuleCard {
     super(true, true);
   }
 
-  public initializeDefaultTelemetry(): DashboardWidget[] {
+  public initializeDefaultStats(): DashboardWidget[] {
     return [];
   }
 
@@ -34,18 +34,7 @@ class PlaceholderCard extends ModuleCard {
 
 class PlaceholderPage extends ModulePage {
   constructor(private title: string, private desc: string) {
-    super();
-  }
-
-  public renderHeader(): ReactNode {
-    return (
-      <div>
-        <p className="text-sm font-medium text-blue-600 dark:text-blue-400">Module</p>
-        <h2 className="mt-2 text-3xl font-semibold text-slate-900 dark:text-white">
-          {this.title}
-        </h2>
-      </div>
-    );
+    super("test");
   }
 
   public renderContentArea(): ReactNode {
@@ -62,7 +51,6 @@ class PlaceholderSettings extends ModuleSettingsPage {
     super(0.5); // Default setup placeholder value
   }
 
-  public renderHeader(): ReactNode { return null; }
   public renderSecondaryUtilities(): ReactNode { return null; }
   public renderModuleCardConfigSection(): ReactNode { 
     return <p className="text-sm text-slate-500">Card configurations coming soon.</p>; 

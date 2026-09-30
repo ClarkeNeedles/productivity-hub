@@ -5,7 +5,6 @@ import { useState } from "react";
 import type { BaseModule } from "@/types/base-module";
 
 type ModuleCardProps = {
-  // Use generic parameters to satisfy your base module architecture bounds
   module: BaseModule<any, any, any>;
   onOpen: (module: BaseModule<any, any, any>) => void;
   onOpenSettings?: (module: BaseModule<any, any, any>) => void;
@@ -30,10 +29,10 @@ export default function ModuleCard({
         className="flex h-full min-h-64 w-full text-start"
         onClick={() => onOpen(module)}
       >
-        {module.moduleCard.render()}
+        {module.card.render()}
       </button>
 
-      {module.moduleCard.showOptionsMenu && (
+      {module.card.showOptionsMenu && (
         <div className="absolute end-3 top-3">
           <button
             type="button"
@@ -42,7 +41,7 @@ export default function ModuleCard({
               event.stopPropagation();
               setMenuOpen((current) => !current);
             }}
-            aria-label={`Open ${module.moduleTitle} options`}
+            aria-label={`Open ${module.title} options`}
             aria-expanded={menuOpen}
           >
             <Ellipsis size={18} aria-hidden="true" />

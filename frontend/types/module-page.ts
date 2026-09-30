@@ -1,20 +1,12 @@
 import type { ReactNode } from "react";
 
-// Supporting layouts for standard components
-export interface ModuleBreadcrumb { label: string; url: string; }
-export interface ModuleAction { label: string; action: () => void; }
-
 export abstract class ModulePage {
-  abstract renderHeader(breadcrumbs: ModuleBreadcrumb[], actions: ModuleAction[]): ReactNode;
-  abstract renderContentArea(): ReactNode;
-  abstract renderSecondaryUtilities(): ReactNode;
+  constructor(private readonly _pageSubtitle: string) {}
 
-  // Stitches the uniform layout for any expanded full-screen module workspace
-  public renderWorkspace(breadcrumbs: ModuleBreadcrumb[], actions: ModuleAction[]): ReactNode {
-    return (
-      this.renderHeader(breadcrumbs, actions) ||
-      this.renderContentArea() ||
-      this.renderSecondaryUtilities()
-    );
-  }
+  public get pageSubtitle(): string { return this._pageSubtitle; }
+  
+  // Supplies the primary interactive canvas grid and operational dashboard interfaces for this page view.
+  abstract renderContentArea(): ReactNode;
+  // Yields optional auxiliary tools, secondary telemetry feeds, or contextual settings widgets at the base of the layout.
+  abstract renderSecondaryUtilities(): ReactNode;
 }
