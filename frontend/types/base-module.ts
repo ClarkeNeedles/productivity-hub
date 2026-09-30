@@ -1,6 +1,6 @@
-import type { ModuleCard } from "./module-card";
-import type { ModulePage } from "./module-page";
-import type { ModuleSettingsPage } from "./module-settings-page";
+import type { ModuleCard } from "@/types/module-card";
+import type { ModulePage } from "@/types//module-page";
+import type { ModuleSettingsPage } from "@/types/module-settings-page";
 
 export type ModuleOptions = {
   sourceModuleToken: string;
@@ -17,7 +17,7 @@ export type ModuleOptions = {
 export abstract class BaseModule<
   TCard extends ModuleCard = ModuleCard,
   TPage extends ModulePage = ModulePage,
-  TSettings extends ModuleSettingsPage = ModuleSettingsPage
+  TSettings extends ModuleSettingsPage | null = ModuleSettingsPage | null
 > {
   private readonly _moduleId: string;
   private readonly _instanceId: string;
@@ -31,7 +31,7 @@ export abstract class BaseModule<
     moduleTitle: string,
     moduleCard: TCard,
     modulePage: TPage,
-    moduleSettingsPage: TSettings
+    moduleSettingsPage: TSettings = null as unknown as TSettings
   ) {
     this._moduleId = moduleId;
     this._instanceId = crypto.randomUUID();

@@ -21,6 +21,7 @@
 ## Frontend Conventions
 
 - Follow the existing App Router structure under `frontend/app/` and shared component structure under `frontend/components/`.
+- **Module Import Resolution:** Always use the absolute `@/` path aliases defined in `tsconfig.json` (e.g., `import { BaseModule } from "@/types/base-module"`) when importing files. Avoid brittle relative paths like `../` or `../../` to ensure the codebase remains clean and easy to refactor.
 - Reuse existing layout, navigation, and styling patterns before introducing new abstractions.
 - Keep shared Tailwind design tokens in `frontend/app/globals.css`.
 - Prefer semantic HTML and accessible labels for interactive controls.

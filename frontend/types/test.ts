@@ -2,7 +2,7 @@ import type { DashboardWidget } from "./dashboard-widget";
 import { ModuleCard } from "./module-card";
 import { ModulePage } from "./module-page";
 import { ModuleSettingsPage } from "./module-settings-page";
-import { BaseModule } from "./module";
+import { BaseModule } from "./base-module";
 
 // 1. Define a shared state shape so the Settings Page can customize the Preview Card
 interface ServerModuleState {

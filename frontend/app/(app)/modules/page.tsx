@@ -1,15 +1,24 @@
 "use client";
 
 import { ArrowLeft } from "lucide-react";
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import ModuleCard from "@/components/module-card";
 import { AddModuleModule } from "@/modules/add-module-module";
-import { BaseModule } from "@/types/module";
+import { BaseModule } from "@/types/base-module";
 
 export default function ModulesPage() {
-  const [modules, setModules] = useState<BaseModule[]>([]);
-  const [focusedModule, setFocusedModule] = useState<BaseModule | null>(null);
-  const addModule = new AddModuleModule();
+  const [modules, setModules] = useState<BaseModule<any, any, any>[]>([]);
+  const [focusedModule, setFocusedModule] = useState<BaseModule<any, any, any> | null>(null);
+
+  // Stabilize utility module instance to avoid instantiation memory leak loops on render
+  const addModuleUtility = useMemo(() => {
+    return new AddModuleModule({ onAddModule: addModuleFromCatalog });
+  }, []);
+
+  function addModuleFromCatalog(module: BaseModule<any, any, any>) {
+    setModules((current) => [...current, module]);
+    setFocusedModule(null);
+  }
 
   if (focusedModule) {
     return (
@@ -22,16 +31,12 @@ export default function ModulesPage() {
           <ArrowLeft size={17} aria-hidden="true" />
           Back to modules
         </button>
+        
         <div className="mt-10">
-          {focusedModule.renderFocusView({ onAddModule: addModuleFromCatalog })}
+          {focusedModule.modulePage.renderWorkspace([], [])}
         </div>
       </section>
     );
-  }
-
-  function addModuleFromCatalog(module: BaseModule) {
-    setModules((current) => [...current, module]);
-    setFocusedModule(null);
   }
 
   return (
@@ -55,7 +60,7 @@ export default function ModulesPage() {
             }
           />
         ))}
-        <ModuleCard module={addModule} onOpen={setFocusedModule} />
+        <ModuleCard module={addModuleUtility} onOpen={setFocusedModule} />
       </div>
     </section>
   );

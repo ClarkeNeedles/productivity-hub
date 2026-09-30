@@ -1,9 +1,9 @@
 import { ReactNode } from "react";
-import { BaseModule } from "./base-module";
-import { ModuleCard } from "./module-card";
-import { ModulePage } from "./module-page";
-import { ModuleSettingsPage } from "./module-settings-page";
-import type { DashboardWidget } from "./dashboard-widget";
+import { BaseModule } from "@/types/base-module";
+import { ModuleCard } from "@/types/module-card";
+import { ModulePage } from "@/types/module-page";
+import { ModuleSettingsPage } from "@/types/module-settings-page";
+import type { DashboardWidget } from "@/types/dashboard-widget";
 
 class PlaceholderCard extends ModuleCard {
   constructor(private title: string, private desc: string) {

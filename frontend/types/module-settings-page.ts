@@ -1,5 +1,5 @@
 import type { ReactNode } from "react";
-import { ModulePage } from "./module-page";
+import { ModulePage } from "@/types/module-page";
 
 export abstract class ModuleSettingsPage extends ModulePage {
   private _lifeScoreFactor: number;

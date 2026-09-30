@@ -1,10 +1,10 @@
 import { ReactNode } from "react";
 import { Blocks, Plus } from "lucide-react";
-import { BaseModule } from "./base-module"; // Assuming you have a base-module file mapping these together
-import { ModuleCard } from "./module-card";
-import { ModulePage, type ModuleBreadcrumb, type ModuleAction } from "./module-page";
-import { ModuleSettingsPage } from "./module-settings-page";
-import type { DashboardWidget } from "./dashboard-widget";
+import { BaseModule } from "@/types/base-module";
+import { ModuleCard } from "@/types/module-card";
+import { ModulePage, type ModuleBreadcrumb, type ModuleAction } from "@/types/module-page";
+import { PlaceholderModule } from "@/modules/placeholder-module";
+import type { DashboardWidget } from "@/types/dashboard-widget";
 
 export interface CustomModuleActions {
   onAddModule: (module: BaseModule<any, any, any>) => void;
@@ -23,13 +23,8 @@ const moduleCatalog = [
   },
 ];
 
-// ==========================================
-// ADD MODULE SUB-COMPONENTS
-// ==========================================
-
 class AddModuleCard extends ModuleCard {
   constructor() {
-    // Context menu visible = false, Title visible = false
     super(false, false);
   }
 
@@ -103,34 +98,13 @@ class AddModulePage extends ModulePage {
   }
 }
 
-class AddModuleSettings extends ModuleSettingsPage {
-  constructor() {
-    // Handled validation requirement rule (must be between 0 and 1)
-    super(0.0); 
-  }
-
-  public renderHeader(): ReactNode { return null; }
-  public renderSecondaryUtilities(): ReactNode { return null; }
-  public renderModuleCardConfigSection(): ReactNode { 
-    return <p className="text-sm text-slate-500">System modules cannot scale dashboard layouts.</p>; 
-  }
-  public renderModulePageConfigSection(): ReactNode { 
-    return <p className="text-sm text-slate-500">No layout settings available.</p>; 
-  }
-}
-
-// ==========================================
-// MAIN CONTAINER ORCHESTRATION
-// ==========================================
-
-export class AddModuleModule extends BaseModule<AddModuleCard, AddModulePage, AddModuleSettings> {
+export class AddModuleModule extends BaseModule<AddModuleCard, AddModulePage, null> {
   constructor(actionsContext: CustomModuleActions) {
     super(
       "add-module",
       "Add Module",
       new AddModuleCard(),
       new AddModulePage(actionsContext),
-      new AddModuleSettings()
     );
   }
 }

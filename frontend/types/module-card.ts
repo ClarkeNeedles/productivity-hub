@@ -1,5 +1,5 @@
 import type { ReactNode } from "react"
-import type { DashboardWidget } from "./dashboard-widget";
+import type { DashboardWidget } from "@/types/dashboard-widget";
 
 export abstract class ModuleCard {
   public showOptionsMenu: boolean;
