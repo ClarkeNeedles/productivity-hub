@@ -48,8 +48,7 @@ class AddModulePage extends ModulePage {
             className="rounded-xl border border-slate-200 bg-white p-5 text-start transition-colors hover:border-blue-400 hover:bg-blue-50 dark:border-slate-800 dark:bg-slate-900 dark:hover:border-blue-500 dark:hover:bg-blue-500/10"
             onClick={() => {
               // Call the factory handler to spawn the correct unique class
-              const newModuleInstance = module.instantiate(module.id, module.title);
-              this.actionsContext.onAddModule(newModuleInstance);
+              this.actionsContext.onAddModule(module.instantiate(module.id, module.title));
             }}
           >
             <h3 className="font-semibold text-slate-900 dark:text-white">{module.title}</h3>

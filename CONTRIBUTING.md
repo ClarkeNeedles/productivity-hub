@@ -47,6 +47,7 @@ Thank you for your interest in contributing! This document outlines our reposito
 - **Semantic Accessibility:** Prioritize semantic HTML nodes and explicit, accessible labels for all interactive layout controls and click targets.
 - **Logical Flow Properties:** Utilize CSS logical properties—such as `ms-*`, `me-*`, `ps-*`, `pe-*`, `start-*`, and `end-*`—wherever they fit the layout orientation.
 - **Internationalization Readiness:** Keep all user-facing text strings organized and easy to extract to simplify future internationalization (i6n) translation pipelines.
+- **Order of functions within a class:** Functions should be ordered from top to bottom: constructor, accessors, public functions, abstract functions, protected functions, private helpers.
 
 ## 🧬 TypeScript & Architecture Conventions
 
