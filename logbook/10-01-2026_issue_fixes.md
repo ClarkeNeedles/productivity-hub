@@ -2,37 +2,61 @@
 title: "issue fixes"
 date: 10-1-2026
 project-phase: in-progress
-version: 0.3.0
+version: 0.4.0
 ---
 
-Move more module-specific HTML code directly into their respective `.tsx` component files.
-Link the `ModuleSettingsPage` to the module settings icon.
-Add stat widgets sections to the module cards. (`ModuleMetric` type)
-can we mitigate the number of CSS tags in the HTML <div> blocks?
+## 🛠️ Completed Breakthroughs & Architectural Evolution
 
-we are starting off by addressing the TODO: Hide or remove active modules from the "Add Modules" list so only one copy can exist at a time (and restore them to the list if deleted).
-    ran into sort of an architectural fork
-    I realized that hiding the module in the AddModulePage is actually far harder than I anticipated
-    It shows flaws in the scalability of this current approach
-        currently we would be re-instantiating the AddPageModule each time the module list changes
-    Look into Zustand for global store instead
-        put a store for each page and module and put them in store/
+### 1. State Normalization & Data Decoupling
+* **Primitive ID Flow:** Transitioned the entire React component tree from heavy object reference prop-drilling to a primitive string `id` tracking system (`moduleId`).
+* **Just-In-Time Evaluation:** React presentation views now receive flat, high-performance string keys and pull their fresher OOP structural blueprints directly from memory only at the moment of execution rendering.
 
-got Zustand working with the AddModulePage, so we will be using this going forwards
-    this fixed the issue we had with no being able to easily hide the modules after adding them
-    also makes setting the focused module very easy
+### 2. State Management Modernization (Zustand Integration)
+* **Decoupled Business Rules:** Replaced complex procedural inversion-of-control callbacks and constructor dependency injections with isolated, domain-focused Zustand stores.
+* **Eliminated Class Regarbage Collection:** Killed performance-heavy `useMemo` object reconstruction checks. Core module classes are now permanent, immutable memory singletons declared outside the React tick cycle.
+* **Streamlined Multi-Store Hierarchy:** Implemented a scalable multi-store matrix:
+  * `useModulesStore`: Manages dashboard layout configurations and shell active states.
+  * `useAddModuleStore`: Coordinates the catalog inventory checks and selection limits.
 
-I want to know if the MVP model is good approach or if we are already doing it/could be doing it better
-    no MVP is not good for Next.js, what we are doing is good
-    essentially we are doing a form of model, view, view-model
-    we have the types which are the models, the view-models which are the components, and the view which are the pages
+### 3. Unified Token Grid System
+* **Self-Contained Utility Blocks:** Replaced the manually appended layout elements inside `modules/page.tsx` with a declarative, token-driven loop strategy.
+* **Default Store Tokens:** Injected the `"add-module"` token directly into the store's default initialization arrays, ensuring it automatically locks to the absolute end of the user grid.
 
-made the entire ModuleCard clickable by extending the button area outwards
+### 4. Code Consistency Cleanup
+* **Abstract Blueprint Renaming:** Standardized all base abstract models and configuration matrices using strict `Base*` prefixing conventions to cleanly signal inheritance boundaries:
+  * `BaseModule`
+  * `BaseModuleCard`
+  * `BaseModulePage`
+  * `BaseModuleSettingsPage`
+  * `BaseModuleMetric`
 
-renamed all the base types to BaseModuleCard, BaseModulePage, etc...
+### 5. Enhanced Card Interaction Semantics
+* **Invisible Click Shield:** Transformed the entire `ModuleCard` container footprint into a single reactive click target using the pseudo-element cover strategy (`after:absolute after:inset-0`).
+* **Semantic Web Guardrails:** Maintained an outer `<article>` semantic boundary layout to preserve clean screen reader and SEO parsing flows while completely avoiding invalid nested `<button>` violations.
 
-instead of using dependency injection for some functions, we can just use Zustand store instead
-utilize State Normalization (or Data Decoupling)
-    passing a primitive string id through the component tree rather than the actual list of modules
-    when we actually need the module, then we can get it
-we are also moving the hardcoded AddModuleModule from the modules/page.tsx into the components themselves
+---
+
+## 📐 Architectural Validation (MVVM vs. MVP)
+
+We evaluated the feasibility of a strict Model-View-Presenter (MVP) setup and determined it is fundamentally a mismatch for Next.js due to the declarative nature of `UI = f(state)`. 
+
+Instead, our current pattern successfully embodies a robust **Model-View-ViewModel (MVVM)** framework:
+* **The Model:** Static structural system contracts, typings, and registries (`BaseModule`).
+* **The ViewModel Layer:** Custom class overrides and interactive Zustand stores that bind primitive data nodes to presentation rules.
+* **The View Layer:** Functional, lightweight React layout boxes (`ModuleCard.tsx`, `ModulePage.tsx`) that consume primitive IDs and output markup layouts.
+
+---
+
+## 📋 Still TODO / Upcoming Tasks
+
+### Component Code Relocation
+* [ ] Move remaining raw module-specific HTML / TSX fragments directly out of parent routing files and isolate them within their respective feature folder paths.
+
+### Settings Panel Wiring
+* [ ] Connect the `BaseModuleSettingsPage` lifecycle layout hooks directly to the card execution options dropdown gear menu (`Settings2` icon).
+
+### Metric Slot Implementation
+* [ ] Build out standard data sub-blocks using the newly aligned `BaseModuleMetric` types to automatically render up to two center-aligned micro-variant stats (such as streak counters) inside active cards.
+
+### Layout Markup Cleanliness
+* [ ] Review structural tailwind strings across all component layouts to drastically mitigate density and condense repeated utility configurations into clean CSS blocks or functional presentation helpers.

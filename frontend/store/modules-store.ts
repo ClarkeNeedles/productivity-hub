@@ -18,11 +18,11 @@ export const useModulesStore = create<ModulesState>((set, get) => ({
   addModule: (newModule) =>
     set((state) => {
       // Keep the "Add Module" fixed as the last item in the grid
-      const addModuleCard = state.activeModules.find((m) => m.id === "add-module") ?? new AddModuleModule();;
+      const addModuleModule = state.activeModules.find((m) => m.id === "add-module") ?? new AddModuleModule();;
       const standardModules = state.activeModules.filter((m) => m.id !== "add-module");
       
       return {
-        activeModules: [...standardModules, newModule, addModuleCard],
+        activeModules: [...standardModules, newModule, addModuleModule],
         focusedModuleId: null // Auto-return back to dashboard grid view
       };
     }),
