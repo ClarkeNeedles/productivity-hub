@@ -1,14 +1,27 @@
 "use client";
 
-import type { BaseModule } from "@/types/base-module";
+import { useModulesStore } from "@/store/modules-store";
+import { AddModuleModule } from "@/modules/add-module";
+
+// Permanent static memory singleton to handle the full catalog blueprint interface
+const addModuleUtility = new AddModuleModule();
 
 type ModulePageProps = {
-  module: BaseModule<any, any, any>;
+  moduleId: string,
 };
 
 export default function ModulePage({
-  module,
+  moduleId,
 }: ModulePageProps) {
+  // Fetch freshest module instance from store, or fall back to utility singleton
+  const module = useModulesStore((state) => 
+    moduleId === "add-module" ? addModuleUtility : state.getActiveModule(moduleId)
+  );
+
+  // Guard safety fallback check if the module was unmounted while open
+  if (!module) return null;
+
+  // Resolve optional secondary layout content elements cleanly
   const secondaryContent = module.page.renderSecondaryUtilities(module);
 
   return (

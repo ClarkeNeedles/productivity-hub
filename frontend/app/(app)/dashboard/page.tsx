@@ -1,7 +1,11 @@
 export default function DashboardPage() {
   return (
-    <section>
-      <h1 className="text-3xl font-semibold text-slate-900 dark:text-white">Dashboard</h1>
+    <section className="space-y-8">
+      <div>
+        <h1 className="mt-2 text-3xl font-semibold tracking-tight text-slate-900 dark:text-white">
+          Dashboard
+        </h1>
+      </div>
     </section>
   );
 }

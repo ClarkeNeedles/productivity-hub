@@ -30,3 +30,9 @@ I want to know if the MVP model is good approach or if we are already doing it/c
 made the entire ModuleCard clickable by extending the button area outwards
 
 renamed all the base types to BaseModuleCard, BaseModulePage, etc...
+
+instead of using dependency injection for some functions, we can just use Zustand store instead
+utilize State Normalization (or Data Decoupling)
+    passing a primitive string id through the component tree rather than the actual list of modules
+    when we actually need the module, then we can get it
+we are also moving the hardcoded AddModuleModule from the modules/page.tsx into the components themselves
