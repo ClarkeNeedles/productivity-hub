@@ -24,27 +24,23 @@ Thank you for your interest in contributing! This document outlines our reposito
 
 - **Directory Mapping:** Follow the existing Next.js App Router workspace under `frontend/app/` and shared layout element placements under `frontend/components/`.
 - **Absolute Path Resolution:** Always use the absolute `@/` path aliases configured in `tsconfig.json` (e.g., `import { BaseModule } from "@/types/base-module"`) when importing elements. Brittle relative paths like `../` or `../../` are strictly prohibited to maintain cleanliness and refactoring safety.
-- **Component Prop Typing:** Explicitly define React component properties using dedicated `Props` or `[Component]Props` type blocks placed directly above the component definition. Avoid inline parameter type object literals to ensure long property maps, optional event callbacks, and structural configurations remain readable and easily extensible:
+- **Component Prop Typing:** Explicitly define React component properties using dedicated `Props` or `[Component]Props` type blocks placed directly above the component definition. Avoid inline parameter type object literals to ensure long property maps, optional event callbacks, and structural configurations remain readable and easily extensible. Components must accept primitive configuration identifiers rather than whole class models:
   ```tsx
   type ModuleCardProps = {
-    module: BaseModule<any, any, any>;
-    onOpen: (module: BaseModule<any, any, any>) => void;
-    onOpenSettings?: (module: BaseModule<any, any, any>) => void;
-    onRemove?: (module: BaseModule<any, any, any>) => void;
+    moduleId: string;
+    onOpen: (moduleId: string) => void;
   };
 
   export default function ModuleCard({
-    module,
+    moduleId,
     onOpen,
-    onOpenSettings,
-    onRemove,
   }: ModuleCardProps) {
     return <article>...</article>;
   }
   ```
 - **Abstraction Reuse:** Actively reuse existing layout styles, navigation nodes, and design tokens before attempting to introduce brand new structural abstractions.
 - **Token Localization:** Keep shared global Tailwind design tokens managed directly inside `frontend/app/globals.css`.
-- **Semantic Accessibility:** Prioritize semantic HTML nodes and explicit, accessible labels for all interactive layout controls and click targets.
+- **Semantic Accessibility & Nesting Guardrails:** Prioritize semantic HTML nodes and explicit, accessible labels for all interactive layout controls and click targets. **Nesting interactive controls inside one another is strictly prohibited.** To make a complex card component clickable without breaking legal HTML guidelines or throwing console accessibility tree violations, wrap the container inside a semantic structure (e.g., `<article>`) and use a pseudo-element cover strategy (`static after:absolute after:inset-0`) on the primary inner button action.
 - **Logical Flow Properties:** Utilize CSS logical properties—such as `ms-*`, `me-*`, `ps-*`, `pe-*`, `start-*`, and `end-*`—wherever they fit the layout orientation.
 - **Internationalization Readiness:** Keep all user-facing text strings organized and easy to extract to simplify future internationalization (i6n) translation pipelines.
 - **Order of Functions Within a Class:** Functions must be ordered from top to bottom based on the newspaper step-down rule: constructor, accessors (getters/setters), public functions/overrides, abstract functions, protected lifecycle hooks, and private internal helpers.
@@ -53,6 +49,8 @@ Thank you for your interest in contributing! This document outlines our reposito
 
 - **State vs. Behavior Separation (Zustand):** Separate business data states from presentation blueprints. Object classes handle static configurations and UI rendering layout strategies, whereas runtime state management is delegated to decoupled Zustand stores. Classes must remain completely immutable and declared as permanent singletons outside of the React lifecycle to eliminate costly instantiation garbage-collection loops.
 - **Domain-Isolated Stores:** Maintain discrete stores separated by logical business context (e.g., `useModulesStore` for dashboard shell data layout, `useAddModuleStore` for catalog selector filter logic, and feature-specific stores like `useHabitStore` for module-internal logs). Never store transient layout flags or runtime states inside class objects or global variables.
+- **Next.js Global Store Cross-Request Protection:** When building Zustand modules within Next.js workspaces, ensure stores are safely bound exclusively to client-side components (`"use client"`). Never instantiate shared mutable state maps globally at the file root level if they run inside Server Components, to prevent accidental multi-tenant data leaks between independent incoming visitor browser streams.
+- **State Normalization & Data Decoupling:** Components must be driven by flat primitives (`string`) rather than complex objects. Pass primitive identifiers (like `moduleId`) down through the React component map trees. Components are responsible for using that ID to look up their freshest, validated business models from the corresponding store right at the moment of execution rendering.
 - **Parameter Properties Shorthand:** Prefer modern TypeScript parameter properties in class constructors to simultaneously declare, assign, and enforce access visibility modifiers on fields. Eliminate verbose property reassignments (`this.x = x`) inside constructor function bodies:
   ```typescript
   protected constructor(
@@ -62,7 +60,7 @@ Thank you for your interest in contributing! This document outlines our reposito
   ```
 - **Protected Backing Fields:** For abstract core classes, use the `protected` modifier for internal backing fields prefixed with a leading underscore (e.g., `_title`) *only* if custom `get`/`set` methods are explicitly required. This safely hides raw variables from consuming React layers while maintaining inheritance visibility for child subclasses. If no getter/setter wrappers are required, use standard `public readonly` signature parameters.
 - **Clean Contextual Naming:** Avoid redundant type prefixing on class instance property names. Prefer succinct, context-aware paths (e.g., `module.title`, `module.card`, `module.page`) over repetitive constructs (e.g., `module.moduleTitle`, `module.moduleCard`).
-- **Context-Passing via Parameter Injection:** To maintain a single source of truth and avoid circular constructor dependencies or stale local data copies, layout subclasses (`ModuleCard`, `ModulePage`) must not accept foundational context like `title` or `settings` in their constructors. Instead, inject the parent module reference dynamically into the execution method signatures (e.g., `render(module: BaseModule<any, any, any>)`). In JavaScript/TypeScript, objects are passed by reference (shallow memory pointers), ensuring this pattern incurs zero memory duplication or performance overhead during UI rendering ticks.
+- **Context-Passing via Parameter Injection:** To maintain a single source of truth and avoid circular constructor dependencies or stale local data copies, layout subclasses (`BaseModuleCard`, `BaseModulePage`) must not accept foundational context like `title` or `settings` in their constructors. Instead, inject necessary data payloads reactively using standalone methods or pull values dynamically from domain stores, ensuring patterns incur zero memory duplication during UI rendering ticks.
 - **Decoupled Configuration & Factory Maps:** Never hardcode module catalog selections, static parameters, or class lists directly within interactive presentation pages. Instead, store static system registries in dedicated configuration environments (e.g., `@/config/add-module.ts`). To allow discrete module classes to scale independently, the catalog configuration must map item data payloads using an instantiation factory closure pattern (e.g., `instantiate: (id, title) => new CustomModule(id, title)`), keeping the rendering views fully decoupled from the exact operational module variants.
 
 ## 🛠️ Verification & Validation
