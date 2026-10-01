@@ -1,7 +1,7 @@
 import type { ReactNode } from "react";
-import { ModulePage } from "@/types/module-page";
+import { BaseModulePage } from "@/types/base-module-page";
 
-export abstract class ModuleSettingsPage extends ModulePage {
+export abstract class BaseModuleSettingsPage extends BaseModulePage {
   constructor(
     private _lifeScoreFactor: number = 1.0,
   ) { 

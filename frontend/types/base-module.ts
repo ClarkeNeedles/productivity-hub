@@ -1,11 +1,11 @@
-import type { ModuleCard } from "@/types/module-card";
-import type { ModulePage } from "@/types/module-page";
-import type { ModuleSettingsPage } from "@/types/module-settings-page";
+import type { BaseModuleCard } from "@/types/base-module-card";
+import type { BaseModulePage } from "@/types/base-module-page";
+import type { BaseModuleSettingsPage } from "@/types/base-module-settings-page";
 
 export abstract class BaseModule<
-  TCard extends ModuleCard = ModuleCard,
-  TPage extends ModulePage = ModulePage,
-  TSettings extends ModuleSettingsPage | null = ModuleSettingsPage | null
+  TCard extends BaseModuleCard = BaseModuleCard,
+  TPage extends BaseModulePage = BaseModulePage,
+  TSettings extends BaseModuleSettingsPage | null = BaseModuleSettingsPage | null
 > {
   protected constructor(
     private readonly _id: string,

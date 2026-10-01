@@ -1,6 +1,6 @@
 import type { ReactNode } from 'react';
 
-export interface ModuleMetric {
+export interface BaseModuleMetric {
   readonly id: string;
   readonly name: string;
 

@@ -1,20 +1,20 @@
 import type { ReactNode } from "react"
-import type { ModuleMetric } from "@/types/module-metric";
+import type { BaseModuleMetric } from "@/types/base-module-metric";
 import type { BaseModule } from "@/types/base-module";
 
-export abstract class ModuleCard {
+export abstract class BaseModuleCard {
   constructor(
     private readonly _showOptions: boolean = true, 
     private readonly _showTitle: boolean = true,
-    private _activeStats: ModuleMetric[] = [],
+    private _activeStats: BaseModuleMetric[] = [],
   ) {}
 
   public get showOptions(): boolean { return this._showOptions; }
   public get showTitle(): boolean { return this._showTitle; }
-  public get activeStats(): ModuleMetric[] { return this._activeStats; }
+  public get activeStats(): BaseModuleMetric[] { return this._activeStats; }
 
   // Max of 2 stats displayed simultaneously
-  public set activeStats(stats: ModuleMetric[]) {
+  public set activeStats(stats: BaseModuleMetric[]) {
     if (stats.length > 2) {
       throw new Error(
         "UI Constraint Violation: A ModuleCard can display a maximum of 2 stats simultaneously to avoid visual clutter."
@@ -24,7 +24,7 @@ export abstract class ModuleCard {
   }
 
   // Hooks into the module setup sequence to define initial core operational tracking stats.
-  abstract initializeDefaultMetrics(): ModuleMetric[];
+  abstract initializeDefaultMetrics(): BaseModuleMetric[];
   // Provides the custom inner layout template/micro-variant specific to this card's operational scope.
   // Inject the parent module context directly into the render signature
   abstract render(module: BaseModule<any, any, any>): ReactNode;

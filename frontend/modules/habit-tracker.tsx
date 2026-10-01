@@ -1,16 +1,16 @@
 import { ReactNode } from "react";
 import { BaseModule } from "@/types/base-module";
-import { ModuleCard } from "@/types/module-card";
-import { ModulePage } from "@/types/module-page";
-import { ModuleSettingsPage } from "@/types/module-settings-page";
-import type { ModuleMetric } from "@/types/module-metric";
+import { BaseModuleCard } from "@/types/base-module-card";
+import { BaseModulePage } from "@/types/base-module-page";
+import { BaseModuleSettingsPage } from "@/types/base-module-settings-page";
+import type { BaseModuleMetric } from "@/types/base-module-metric";
 
-class HabitTrackerCard extends ModuleCard {
+class HabitTrackerCard extends BaseModuleCard {
   constructor() {
     super(true, true);
   }
 
-  public initializeDefaultMetrics(): ModuleMetric[] {
+  public initializeDefaultMetrics(): BaseModuleMetric[] {
     return [];
   }
 
@@ -19,7 +19,7 @@ class HabitTrackerCard extends ModuleCard {
   }
 }
 
-class HabitTrackerPage extends ModulePage {
+class HabitTrackerPage extends BaseModulePage {
   constructor() {
     super();
   }
@@ -33,7 +33,7 @@ class HabitTrackerPage extends ModulePage {
   }
 }
 
-class HabitTrackerSettings extends ModuleSettingsPage {
+class HabitTrackerSettings extends BaseModuleSettingsPage {
   constructor() {
     super(0.5);
   }

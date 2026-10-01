@@ -34,7 +34,7 @@ export default function ModuleCard({
 
       <button
         type="button"
-        className="flex flex-1 w-full flex-col justify-center items-center text-center text-slate-500 dark:text-slate-400 focus:outline-none cursor-pointer my-auto"
+        className="flex flex-1 w-full flex-col justify-center items-center text-center text-slate-500 dark:text-slate-400 focus:outline-none cursor-pointer my-auto static after:absolute after:inset-0 after:rounded-2xl after:z-0"
         onClick={() => onOpen(module)}
       >
         {module.card.render(module)}

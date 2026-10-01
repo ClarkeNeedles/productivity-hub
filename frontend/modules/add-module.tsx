@@ -1,19 +1,19 @@
 import { ReactNode } from "react";
 import { Plus } from "lucide-react";
 import { BaseModule } from "@/types/base-module";
-import { ModuleCard } from "@/types/module-card";
-import { ModulePage } from "@/types/module-page";
-import type { ModuleMetric } from "@/types/module-metric";
+import { BaseModuleCard } from "@/types/base-module-card";
+import { BaseModulePage } from "@/types/base-module-page";
+import type { BaseModuleMetric } from "@/types/base-module-metric";
 import { MODULE_LIST } from "@/config/add-module"
 import { useModulesStore } from "@/store/modules-store";
 import { useAddModuleStore } from "@/store/add-module-store";
 
-class AddModuleCard extends ModuleCard {
+class AddModuleCard extends BaseModuleCard {
   constructor() {
     super(false, false);
   }
 
-  public initializeDefaultMetrics(): ModuleMetric[] {
+  public initializeDefaultMetrics(): BaseModuleMetric[] {
     return [];
   }
 
@@ -31,7 +31,7 @@ class AddModuleCard extends ModuleCard {
   }
 }
 
-class AddModulePage extends ModulePage {
+class AddModulePage extends BaseModulePage {
   public renderContentArea(): ReactNode {
     const activeIds = useAddModuleStore.getState().getEnabledModuleIds();
     const availableModules = MODULE_LIST.filter(
