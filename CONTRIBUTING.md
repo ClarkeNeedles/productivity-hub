@@ -47,10 +47,12 @@ Thank you for your interest in contributing! This document outlines our reposito
 - **Semantic Accessibility:** Prioritize semantic HTML nodes and explicit, accessible labels for all interactive layout controls and click targets.
 - **Logical Flow Properties:** Utilize CSS logical properties—such as `ms-*`, `me-*`, `ps-*`, `pe-*`, `start-*`, and `end-*`—wherever they fit the layout orientation.
 - **Internationalization Readiness:** Keep all user-facing text strings organized and easy to extract to simplify future internationalization (i6n) translation pipelines.
-- **Order of functions within a class:** Functions should be ordered from top to bottom: constructor, accessors, public functions, abstract functions, protected functions, private helpers.
+- **Order of Functions Within a Class:** Functions must be ordered from top to bottom based on the newspaper step-down rule: constructor, accessors (getters/setters), public functions/overrides, abstract functions, protected lifecycle hooks, and private internal helpers.
 
 ## 🧬 TypeScript & Architecture Conventions
 
+- **State vs. Behavior Separation (Zustand):** Separate business data states from presentation blueprints. Object classes handle static configurations and UI rendering layout strategies, whereas runtime state management is delegated to decoupled Zustand stores. Classes must remain completely immutable and declared as permanent singletons outside of the React lifecycle to eliminate costly instantiation garbage-collection loops.
+- **Domain-Isolated Stores:** Maintain discrete stores separated by logical business context (e.g., `useModulesStore` for dashboard shell data layout, `useAddModuleStore` for catalog selector filter logic, and feature-specific stores like `useHabitStore` for module-internal logs). Never store transient layout flags or runtime states inside class objects or global variables.
 - **Parameter Properties Shorthand:** Prefer modern TypeScript parameter properties in class constructors to simultaneously declare, assign, and enforce access visibility modifiers on fields. Eliminate verbose property reassignments (`this.x = x`) inside constructor function bodies:
   ```typescript
   protected constructor(

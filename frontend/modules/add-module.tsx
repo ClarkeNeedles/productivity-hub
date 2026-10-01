@@ -5,10 +5,8 @@ import { ModuleCard } from "@/types/module-card";
 import { ModulePage } from "@/types/module-page";
 import type { ModuleMetric } from "@/types/module-metric";
 import { MODULE_LIST } from "@/config/add-module"
-
-export interface CustomModuleActions {
-  onAddModule: (module: BaseModule<any, any, any>) => void;
-}
+import { useModulesStore } from "@/store/modules-store";
+import { useAddModuleStore } from "@/store/add-module-store";
 
 class AddModuleCard extends ModuleCard {
   constructor() {
@@ -34,21 +32,30 @@ class AddModuleCard extends ModuleCard {
 }
 
 class AddModulePage extends ModulePage {
-  constructor(private actionsContext: CustomModuleActions) {
-    super();
-  }
-
   public renderContentArea(): ReactNode {
+    const activeIds = useAddModuleStore.getState().getEnabledModuleIds();
+    const availableModules = MODULE_LIST.filter(
+      (catalogItem) => !activeIds.includes(catalogItem.id)
+    );
+
+    if (availableModules.length === 0) {
+      return (
+        <div className="mt-12 text-center text-sm text-slate-500 dark:text-slate-400">
+          All available modules have been added to your dashboard.
+        </div>
+      );
+    }
+
     return (
       <div className="mt-8 grid gap-4 sm:grid-cols-2">
-        {MODULE_LIST.map((module) => (
+        {availableModules.map((module) => (
           <button
             key={module.id}
             type="button"
             className="rounded-xl border border-slate-200 bg-white p-5 text-start transition-colors hover:border-blue-400 hover:bg-blue-50 dark:border-slate-800 dark:bg-slate-900 dark:hover:border-blue-500 dark:hover:bg-blue-500/10"
             onClick={() => {
               // Call the factory handler to spawn the correct unique class
-              this.actionsContext.onAddModule(module.instantiate(module.id, module.title));
+              useModulesStore.getState().addModule(module.instantiate(module.id, module.title));
             }}
           >
             <h3 className="font-semibold text-slate-900 dark:text-white">{module.title}</h3>
@@ -68,12 +75,12 @@ class AddModulePage extends ModulePage {
 }
 
 export class AddModuleModule extends BaseModule<AddModuleCard, AddModulePage, null> {
-  constructor(actionsContext: CustomModuleActions) {
+  constructor() {
     super(
       "add-module",
       "Add Module",
       new AddModuleCard(),
-      new AddModulePage(actionsContext),
+      new AddModulePage(),
     );
   }
 }
