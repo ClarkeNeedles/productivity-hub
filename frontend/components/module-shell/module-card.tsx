@@ -3,10 +3,10 @@
 import { Ellipsis, GripVertical, Settings2, Trash2 } from "lucide-react";
 import { useState } from "react";
 import { ADD_MODULE_METRICS } from "@/config/add-module";
-import { MetricSlots } from "@/components/metric-slots";
+import { MetricSlots } from "@/components/module-shell/metric-slots";
 import { useModulesStore } from "@/store/modules-store";
 import { useAddModuleStore } from "@/store/add-module-store";
-import { AddModuleModule } from "@/modules/add-module";
+import { AddModuleModule } from "@/modules/add-module/add-module";
 
 // Fallback utility item instantiated exactly once to handle the static add module view blueprint
 const addModuleUtility = new AddModuleModule();

@@ -23,10 +23,10 @@ MetricSlots component
   -> resolves definitions
   -> renders up to maxMetricSlots
 
-implemented MetricSlots which is used in ModuleCard component
-used this for the AddModuleModule and AddModuleMetric
+implemented MetricSlots which is used in ModuleCard component - DONE
+used this for the AddModuleModule and AddModuleMetric - DONE
     handles 1 or 2 metrics
-may be able to delete the return in BaseModuleCard type entirely
+may be able to delete the return in BaseModuleCard type entirely - DONE
     could be done fully through Metric components now
 look into creating multiple folders for the components file
     folder for app like app-shell and sidebar-nav
