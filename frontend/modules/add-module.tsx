@@ -1,33 +1,14 @@
 import { ReactNode } from "react";
-import { Plus } from "lucide-react";
 import { BaseModule } from "@/types/base-module";
 import { BaseModuleCard } from "@/types/base-module-card";
 import { BaseModulePage } from "@/types/base-module-page";
-import type { BaseModuleMetric } from "@/types/base-module-metric";
-import { MODULE_LIST } from "@/config/add-module"
+import { MODULE_LIST } from "@/config/add-module";
 import { useModulesStore } from "@/store/modules-store";
 import { useAddModuleStore } from "@/store/add-module-store";
 
 class AddModuleCard extends BaseModuleCard {
   constructor() {
-    super(false, false);
-  }
-
-  public initializeDefaultMetrics(): BaseModuleMetric[] {
-    return [];
-  }
-
-  public render(): ReactNode {
-    return (
-      <div className="flex flex-col items-center justify-center pointer-events-none">
-        <span className="flex h-12 w-12 items-center justify-center rounded-full bg-slate-100 dark:bg-slate-800">
-          <Plus size={24} strokeWidth={1.8} aria-hidden="true" />
-        </span>
-        <span className="mt-4 text-sm font-semibold text-slate-700 dark:text-slate-300">
-          Add module
-        </span>
-      </div>
-    );
+    super({ showOptions: false, showTitle: false });
   }
 }
 
@@ -60,7 +41,6 @@ class AddModulePage extends BaseModulePage {
           >
             <h3 className="font-semibold text-slate-900 dark:text-white">{module.title}</h3>
             <span className="mt-4 inline-flex items-center gap-2 text-sm font-semibold text-blue-600 dark:text-blue-400">
-              <Plus size={16} aria-hidden="true" />
               Add module
             </span>
           </button>
@@ -76,11 +56,6 @@ class AddModulePage extends BaseModulePage {
 
 export class AddModuleModule extends BaseModule<AddModuleCard, AddModulePage, null> {
   constructor() {
-    super(
-      "add-module",
-      "Add Module",
-      new AddModuleCard(),
-      new AddModulePage(),
-    );
+    super("add-module", "Add Module", new AddModuleCard(), new AddModulePage());
   }
 }

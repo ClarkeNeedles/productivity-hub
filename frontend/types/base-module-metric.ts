@@ -5,7 +5,7 @@ export interface BaseModuleMetric {
   readonly name: string;
 
   // Scaled down version for fitting into ModuleCard slots
-  renderMicroVariant(): ReactNode; 
+  renderMicroVariant(): ReactNode;
   // Full component rendered in the ModulePage view
-  renderFullVariant(): ReactNode;
+  renderFullVariant?(): ReactNode;
 }

@@ -1,5 +1,15 @@
 import { HabitTrackerModule } from "@/modules/habit-tracker";
+import { AddModuleMetric } from "@/components/add-module-metric";
 import type { BaseModule } from "@/types/base-module";
+import type { BaseModuleMetric } from "@/types/base-module-metric";
+
+export const ADD_MODULE_METRICS: readonly BaseModuleMetric[] = [
+  {
+    id: "add-module",
+    name: "Add module",
+    renderMicroVariant: AddModuleMetric,
+  },
+];
 
 export interface ListItem {
   id: string;
