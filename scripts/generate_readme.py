@@ -9,7 +9,7 @@ def generate_readme():
     
     # Secure absolute paths relative to the script location
     log_dir = os.path.abspath(os.path.join(script_dir, "../logbook"))
-    output_path = os.path.abspath(os.path.join(script_dir, "../docs/README.md"))
+    output_path = os.path.abspath(os.path.join(script_dir, "../README.md"))
     env_path = os.path.abspath(os.path.join(script_dir, "../.env"))
 
     # Load .env vars explicitly from the root directory path
@@ -84,10 +84,10 @@ def generate_readme():
 
     print(f"Found {len(log_files)} log file(s). Processing with Gemini AI...")
 
-    # Call the free Gemini Flash model
+    # Call the current Gemini Flash model
     try:
         response = client.models.generate_content(
-            model='gemini-2.5-flash',
+            model='gemini-3.8-flash',
             contents=prompt,
         )
         

@@ -28,9 +28,6 @@
 /frontend/yarn-error.log*
 /frontend/.pnpm-debug.log*
 
-# env files
-.env*
-
 # vercel
 /frontend/.vercel/
 
@@ -38,6 +35,10 @@
 /frontend/*.tsbuildinfo
 /frontend/next-env.d.ts
 
+# env files
+.env*
+
 # vscode
 /.vscode/
 /.github/
+/.venv/

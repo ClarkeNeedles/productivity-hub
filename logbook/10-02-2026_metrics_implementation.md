@@ -45,7 +45,7 @@ work on improving the AddModulePage - DONE
             used with the AddModulePage
         ModuleCard
             which extends the ModuleCardFrame and has the same usage as before
-is there actually any point in having the BaseModuleCard or BaseModulePage if they are only a couple of lines long?
+is there actually any point in having the BaseModuleCard or BaseModulePage if they are only a couple of lines long? - DONE
     would it be better to just have them embedded in the BaseModule type instead?
     this way the constructor would be far simpler as well when creating the modules
 
