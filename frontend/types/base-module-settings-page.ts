@@ -1,12 +1,8 @@
 import type { ReactNode } from "react";
 import { BaseModulePage } from "@/types/base-module-page";
 
-export abstract class BaseModuleSettingsPage extends BaseModulePage {
-  constructor(
-    private _lifeScoreFactor: number = 1.0,
-  ) { 
-    super(); 
-  }
+export abstract class BaseModuleSettingsPage implements BaseModulePage {
+  constructor(private _lifeScoreFactor: number = 1.0) {}
 
   public get lifeScoreFactor(): number {
     return this._lifeScoreFactor;
@@ -18,11 +14,8 @@ export abstract class BaseModuleSettingsPage extends BaseModulePage {
   }
 
   // Fulfills the standard Content Area by placing the required configuration views inside it
-  public override renderContentArea(): ReactNode {
-    return (
-      this.renderModuleCardConfigSection() ||
-      this.renderModulePageConfigSection()
-    );
+  public renderContentArea(): ReactNode {
+    return this.renderModuleCardConfigSection() || this.renderModulePageConfigSection();
   }
 
   // Purpose-built customization hooks

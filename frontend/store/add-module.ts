@@ -1,6 +1,6 @@
 import { create } from "zustand";
 import { ADD_MODULE_METRICS } from "@/config/add-module";
-import { useModulesStore } from "@/store/modules-store";
+import { useModulesStore } from "@/store/modules";
 
 interface AddModuleState {
   activeMetricIds: string[];

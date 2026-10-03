@@ -1,18 +1,13 @@
 import { ReactNode } from "react";
 import { BaseModule } from "@/types/base-module";
-import { BaseModuleCard } from "@/types/base-module-card";
-import { BaseModulePage } from "@/types/base-module-page";
+import { createBaseModuleCard } from "@/types/base-module-card";
+import type { BaseModulePage } from "@/types/base-module-page";
+import ModuleCardPreview from "@/components/module-shell/module-card-preview";
 import { MODULE_LIST } from "@/config/add-module";
-import { useModulesStore } from "@/store/modules-store";
-import { useAddModuleStore } from "@/store/add-module-store";
+import { useModulesStore } from "@/store/modules";
+import { useAddModuleStore } from "@/store/add-module";
 
-class AddModuleCard extends BaseModuleCard {
-  constructor() {
-    super({ showOptions: false, showTitle: false });
-  }
-}
-
-class AddModulePage extends BaseModulePage {
+class AddModulePage implements BaseModulePage {
   public renderContentArea(): ReactNode {
     const activeIds = useAddModuleStore.getState().getEnabledModuleIds();
     const availableModules = MODULE_LIST.filter(
@@ -28,34 +23,38 @@ class AddModulePage extends BaseModulePage {
     }
 
     return (
-      <div className="mt-8 grid gap-4 sm:grid-cols-2">
-        {availableModules.map((module) => (
-          <button
-            key={module.id}
-            type="button"
-            className="rounded-xl border border-slate-200 bg-white p-5 text-start transition-colors hover:border-blue-400 hover:bg-blue-50 dark:border-slate-800 dark:bg-slate-900 dark:hover:border-blue-500 dark:hover:bg-blue-500/10"
-            onClick={() => {
-              // Call the factory handler to spawn the correct unique class
-              useModulesStore.getState().addModule(module.instantiate(module.id, module.title));
-            }}
-          >
-            <h3 className="font-semibold text-slate-900 dark:text-white">{module.title}</h3>
-            <span className="mt-4 inline-flex items-center gap-2 text-sm font-semibold text-blue-600 dark:text-blue-400">
-              Add module
-            </span>
-          </button>
-        ))}
+      <div className="space-y-6">
+        <div>
+          <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">
+            Select a module to add to your dashboard.
+          </p>
+        </div>
+
+        <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+          {availableModules.map((catalogItem) => {
+            const previewModule = catalogItem.instantiate(catalogItem.id, catalogItem.title);
+
+            return (
+              <ModuleCardPreview
+                key={catalogItem.id}
+                moduleInstance={previewModule}
+                onSelect={() => useModulesStore.getState().addModule(previewModule)}
+              />
+            );
+          })}
+        </div>
       </div>
     );
   }
-
-  public renderSecondaryUtilities(): ReactNode {
-    return null;
-  }
 }
 
-export class AddModuleModule extends BaseModule<AddModuleCard, AddModulePage, null> {
+export class AddModuleModule extends BaseModule {
   constructor() {
-    super("add-module", "Add Module", new AddModuleCard(), new AddModulePage());
+    super(
+      "add-module",
+      "Add Module",
+      createBaseModuleCard({ showOptions: false, showTitle: false }),
+      new AddModulePage(),
+    );
   }
 }

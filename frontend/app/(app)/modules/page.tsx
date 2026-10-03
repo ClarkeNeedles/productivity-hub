@@ -3,7 +3,7 @@
 import { ArrowLeft } from "lucide-react";
 import ModuleCard from "@/components/module-shell/module-card";
 import ModulePage from "@/components/module-shell/module-page";
-import { useModulesStore } from "@/store/modules-store";
+import { useModulesStore } from "@/store/modules";
 
 export default function ModulesPage() {
   const activeModules = useModulesStore((state) => state.activeModules);

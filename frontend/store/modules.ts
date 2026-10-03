@@ -3,11 +3,11 @@ import type { BaseModule } from "@/types/base-module";
 import { AddModuleModule } from "@/modules/add-module/add-module";
 
 interface ModulesState {
-  activeModules: BaseModule<any, any, any>[];
+  activeModules: BaseModule[];
   focusedModuleId: string | null;
-  addModule: (module: BaseModule<any, any, any>) => void;
+  addModule: (module: BaseModule) => void;
   removeModule: (moduleId: string) => void;
-  getActiveModule: (moduleId: string) => BaseModule<any, any, any> | undefined;
+  getActiveModule: (moduleId: string) => BaseModule | undefined;
   setFocusedModuleId: (moduleId: string | null) => void;
 }
 
@@ -34,7 +34,7 @@ export const useModulesStore = create<ModulesState>((set, get) => ({
 
     set((state) => ({
       activeModules: state.activeModules.filter(
-        (item: BaseModule<any, any, any>) => item.id !== moduleId
+        (item) => item.id !== moduleId
       ),
     }));
   },

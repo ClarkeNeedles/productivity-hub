@@ -1,5 +1,5 @@
 import { HabitTrackerModule } from "@/modules/habit-tracker/habit-tracker";
-import { AddModuleMetric } from "@/modules/add-module/metrics/add-module-metric";
+import { AddModuleMetric } from "@/modules/add-module/metrics/add-module";
 import type { BaseModule } from "@/types/base-module";
 import type { BaseModuleMetric } from "@/types/base-module-metric";
 
@@ -16,7 +16,7 @@ export interface ListItem {
   title: string;
 
   // Factory function that instantiates the exact concrete class for this module.
-  instantiate: (id: string, title: string) => BaseModule<any, any, any>;
+  instantiate: (id: string, title: string) => BaseModule;
 }
 
 export const MODULE_LIST: ListItem[] = [
