@@ -1,5 +1,5 @@
-import { HabitTrackerModule } from "@/modules/habit-tracker";
-import { AddModuleMetric } from "@/components/add-module-metric";
+import { HabitTrackerModule } from "@/modules/habit-tracker/habit-tracker";
+import { AddModuleMetric } from "@/modules/add-module/metrics/add-module-metric";
 import type { BaseModule } from "@/types/base-module";
 import type { BaseModuleMetric } from "@/types/base-module-metric";
 

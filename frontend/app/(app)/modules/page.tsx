@@ -1,8 +1,8 @@
 "use client";
 
 import { ArrowLeft } from "lucide-react";
-import ModuleCard from "@/components/module-card";
-import ModulePage from "@/components/module-page"
+import ModuleCard from "@/components/module-shell/module-card";
+import ModulePage from "@/components/module-shell/module-page";
 import { useModulesStore } from "@/store/modules-store";
 
 export default function ModulesPage() {
@@ -21,7 +21,7 @@ export default function ModulesPage() {
           <ArrowLeft size={17} aria-hidden="true" />
           Back to modules
         </button>
-        
+
         <div className="mt-10">
           <ModulePage moduleId={focusedModuleId} />
         </div>
@@ -39,11 +39,7 @@ export default function ModulesPage() {
 
       <div className="grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3">
         {activeModules.map((module) => (
-          <ModuleCard
-            key={module.id}
-            moduleId={module.id}
-            onOpen={setFocusedModuleId}
-          />
+          <ModuleCard key={module.id} moduleId={module.id} onOpen={setFocusedModuleId} />
         ))}
       </div>
     </section>
