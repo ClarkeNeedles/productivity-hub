@@ -1,13 +1,11 @@
 "use client";
 
+import { useMemo } from "react";
+import { useShallow } from "zustand/react/shallow";
 import { ADD_MODULE_METRICS } from "@/config/add-module";
 import { ModuleCardFrame } from "@/components/module-shell/module-card-frame";
 import { useModulesStore } from "@/store/modules";
 import { useAddModuleStore } from "@/store/add-module";
-import { AddModuleModule } from "@/modules/add-module/add-module";
-
-// Fallback utility item instantiated exactly once to handle the static add module view blueprint
-const addModuleUtility = new AddModuleModule();
 
 type ModuleCardProps = {
   moduleId: string;
@@ -15,17 +13,27 @@ type ModuleCardProps = {
 };
 
 export default function ModuleCard({ moduleId, onOpen }: ModuleCardProps) {
-  // Fetch freshest module instance from store, or fall back to utility singleton
-  const moduleInstance = useModulesStore((state) =>
-    moduleId === "add-module" ? addModuleUtility : state.getActiveModule(moduleId)
+  const activeModuleIds = useModulesStore(
+    useShallow((state) => state.getActiveModuleIds())
   );
+  
   const removeModule = useModulesStore((state) => state.removeModule);
-  const activeMetricIds = useAddModuleStore((state) =>
-    moduleId === "add-module" ? state.activeMetricIds : []
-  );
-  const activeMetrics = ADD_MODULE_METRICS.filter((metric) => activeMetricIds.includes(metric.id));
+  const getActiveModule = useModulesStore((state) => state.getActiveModule);
 
-  // Guard safety fallback check if the module was asynchronously unmounted
+  const activeMetricIds = useAddModuleStore(
+    useShallow((state) => (moduleId === "add-module" ? state.activeMetricIds : []))
+  );
+
+  // Simply look up the module directly from the store (including 'add-module')
+  const moduleInstance = useMemo(() => {
+    if (!activeModuleIds.includes(moduleId)) return undefined;
+    return getActiveModule(moduleId);
+  }, [activeModuleIds, moduleId, getActiveModule]);
+
+  const activeMetrics = useMemo(() => {
+    return ADD_MODULE_METRICS.filter((metric) => activeMetricIds.includes(metric.id));
+  }, [activeMetricIds]);
+
   if (!moduleInstance) return null;
 
   return (

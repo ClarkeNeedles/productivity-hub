@@ -14,15 +14,13 @@ export const ADD_MODULE_METRICS: readonly BaseModuleMetric[] = [
 export interface ListItem {
   id: string;
   title: string;
-
-  // Factory function that instantiates the exact concrete class for this module.
-  instantiate: (id: string, title: string) => BaseModule;
+  instantiate: () => BaseModule; // Factory function, instantiates the concrete class for the module
 }
 
 export const MODULE_LIST: ListItem[] = [
   {
     id: "habit-tracker",
     title: "Habit Tracker",
-    instantiate: (id, title) => new HabitTrackerModule(id, title),
+    instantiate: () => new HabitTrackerModule("habit-tracker", "Habit Tracker"),
   },
 ];

@@ -8,6 +8,7 @@ interface ModulesState {
   addModule: (module: BaseModule) => void;
   removeModule: (moduleId: string) => void;
   getActiveModule: (moduleId: string) => BaseModule | undefined;
+  getActiveModuleIds: () => string[];
   setFocusedModuleId: (moduleId: string | null) => void;
 }
 
@@ -17,10 +18,11 @@ export const useModulesStore = create<ModulesState>((set, get) => ({
 
   addModule: (newModule) =>
     set((state) => {
-      // Keep the "Add Module" fixed as the last item in the grid
-      const addModuleModule =
-        state.activeModules.find((m) => m.id === "add-module") ?? new AddModuleModule();
-      const standardModules = state.activeModules.filter((m) => m.id !== "add-module");
+      // Strip out add-module and new module if it exists
+      const standardModules = state.activeModules.filter(
+        (m) => m.id !== "add-module" && m.id !== newModule.id
+      );
+      const addModuleModule = state.activeModules.find((m) => m.id === "add-module") ?? new AddModuleModule();
 
       return {
         activeModules: [...standardModules, newModule, addModuleModule],
@@ -37,6 +39,10 @@ export const useModulesStore = create<ModulesState>((set, get) => ({
         (item) => item.id !== moduleId
       ),
     }));
+  },
+
+  getActiveModuleIds: () => {
+    return get().activeModules.map((m) => m.id);
   },
 
   // Allows any standalone component to securely fetch a module instance by its string ID

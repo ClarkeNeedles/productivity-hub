@@ -5,13 +5,15 @@ import type { BaseModulePage } from "@/types/base-module-page";
 import ModuleCardPreview from "@/components/module-shell/module-card-preview";
 import { MODULE_LIST } from "@/config/add-module";
 import { useModulesStore } from "@/store/modules";
-import { useAddModuleStore } from "@/store/add-module";
+import { useShallow } from 'zustand/react/shallow';
 
 class AddModulePage implements BaseModulePage {
   public renderContentArea(): ReactNode {
-    const activeIds = useAddModuleStore.getState().getEnabledModuleIds();
+    const activeIds = useModulesStore(
+      useShallow((state) => state.getActiveModuleIds())
+    );
     const availableModules = MODULE_LIST.filter(
-      (catalogItem) => !activeIds.includes(catalogItem.id)
+      (availableModule) => !activeIds.includes(availableModule.id)
     );
 
     if (availableModules.length === 0) {
@@ -31,14 +33,12 @@ class AddModulePage implements BaseModulePage {
         </div>
 
         <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-          {availableModules.map((catalogItem) => {
-            const previewModule = catalogItem.instantiate(catalogItem.id, catalogItem.title);
-
+          {availableModules.map((availableModule) => {
             return (
               <ModuleCardPreview
-                key={catalogItem.id}
-                moduleInstance={previewModule}
-                onSelect={() => useModulesStore.getState().addModule(previewModule)}
+                key={availableModule.id}
+                moduleId={availableModule.id}
+                onSelect={() => useModulesStore.getState().addModule(availableModule.instantiate())}
               />
             );
           })}
