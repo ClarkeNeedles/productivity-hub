@@ -1,6 +1,6 @@
 import { ReactNode } from "react";
 import { BaseModule } from "@/types/base-module";
-import { createBaseModuleCard } from "@/types/base-module-card";
+import { BaseModuleCard } from "@/types/base-module-card";
 import type { BaseModulePage } from "@/types/base-module-page";
 import ModuleCardPreview from "@/components/module-shell/module-card-preview";
 import { MODULE_LIST } from "@/config/add-module";
@@ -53,7 +53,7 @@ export class AddModuleModule extends BaseModule {
     super(
       "add-module",
       "Add Module",
-      createBaseModuleCard({ showOptions: false, showTitle: false }),
+      new BaseModuleCard(false, false),
       new AddModulePage(),
     );
   }

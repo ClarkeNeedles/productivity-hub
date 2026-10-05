@@ -1,6 +1,6 @@
 import { ReactNode } from "react";
 import { BaseModule } from "@/types/base-module";
-import { createBaseModuleCard } from "@/types/base-module-card";
+import { BaseModuleCard } from "@/types/base-module-card";
 import type { BaseModulePage } from "@/types/base-module-page";
 import { BaseModuleSettingsPage } from "@/types/base-module-settings-page";
 
@@ -28,7 +28,7 @@ export class HabitTrackerModule extends BaseModule {
     super(
       id,
       title,
-      createBaseModuleCard(),
+      new BaseModuleCard(),
       new HabitTrackerPage(),
       new HabitTrackerSettings(),
     );

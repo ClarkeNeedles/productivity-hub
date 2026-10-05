@@ -1,15 +1,7 @@
-export type BaseModuleCard = {
-  readonly showOptions: boolean;
-  readonly showTitle: boolean;
-  readonly maxMetrics: number;
+export class BaseModuleCard {
+  public constructor(
+    public readonly showOptions: boolean = true,
+    public readonly showTitle: boolean = true,
+    public readonly maxMetrics: number = 2,
+  ) {}
 };
-
-export type BaseModuleCardOptions = Partial<BaseModuleCard>;
-
-export function createBaseModuleCard(options: BaseModuleCardOptions = {}): BaseModuleCard {
-  return {
-    showOptions: options.showOptions ?? true,
-    showTitle: options.showTitle ?? true,
-    maxMetrics: options.maxMetrics ?? 2,
-  };
-}
