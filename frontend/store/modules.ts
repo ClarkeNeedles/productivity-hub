@@ -1,15 +1,14 @@
 import { create } from "zustand";
 import type { BaseModule } from "@/types/base-module";
 import { AddModuleModule } from "@/modules/add-module/add-module";
+import { ModuleId } from "@/config/modules";
 
 interface ModulesState {
   activeModules: BaseModule[];
-  focusedModuleId: string | null;
+  focusedModuleId: ModuleId | null;
   addModule: (module: BaseModule) => void;
-  removeModule: (moduleId: string) => void;
-  getActiveModule: (moduleId: string) => BaseModule | undefined;
-  getActiveModuleIds: () => string[];
-  setFocusedModuleId: (moduleId: string | null) => void;
+  removeModule: (moduleId: ModuleId) => void;
+  setFocusedModuleId: (moduleId: ModuleId | null) => void;
 }
 
 export const useModulesStore = create<ModulesState>((set, get) => ({
@@ -39,15 +38,6 @@ export const useModulesStore = create<ModulesState>((set, get) => ({
         (item) => item.id !== moduleId
       ),
     }));
-  },
-
-  getActiveModuleIds: () => {
-    return get().activeModules.map((m) => m.id);
-  },
-
-  // Allows any standalone component to securely fetch a module instance by its string ID
-  getActiveModule: (moduleId) => {
-    return get().activeModules.find((item) => item.id === moduleId);
   },
 
   setFocusedModuleId: (moduleId) => set({ focusedModuleId: moduleId }),

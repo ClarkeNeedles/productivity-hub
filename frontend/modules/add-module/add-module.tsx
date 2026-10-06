@@ -10,7 +10,7 @@ import { useShallow } from 'zustand/react/shallow';
 class AddModulePage implements BaseModulePage {
   public renderContentArea(): ReactNode {
     const activeModuleIds = useModulesStore(
-      useShallow((state) => state.getActiveModuleIds())
+      useShallow((state) => state.activeModules.map((module) => module.id))
     );
     const availableModules = MODULE_LIST.filter(
       (availableModule) => !activeModuleIds.includes(availableModule.id)

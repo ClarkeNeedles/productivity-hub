@@ -2,18 +2,21 @@
 
 import { useModulesStore } from "@/store/modules";
 import { AddModuleModule } from "@/modules/add-module/add-module";
+import { ModuleId } from "@/config/modules";
 
 // Permanent static memory singleton to handle the full catalog blueprint interface
 const addModuleUtility = new AddModuleModule();
 
 type ModulePageProps = {
-  moduleId: string;
+  moduleId: ModuleId;
 };
 
 export default function ModulePage({ moduleId }: ModulePageProps) {
   // Fetch freshest module instance from store, or fall back to utility singleton
   const module = useModulesStore((state) =>
-    moduleId === "add-module" ? addModuleUtility : state.getActiveModule(moduleId)
+    moduleId === "add-module" 
+      ? addModuleUtility 
+      : state.activeModules.find((m) => m.id === moduleId)
   );
 
   // Guard safety fallback check if the module was unmounted while open
