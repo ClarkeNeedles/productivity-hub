@@ -1,44 +1,51 @@
 ---
 title: "streak counter design"
-date: 10-5-2026
+date: 10-6-2026
 project-phase: in-progress
-version: 0.5.4
+version: 0.5.5
 ---
 
-review usage of useShallow()
-    good for not forcing a refresh every time a new reference is obtained
-    good for when we are getting the list of activeIDs, we don't need to force a refresh here
-        fixes the infinite refreshing looping issue
-review usage of useMemo()
-    both are used in AddModulePage and in ModuleCard component
-    this is fine, may have to come back to this later on 
+# Development Log & Architectural Notes
 
-updated the sidenav logic for mobile and desktop to be simpler
-    both only depend on a single expanded variable
-    mobile closes sidenav after choosing a new page
-    updated the icons for opening and closing the sidebar nav
+## Completed Tasks & Code Enhancements
 
-going to start by developing a simpler module --> streak counter
-realized that the way we currently store metrics per module will not hold for multiple modules
-    may just have to move the active metrics into the class instances within the modules store
-        update BaseModule to have a metrics list with maximum 2 elements (for now)
-            force the default metrics where the module definitions are modules/
-        update modules.ts store with a function for setting the active metrics
-leave the types as immutable blueprints as we initially designed
-    create a metrics store file instead that holds a dictionary of metrics keyed by module id
-    create a singular metrics config file that holds all the possibe metrics
-    allows us to assign default metrics to module cards right away in the metrics store file
-create a ModuleId type that forces us to use a module id in the predetermined list
-    also created MetricId
-    we have to replace locations that should be using these types
-updating the METRIC_LIST so that we can assign default metrics in one shot
-    create a dedicated DEFAULT_MODULE_METRICS as well as a AVAILABLE_MODULE_METRICS
-    one is defaults and one is what we can choose from
-we need to get rid of all the get functions in the zustand stores - DONE
-    they are essentially telling zustand to not refresh when the store updates
-    use inline expressions like .map() and .find() on the data instead
-fix the now broken ModuleCard component after changing the metrics structure and introducing new config file + store - DONE
-I think that we should move the modules folder in the components/ folder - WAITING
-    and move the metrics folder there as well
-    put all modules in components/modules/ and metrics in components/metrics/
+### Performance & React Optimization
+* **`useShallow()` Hook Integration:** Reviewed and confirmed usage. It successfully prevents unnecessary component re-renders when new array/object references are obtained. Utilizing it to fetch `activeIds` successfully resolved the infinite rendering loop issue.
+* **`useMemo()` Review:** Verified implementation across both the `AddModulePage` view wrapper and individual `ModuleCard` components. Current caching logic is stable; will re-evaluate down the line if performance metrics shift.
+* **Zustand Store Cleanup:** Completely stripped out custom evaluation `.get()` tracking functions from our Zustand configurations. These were masking store state updates and suppressing required view refreshes. Replaced them entirely with clean, standard inline evaluations such as `.map()` and `.find()`.
+
+### Layout & Navigation Simplification
+* **Unified Sidebar States:** Refactored the responsive navigation component so both mobile overlays and desktop layouts are driven by a singular `expanded` state boolean variable.
+* **Smart Device Behavior:** Programmed mobile drawers to close automatically whenever a user routes to a new dashboard page.
+* **Polished Icon Transitions:** Upgraded global triggers to handle synchronous flipping behavior between `PanelLeftOpen` and `PanelLeftClose` across all breakpoints.
+
+### Core Architectural Pivot (Metrics Layer Setup)
+* **Preserving Immutable Blueprints:** Formally confirmed that our `BaseModule` types and classes must remain completely read-only blueprint definitions. They hold zero mutable runtime states.
+* **Decoupled Dictionary Pattern:** Created a dedicated `metrics` Zustand store tracking user visual configurations inside a flat, normalized dictionary mapping keyed entirely by `ModuleId`.
+* **Centralized Configuration Map:** Compiled a global configuration index containing standalone data files:
+  * `AVAILABLE_MODULE_METRICS`: The total master registry mapping of metrics users can select from.
+  * `DEFAULT_MODULE_METRICS`: Out-of-the-box visibility configurations applied instantly during runtime instantiation.
+* **Strict Type Reinforcements:** Introduced rigorous `ModuleId` and `MetricId` primitive constraints across all modules to eliminate string typos. Replaced hardcoded string assignments throughout the source code.
+* **Component Restructuring:** Cleaned up project file paths by relocating all visual blocks under a single repository roof:
+  * Moved all core module cards to `@/components/modules/`
+  * Moved all individual data visualizations to `@/components/metrics/`
+* **`ModuleCard` Integration:** Repaired and verified the card component framework against our new configuration schemas. Verified that our multi-slot component frames gracefully support rendering 2 to 3 distinct sub-metrics at a time.
+
+### Feature Enhancements
+* **Streak Counter Integration:** Created a new modular `StreakCounterMetric` visual payload that renders dynamic active day counters using an absolute layering pattern directly inside an orange-accented fire silhouette.
+* **Live Sandbox Loading:** Calibrated the creation preview container to immediately load matching default configs every time a module is inspected.
+
+---
+
+## Architectural Decisions & Current Milestone Goals
+
+### 1. Architectural Definition: Blueprints vs. Runtime State
+* **Types / Classes:** Acting strictly as static blueprint descriptions.
+* **Zustand Stores:** Holding 100% of global state variables and mutable runtime data objects.
+
+### 2. Next Horizon Questions (TODO)
+- [ ] **Module Data Architecture:** Decide exactly where module-specific operational values (e.g., historical counter dates, habit checkbox states) should live.
+  * *Current Consensus:* Store data locally inside discrete, feature-specific stores (e.g., `store/streak-counter.ts`, `store/habit-tracker.ts`) rather than bundling everything into one master state bucket.
+- [ ] **Type Upgrades:** Finish sweeping the source directories to enforce the strict application of `ModuleId` and `MetricId` across remaining file paths.
+
 
