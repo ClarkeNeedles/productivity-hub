@@ -2,7 +2,7 @@
 title: "streak counter design"
 date: 10-5-2026
 project-phase: in-progress
-version: 0.5.3
+version: 0.5.4
 ---
 
 review usage of useShallow()

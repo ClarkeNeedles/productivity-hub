@@ -1,6 +1,6 @@
 import { create } from "zustand";
 import type { BaseModule } from "@/types/base-module";
-import { AddModuleModule } from "@/modules/add-module/add-module";
+import { AddModuleModule } from "@/components/modules/add-module";
 import { ModuleId } from "@/config/modules";
 
 interface ModulesState {
