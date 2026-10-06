@@ -1,5 +1,5 @@
-import { HabitTrackerModule } from "@/modules/habit-tracker/habit-tracker";
-import { StreakCounterModule } from "@/modules/streak-counter/streak-counter";
+import { HabitTrackerModule } from "@/components/modules/habit-tracker";
+import { StreakCounterModule } from "@/components/modules/streak-counter";
 import type { BaseModule } from "@/types/base-module";
 import type { ModuleId } from "@/config/modules";
 
