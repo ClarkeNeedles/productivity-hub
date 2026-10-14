@@ -1,12 +1,5 @@
-import { redirect } from "next/navigation";
-
-export default async function RootPage() {
-  // Add your actual auth check logic here
-  const isAuthenticated = true;
-
-  if (isAuthenticated) {
-    redirect("/dashboard");
-  } else {
-    redirect("/login");
-  }
+export default function RootPage() {
+  // The middleware handles all redirects, but Next.js requires 
+  // a default export component for the route to build successfully.
+  return null;
 }

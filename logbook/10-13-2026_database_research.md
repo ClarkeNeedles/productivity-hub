@@ -1,6 +1,6 @@
 ---
 title: "database research"
-date: 10-6-2026
+date: 10-13-2026
 project-phase: in-progress
 version: 0.5.6
 ---
