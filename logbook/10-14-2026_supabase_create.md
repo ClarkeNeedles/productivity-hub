@@ -2,7 +2,7 @@
 title: "supabase create"
 date: 10-14-2026
 project-phase: in-progress
-version: 0.5.6
+version: 0.6.0
 ---
 
 I should do the following next:
@@ -60,3 +60,9 @@ created the login sequence fully using a middleware.ts
     otherwise sends users to dashboard
 created the app/(auth)/login/page which has a login form and creates as server client using utils/supabase/server.ts if credentials are correct
     this is done with an actions.ts file in the same location
+we will query the database once at the start for all the Zustand stores
+    saves so much overhead by storing the data in the stores
+    saving data means writing to the Zustand first, then to the database, creates a nice layer that we dont have to worry about writing to db, just update the store instead
+we can create a store file per module
+we need to determine when we will hydrate the stores (fetch from the database)
+    should it just be one large file at the beginning? - for now this is okay
