@@ -3,7 +3,7 @@ import { BaseModule } from "@/types/base-module";
 import { BaseModuleCard } from "@/types/base-module-card";
 import type { BaseModulePage } from "@/types/base-module-page";
 import { BaseModuleSettingsPage } from "@/types/base-module-settings-page";
-import { ModuleId } from "@/config/modules";
+import { ModuleId } from "@/configs/modules-config";
 
 class StreakCounterPage implements BaseModulePage {
   public renderContentArea(module: BaseModule): ReactNode {

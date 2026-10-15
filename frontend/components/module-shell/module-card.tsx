@@ -3,10 +3,10 @@
 import { useMemo } from "react";
 import { useShallow } from "zustand/react/shallow";
 import { ModuleCardFrame } from "@/components/module-shell/module-card-frame";
-import { useModulesStore } from "@/store/modules";
-import { useMetricsStore } from "@/store/metrics";
-import { ModuleId } from "@/config/modules";
-import { AVAILABLE_MODULE_METRICS } from "@/config/metrics";
+import { useModulesStore } from "@/stores/modules-store";
+import { useMetricsStore } from "@/stores/metrics-store";
+import { ModuleId } from "@/configs/modules-config";
+import { AVAILABLE_MODULE_METRICS } from "@/configs/metrics-config";
 
 type ModuleCardProps = {
   moduleId: ModuleId;

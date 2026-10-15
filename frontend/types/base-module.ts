@@ -1,4 +1,4 @@
-import { ModuleId } from "@/config/modules";
+import { ModuleId } from "@/configs/modules-config";
 import type { BaseModuleCard } from "@/types/base-module-card";
 import type { BaseModulePage } from "@/types/base-module-page";
 import type { BaseModuleSettingsPage } from "@/types/base-module-settings-page";

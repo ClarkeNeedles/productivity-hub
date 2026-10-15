@@ -1,8 +1,11 @@
+"use client";
+
 import Image from 'next/image';
+import { useModulesStreak } from '@/providers/modules-store-provider'
 
 export function StreakCounterMetric() {
-  const days = 3;
-  const isStreakActive = days > 0;
+  const currentStreak = useModulesStreak((state) => state.currentStreak)
+  const isStreakActive = currentStreak > 0;
 
   return (
     <div className="flex flex-col items-center justify-center">
@@ -24,7 +27,7 @@ export function StreakCounterMetric() {
         )}
         
         <span className="centers absolute text-2xl font-black tracking-tight text-white select-none [-webkit-text-stroke:0.5px_black]">
-          {days}
+          {currentStreak}
         </span>
       </div>
       <span className="text-[0.68rem] font-bold tracking-[0.18em] text-slate-500 uppercase dark:text-slate-400">

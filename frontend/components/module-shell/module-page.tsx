@@ -1,8 +1,8 @@
 "use client";
 
-import { useModulesStore } from "@/store/modules";
-import { AddModuleModule } from "@/components/modules/add-module";
-import { ModuleId } from "@/config/modules";
+import { useModulesStore } from "@/stores/modules-store";
+import { AddModuleModule } from "@/components/modules/add-module-module";
+import { ModuleId } from "@/configs/modules-config";
 
 // Permanent static memory singleton to handle the full catalog blueprint interface
 const addModuleUtility = new AddModuleModule();

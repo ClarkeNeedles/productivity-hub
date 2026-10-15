@@ -1,6 +1,6 @@
 import { create } from "zustand";
-import { DEFAULT_MODULE_METRICS, MetricId } from "@/config/metrics";
-import { ModuleId } from "@/config/modules";
+import { DEFAULT_MODULE_METRICS, MetricId } from "@/configs/metrics-config";
+import { ModuleId } from "@/configs/modules-config";
 
 interface MetricsState {
   activeModuleMetricIds: Record<ModuleId, MetricId[]>; // Keyed by ModuleId

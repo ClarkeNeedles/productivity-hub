@@ -1,4 +1,4 @@
-import { MetricId } from '@/config/metrics';
+import { MetricId } from '@/configs/metrics-config';
 import type { ReactNode } from 'react';
 
 export interface BaseModuleMetric {

@@ -1,8 +1,8 @@
 import type { BaseModuleMetric } from "@/types/base-module-metric";
-import type { ModuleId } from "@/config/modules";
-import { AddModuleMetric } from "@/components/metrics/add-module";
-import { StreakCounterMetric } from "@/components/metrics/streak-counter";
-import { BestStreakMetric } from "@/components/metrics/best-streak";
+import type { ModuleId } from "@/configs/modules-config";
+import { AddModuleMetric } from "@/components/metrics/add-module-metric";
+import { StreakCounterMetric } from "@/components/metrics/streak-counter-metric";
+import { BestStreakMetric } from "@/components/metrics/best-streak-metric";
 
 export const AVAILABLE_METRICS = ["add-module", "streak-counter", "best-streak"] as const;
 

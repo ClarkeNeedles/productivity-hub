@@ -1,7 +1,7 @@
-import { HabitTrackerModule } from "@/components/modules/habit-tracker";
-import { StreakCounterModule } from "@/components/modules/streak-counter";
+import { HabitTrackerModule } from "@/components/modules/habit-tracker-module";
+import { StreakCounterModule } from "@/components/modules/streak-counter-module";
 import type { BaseModule } from "@/types/base-module";
-import type { ModuleId } from "@/config/modules";
+import type { ModuleId } from "@/configs/modules-config";
 
 export interface ListItem {
   id: ModuleId;

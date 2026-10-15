@@ -17,7 +17,10 @@ Thank you for your interest in contributing! This document outlines our reposito
 - **Markup Clarity:** Prefer readable, multi-line JSX syntax over deeply nested or highly compressed single-line markup elements.
 - **Constant Extraction:** Keep layout components focused. Place repeated data structures or operational configuration arrays in named constants to optimize scanning.
 - **Intentional Commenting:** Use short comments only to label meaningful layout blocks or explain non-obvious engineering behavior. Do not comment straightforward or self-explanatory code blocks.
-- **Naming Typography:** Use strict lowercase file naming conventions separated by hyphens (e.g., `sidebar-nav.tsx`) when introducing new files to the project workspace.
+- **Naming Typography:** Use strict lowercase file naming conventions separated by hyphens (e.g., `sidebar-nav.tsx`) when introducing new files to the project workspace. Files must explicitly state their archetype as a suffix to optimize aditor tab bar visibility and global search results:
+  - Stores must end in `-store.ts` (e.g. `stores/streak-counter-store.ts`).
+  - Context wrappers must end in `-provider.tsx` (e.g. `providers/dashboard-store-provider.tsx`).
+  - UI file must use descriptive lowercase names (e.g. `sidebar-nav.tsx`).
 - **Pre-Commit Prettier Checks:** Always run Prettier on modified frontend files before finalizing a change. Note that Markdown documentation is explicitly bypassed via the repository `.prettierignore` file to ensure intentional indentation styles remain intact.
 
 ## 🚀 Frontend Conventions
@@ -49,6 +52,17 @@ Thank you for your interest in contributing! This document outlines our reposito
 
 - **State vs. Behavior Separation (Zustand):** Separate business data states from presentation blueprints. Object classes handle static configurations and UI rendering layout strategies, whereas runtime state management is delegated to decoupled Zustand stores. Classes must remain completely immutable and declared as permanent singletons outside of the React lifecycle to eliminate costly instantiation garbage-collection loops.
 - **Domain-Isolated Stores:** Maintain discrete stores separated by logical business context (e.g., `useModulesStore` for dashboard shell data layout, `useMetricsStore` for tracking layout selections, and feature-specific stores like `useHabitStore` for module-internal logs). Never store transient layout flags or runtime states inside class objects or global variables.
+- **Zustand Store Interface Splitting:** To cleanly support client-side default hydration and optional initial server data injection, separate store definitions into distinct data and behavior types. Use a clean intersection type (&) to form the complete store definition:
+  - `[Name]StateProps`: Contains only flat state variables and metadata.
+  - `[Name]Actions`: Contains only executable asynchronous or synchronous functions.
+  - `[Name]Store`: The combined structure (`[Name]StateProps` & `[Name]Actions`).
+```ts
+export interface StreakStateProps { currentStreak: number; bestStreak: number; }
+export interface StreakActions { incrementStreak: (userId: string) => Promise<void>; }
+export type StreakStore = StreakStateProps & StreakActions;
+```
+- **Per-Request Isolation & Context Providers:** Never export a global Zustand store singleton directly using create(). Instead, utilize createStore() to export a store factory function (create[Name]Store). A centralized domain React Context provider situated inside src/providers/ must handle actual store instantiation using a stable useRef hook wrapper. This design completely eliminates cross-request memory state pollution on the Next.js server tier.
+- **Automated Startup Hydration:** Domain stores must manage their own client-side startup synchronization routines. Bind data-fetching triggers directly to the layout-level React Context provider's lifecycle via hook dependencies (such as a logged-in userId), preventing boilerplate database retrieval logic from bloating the core Next.js Server Layout trees.
 - **Reactive Selectors vs. Store Getters:** To maintain absolute reactivity tracking inside React components, avoid defining or calling custom imperative getter functions (like `getActiveModuleIds()`) inside the Zustand store object. Stores should act as flat, lightweight databases hosting raw state and direct mutations (setters/actions). Data extraction, parsing, filtering, and mapping transformations must happen inline within your local component selector hooks (paired with `useShallow`) to ensure components automatically and efficiently update when dependencies change.
 - **Next.js Global Store Cross-Request Protection:** When building Zustand modules within Next.js workspaces, ensure stores are safely bound exclusively to client-side components (`"use client"`). Never instantiate shared mutable state maps globally at the file root level if they run inside Server Components, to prevent accidental multi-tenant data leaks between independent incoming visitor browser streams.
 - **State Normalization & Data Decoupling:** Components must be driven by flat primitives (`string`) rather than complex objects. Pass primitive identifiers (like `moduleId`) down through the React component map trees. Components are responsible for using that ID to look up their freshest, validated business models from the corresponding store right at the moment of execution rendering.

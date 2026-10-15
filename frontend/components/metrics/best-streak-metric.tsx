@@ -1,7 +1,10 @@
+"use client";
+
 import { CircleStar } from "lucide-react";
+import { useModulesStreak } from '@/providers/modules-store-provider'
 
 export function BestStreakMetric() {
-  const days = 5;
+  const bestStreak = useModulesStreak((state) => state.bestStreak)
 
   return (
     <div className="pointer-events-none flex flex-col items-center justify-center gap-2">
@@ -14,7 +17,7 @@ export function BestStreakMetric() {
         />
 
         <span className="centers absolute text-2xl font-black tracking-tight text-white select-none [-webkit-text-stroke:0.5px_black]">
-          {days}
+          {bestStreak}
         </span>
       </div>
 

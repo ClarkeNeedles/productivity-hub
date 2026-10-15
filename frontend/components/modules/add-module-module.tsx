@@ -3,8 +3,8 @@ import { BaseModule } from "@/types/base-module";
 import { BaseModuleCard } from "@/types/base-module-card";
 import type { BaseModulePage } from "@/types/base-module-page";
 import ModuleCardPreview from "@/components/module-shell/module-card-preview";
-import { MODULE_LIST } from "@/config/add-module";
-import { useModulesStore } from "@/store/modules";
+import { MODULE_LIST } from "@/configs/add-module-config";
+import { useModulesStore } from "@/stores/modules-store";
 import { useShallow } from 'zustand/react/shallow';
 
 class AddModulePage implements BaseModulePage {
