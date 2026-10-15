@@ -27,6 +27,7 @@ Thank you for your interest in contributing! This document outlines our reposito
 
 - **Directory Mapping:** Follow the existing Next.js App Router workspace under `frontend/app/` and shared layout element placements under `frontend/components/`.
 - **Absolute Path Resolution:** Always use the absolute `@/` path aliases configured in `tsconfig.json` (e.g., `import { BaseModule } from "@/types/base-module"`) when importing elements. Brittle relative paths like `../` or `../../` are strictly prohibited to maintain cleanliness and refactoring safety.
+- **Request Interception & Route Guards:** All edge routing hooks, path guards, and request interceptions are handled exclusively via the **`proxy` workspace layer**. The old `middleware` convention is explicitly deprecated. Ensure all static file bundles (`_next/static`), image optimization frameworks, and public assets (like `/images` or `/animations`) are explicitly whitelisted within your proxy pattern configurations to prevent production blank-page runtime crashes.
 - **Component Prop Typing:** Explicitly define React component properties using dedicated `Props` or `[Component]Props` type blocks placed directly above the component definition. Avoid inline parameter type object literals to ensure long property maps, optional event callbacks, and structural configurations remain readable and easily extensible. Components must accept primitive configuration identifiers rather than whole class models:
   ```tsx
   type ModuleCardProps = {

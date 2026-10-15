@@ -99,7 +99,7 @@ export const createStreakStore = (initProps: Partial<StreakStateProps> = {}) => 
       if (!userId) return;
 
       const nowIso = new Date().toISOString();
-      const updatedHistory = [...resetHistory, nowIso];
+      const updatedHistory = [nowIso, ...resetHistory];
 
       // Resetting sets the anchor point to right now
       set({ currentStreak: 0, streakStartedAt: nowIso, resetHistory: updatedHistory });

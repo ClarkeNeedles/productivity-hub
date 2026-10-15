@@ -2,7 +2,7 @@
 title: "stores hydration"
 date: 10-15-2026
 project-phase: in-progress
-version: 0.6.2
+version: 0.6.3
 ---
 
 we need to determine when we will hydrate the stores (fetch from the database)
@@ -38,6 +38,10 @@ updated to v0.6.3
 created a reset button and added the logic for determining the streak
     streak based on a 24hr timer that checks when the timestamp was reset vs current timestamp
     reset button resets the timestamp
+created the streak counter page
+updated to v0.6.4
+created a reset-heatmap-metric
+updated to v0.6.5
 
 TODO
 update all the naming conventions to explictly use archetype - DONE
@@ -48,8 +52,8 @@ need to update the other stores with the createStore method - DONE
 finish implementing the rest of the streak counter module end-to-end - IN PROGRESS
     functionality for tracking the streak - DONE
     storing streak resetting history - DONE
-    implement the actual expanded view of the streak tracker
-    implement the large variant of the metrics
+    implement the actual expanded view of the streak tracker - DONE
+    implement the large variant of the metrics - DONE
         could we create components for a small variant and large variant for all metrics?
     settings page
         need to implement choosing the module card metrics user wants to show
