@@ -4,7 +4,7 @@ import { BaseModuleCard } from "@/types/base-module-card";
 import type { BaseModulePage } from "@/types/base-module-page";
 import ModuleCardPreview from "@/components/module-shell/module-card-preview";
 import { MODULE_LIST } from "@/configs/add-module-config";
-import { useModulesStore } from "@/stores/modules-store";
+import { useModulesStore } from "@/providers/modules-store-provider";
 import { useShallow } from 'zustand/react/shallow';
 
 class AddModulePage implements BaseModulePage {
@@ -24,6 +24,8 @@ class AddModulePage implements BaseModulePage {
       );
     }
 
+    const addModule = useModulesStore((state) => state.addModule);
+
     return (
       <div className="space-y-6">
         <div>
@@ -38,7 +40,7 @@ class AddModulePage implements BaseModulePage {
               <ModuleCardPreview
                 key={availableModule.id}
                 moduleId={availableModule.id}
-                onSelect={() => useModulesStore.getState().addModule(availableModule.instantiate())}
+                onSelect={() => addModule(availableModule.instantiate())}
               />
             );
           })}

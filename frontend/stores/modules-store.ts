@@ -1,44 +1,53 @@
-import { create } from "zustand";
+import { createStore } from "zustand";
 import type { BaseModule } from "@/types/base-module";
 import { AddModuleModule } from "@/components/modules/add-module-module";
 import { ModuleId } from "@/configs/modules-config";
 
-interface ModulesState {
+export interface ModulesStateProps {
   activeModules: BaseModule[];
   focusedModuleId: ModuleId | null;
+}
+
+export interface ModulesActions {
   addModule: (module: BaseModule) => void;
   removeModule: (moduleId: ModuleId) => void;
   setFocusedModuleId: (moduleId: ModuleId | null) => void;
 }
 
-export const useModulesStore = create<ModulesState>((set, get) => ({
-  activeModules: [new AddModuleModule()],
-  focusedModuleId: null,
+export type ModulesStore = ModulesStateProps & ModulesActions;
 
-  addModule: (newModule) =>
-    set((state) => {
-      // Strip out add-module and new module if it exists
-      const standardModules = state.activeModules.filter(
-        (m) => m.id !== "add-module" && m.id !== newModule.id
-      );
-      const addModuleModule = state.activeModules.find((m) => m.id === "add-module") ?? new AddModuleModule();
+// Create a function that constructs the store instance on-demand
+export const createModulesStore = (initProps: Partial<ModulesStateProps> = {}) => {
+  return createStore<ModulesStore>((set) => ({
+    activeModules: [new AddModuleModule()],
+    focusedModuleId: null,
+    ...initProps, // Allows passing initial hydration data from Server Components
 
-      return {
-        activeModules: [...standardModules, newModule, addModuleModule],
-        focusedModuleId: null, // Auto-return back to dashboard grid view
-      };
-    }),
+    addModule: (newModule) =>
+      set((state) => {
+        // Strip out add-module and new module if it exists
+        const standardModules = state.activeModules.filter(
+          (m) => m.id !== "add-module" && m.id !== newModule.id
+        );
+        const addModuleModule = state.activeModules.find((m) => m.id === "add-module") ?? new AddModuleModule();
 
-  removeModule: (moduleId) => {
-    // Immediately abort if something tries to remove the utility card
-    if (moduleId === "add-module") return;
+        return {
+          activeModules: [...standardModules, newModule, addModuleModule],
+          focusedModuleId: null, // Auto-return back to dashboard grid view
+        };
+      }),
 
-    set((state) => ({
-      activeModules: state.activeModules.filter(
-        (item) => item.id !== moduleId
-      ),
-    }));
-  },
+    removeModule: (moduleId) => {
+      // Immediately abort if something tries to remove the utility card
+      if (moduleId === "add-module") return;
 
-  setFocusedModuleId: (moduleId) => set({ focusedModuleId: moduleId }),
-}));
+      set((state) => ({
+        activeModules: state.activeModules.filter(
+          (item) => item.id !== moduleId
+        ),
+      }));
+    },
+
+    setFocusedModuleId: (moduleId) => set({ focusedModuleId: moduleId }),
+  }));
+};

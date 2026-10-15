@@ -1,15 +1,15 @@
 "use client";
 
 import Image from 'next/image';
-import { useModulesStreak } from '@/providers/modules-store-provider'
+import { useStreakCounterStore } from '@/providers/modules-store-provider'
 
-export function StreakCounterMetric() {
-  const currentStreak = useModulesStreak((state) => state.currentStreak)
+export function CurrentStreakMetric() {
+  const currentStreak = useStreakCounterStore((state) => state.currentStreak)
   const isStreakActive = currentStreak > 0;
 
   return (
-    <div className="flex flex-col items-center justify-center">
-      <div className="relative flex h-16 w-16 items-center justify-center">
+    <div className="pointer-events-none flex flex-col items-center justify-center gap-2">
+      <div className="relative flex h-20 w-20 items-center justify-center">
         {isStreakActive ? (
           <Image 
             src="/animations/fire.gif" 
@@ -26,7 +26,7 @@ export function StreakCounterMetric() {
           />
         )}
         
-        <span className="centers absolute text-2xl font-black tracking-tight text-white select-none [-webkit-text-stroke:0.5px_black]">
+        <span className="absolute bottom-3 left-1/2 -translate-x-1/2 text-2xl font-black tracking-tight text-white select-none [-webkit-text-stroke:0.5px_black]">
           {currentStreak}
         </span>
       </div>

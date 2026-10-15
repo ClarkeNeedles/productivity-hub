@@ -1,6 +1,6 @@
 "use client";
 
-import { useModulesStore } from "@/stores/modules-store";
+import { useModulesStore } from "@/providers/modules-store-provider";
 import { AddModuleModule } from "@/components/modules/add-module-module";
 import { ModuleId } from "@/configs/modules-config";
 

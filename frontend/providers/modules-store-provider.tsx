@@ -5,9 +5,13 @@ import { useStore } from 'zustand'
 
 // Import all module store creators
 import { createStreakStore, type StreakStore } from '@/stores/streak-counter-store'
+import { createModulesStore, type ModulesStore } from '@/stores/modules-store'
+import { createMetricsStore, type MetricsStore } from '@/stores/metrics-store'
 
 interface ModulesStores {
   streakStore: ReturnType<typeof createStreakStore>
+  modulesStore: ReturnType<typeof createModulesStore>
+  metricsStore: ReturnType<typeof createMetricsStore>
 }
 
 const ModulesStoreContext = createContext<ModulesStores | undefined>(undefined)
@@ -19,6 +23,8 @@ export const ModulesStoreProvider = ({ children, userId }: { children: ReactNode
     // Instantiate all module stores simultaneously on mount
     storesRef.current = {
       streakStore: createStreakStore(),
+      modulesStore: createModulesStore(),
+      metricsStore: createMetricsStore(),
     }
   }
 
@@ -37,10 +43,26 @@ export const ModulesStoreProvider = ({ children, userId }: { children: ReactNode
 }
 
 // Create scoped hooks so components can tap into exactly what they need
-export const useModulesStreak = <T,>(selector: (store: StreakStore) => T): T => {
+export const useStreakCounterStore = <T,>(selector: (store: StreakStore) => T): T => {
   const context = useContext(ModulesStoreContext)
   if (!context) 
     throw new Error('useModulesStreak must be used within ModulesStoreProvider')
 
   return useStore(context.streakStore, selector)
+}
+
+export const useModulesStore = <T,>(selector: (store: ModulesStore) => T): T => {
+  const context = useContext(ModulesStoreContext)
+  if (!context) 
+    throw new Error('useModulesStreak must be used within ModulesStoreProvider')
+
+  return useStore(context.modulesStore, selector)
+}
+
+export const useMetricsStore = <T,>(selector: (store: MetricsStore) => T): T => {
+  const context = useContext(ModulesStoreContext)
+  if (!context) 
+    throw new Error('useModulesStreak must be used within ModulesStoreProvider')
+
+  return useStore(context.metricsStore, selector)
 }

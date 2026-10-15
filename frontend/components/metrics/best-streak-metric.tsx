@@ -1,10 +1,10 @@
 "use client";
 
 import { CircleStar } from "lucide-react";
-import { useModulesStreak } from '@/providers/modules-store-provider'
+import { useStreakCounterStore } from '@/providers/modules-store-provider'
 
 export function BestStreakMetric() {
-  const bestStreak = useModulesStreak((state) => state.bestStreak)
+  const bestStreak = useStreakCounterStore((state) => state.bestStreak)
 
   return (
     <div className="pointer-events-none flex flex-col items-center justify-center gap-2">

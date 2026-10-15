@@ -3,8 +3,8 @@
 import { useMemo } from "react";
 import { useShallow } from "zustand/react/shallow";
 import { ModuleCardFrame } from "@/components/module-shell/module-card-frame";
-import { useModulesStore } from "@/stores/modules-store";
-import { useMetricsStore } from "@/stores/metrics-store";
+import { useModulesStore } from "@/providers/modules-store-provider";
+import { useMetricsStore } from "@/providers/modules-store-provider";
 import { ModuleId } from "@/configs/modules-config";
 import { AVAILABLE_MODULE_METRICS } from "@/configs/metrics-config";
 

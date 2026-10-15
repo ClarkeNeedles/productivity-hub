@@ -2,7 +2,6 @@
 
 import { useMemo } from "react";
 import { ModuleCardFrame } from "@/components/module-shell/module-card-frame";
-import type { BaseModuleMetric } from "@/types/base-module-metric";
 import { MODULE_LIST } from "@/configs/add-module-config";
 import { DEFAULT_MODULE_METRICS, AVAILABLE_MODULE_METRICS} from "@/configs/metrics-config";
 import { ModuleId } from "@/configs/modules-config";

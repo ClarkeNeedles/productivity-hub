@@ -2,7 +2,7 @@
 title: "stores hydration"
 date: 10-15-2026
 project-phase: in-progress
-version: 0.6.1
+version: 0.6.2
 ---
 
 we need to determine when we will hydrate the stores (fetch from the database)
@@ -20,8 +20,32 @@ GRANT SELECT, INSERT, UPDATE, DELETE ON public.user_module_data TO authenticated
 GRANT USAGE, SELECT ON ALL SEQUENCES IN SCHEMA public TO authenticated;
 ```
 there was a variable naming issue that was silently failing, now fixed
+updated to v0.6.1
+should we delete the module data upon removal from modules page
+    no I don't think it is necessary
+    if the user wants to clear the data, they can do so in the module settings page
+what sort of data do we actually want to have inside of the streak counter module?
+    active streak --> should count days since "reset streak" button was pressed
+    best streak
+    history of when the "reset streak" button was pressed
+    github type heatmap showing when we reset
+    other graphs that we may think of
+updated all stores to use createStore instead and the change was seamless
+updated to v0.6.2
 
 TODO
 update all the naming conventions to explictly use archetype - DONE
-need to update the other stores with the createStore method - WAITING
+need to update the other stores with the createStore method - DONE
+    we can just add this to the modules provider
+    I was considering adding it to the root layout, but dashboard and settings dont need this
+    in the future maybe we create a root layout provider for the life score module
+finish implementing the rest of the streak counter module end-to-end - WAITING
+    settings page
+        need to implement choosing the module card metrics user wants to show
+        what metrics they want to show on the expanded view of the module
+    functionality for tracking the streak
+    storing streak resetting history
+    implement the actual expanded view of the streak tracker
+        implement the large variant of the metrics
+            could we create components for a small variant and large variant for all metrics?
 need to ensure we use webp files instead of gifs - WAITING
