@@ -22,7 +22,7 @@ export const ModulesStoreProvider = ({ children, userId }: { children: ReactNode
   if (!storesRef.current) {
     // Instantiate all module stores simultaneously on mount
     storesRef.current = {
-      streakStore: createStreakStore(),
+      streakStore: createStreakStore({ userId }),
       modulesStore: createModulesStore(),
       metricsStore: createMetricsStore(),
     }
@@ -31,7 +31,7 @@ export const ModulesStoreProvider = ({ children, userId }: { children: ReactNode
   // Automate hydration for all modules right here on startup
   useEffect(() => {
     if (userId && storesRef.current) {
-      storesRef.current.streakStore.getState().fetchData(userId)
+      storesRef.current.streakStore.getState().fetchStreak()
     }
   }, [userId])
 

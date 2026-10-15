@@ -32,6 +32,12 @@ what sort of data do we actually want to have inside of the streak counter modul
     other graphs that we may think of
 updated all stores to use createStore instead and the change was seamless
 updated to v0.6.2
+stopped passing userId into functions that call the db so that we can easily call them from components
+    did this by passing in the userId on store creating in the provider
+updated to v0.6.3
+created a reset button and added the logic for determining the streak
+    streak based on a 24hr timer that checks when the timestamp was reset vs current timestamp
+    reset button resets the timestamp
 
 TODO
 update all the naming conventions to explictly use archetype - DONE
@@ -39,13 +45,14 @@ need to update the other stores with the createStore method - DONE
     we can just add this to the modules provider
     I was considering adding it to the root layout, but dashboard and settings dont need this
     in the future maybe we create a root layout provider for the life score module
-finish implementing the rest of the streak counter module end-to-end - WAITING
+finish implementing the rest of the streak counter module end-to-end - IN PROGRESS
+    functionality for tracking the streak - DONE
+    storing streak resetting history - DONE
+    implement the actual expanded view of the streak tracker
+    implement the large variant of the metrics
+        could we create components for a small variant and large variant for all metrics?
     settings page
         need to implement choosing the module card metrics user wants to show
         what metrics they want to show on the expanded view of the module
-    functionality for tracking the streak
-    storing streak resetting history
-    implement the actual expanded view of the streak tracker
-        implement the large variant of the metrics
-            could we create components for a small variant and large variant for all metrics?
+
 need to ensure we use webp files instead of gifs - WAITING

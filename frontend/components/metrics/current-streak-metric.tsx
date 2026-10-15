@@ -31,7 +31,7 @@ export function CurrentStreakMetric() {
         </span>
       </div>
       <span className="text-[0.68rem] font-bold tracking-[0.18em] text-slate-500 uppercase dark:text-slate-400">
-        Day Streak
+        Current Streak
       </span>
     </div>
   );

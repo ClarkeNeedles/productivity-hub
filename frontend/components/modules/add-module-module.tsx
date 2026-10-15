@@ -12,9 +12,12 @@ class AddModulePage implements BaseModulePage {
     const activeModuleIds = useModulesStore(
       useShallow((state) => state.activeModules.map((module) => module.id))
     );
+
     const availableModules = MODULE_LIST.filter(
       (availableModule) => !activeModuleIds.includes(availableModule.id)
     );
+    
+    const addModule = useModulesStore((state) => state.addModule);
 
     if (availableModules.length === 0) {
       return (
@@ -24,7 +27,7 @@ class AddModulePage implements BaseModulePage {
       );
     }
 
-    const addModule = useModulesStore((state) => state.addModule);
+
 
     return (
       <div className="space-y-6">
