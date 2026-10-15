@@ -25,10 +25,10 @@ class HabitTrackerSettings extends BaseModuleSettingsPage {
 }
 
 export class HabitTrackerModule extends BaseModule {
-  constructor(id: ModuleId, title: string) {
+  constructor() {
     super(
-      id,
-      title,
+      "habit-tracker",
+      "Habit Tracker",
       new BaseModuleCard(),
       new HabitTrackerPage(),
       new HabitTrackerSettings(),

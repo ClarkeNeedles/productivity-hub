@@ -97,10 +97,10 @@ class StreakCounterSettings extends BaseModuleSettingsPage {
 }
 
 export class StreakCounterModule extends BaseModule {
-  constructor(id: ModuleId, title: string) {
+  constructor() {
     super(
-      id,
-      title,
+      "streak-counter",
+      "Streak Counter",
       new BaseModuleCard(),
       new StreakCounterPage(),
       new StreakCounterSettings(),

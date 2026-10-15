@@ -10,7 +10,9 @@ export const AVAILABLE_METRICS = ["add-module", "current-streak", "best-streak"]
 export type MetricId = (typeof AVAILABLE_METRICS)[number];
 
 export const AVAILABLE_MODULE_METRICS = {
-  "add-module": [{ id: "add-module", name: "Add Module", renderMicroVariant: AddModuleMetric }],
+  "add-module": [
+    { id: "add-module", name: "Add Module", renderMicroVariant: AddModuleMetric }
+  ],
   "streak-counter": [
     { id: "current-streak", name: "Current Streak", renderMicroVariant: CurrentStreakMetric },
     { id: "best-streak", name: "Best Streak", renderMicroVariant: BestStreakMetric },

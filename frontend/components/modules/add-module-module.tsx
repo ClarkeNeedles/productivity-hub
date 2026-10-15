@@ -6,6 +6,7 @@ import ModuleCardPreview from "@/components/module-shell/module-card-preview";
 import { MODULE_LIST } from "@/configs/add-module-config";
 import { useModulesStore } from "@/providers/modules-store-provider";
 import { useShallow } from 'zustand/react/shallow';
+import { ModuleId } from "@/configs/modules-config";
 
 class AddModulePage implements BaseModulePage {
   public renderContentArea(): ReactNode {
@@ -13,10 +14,12 @@ class AddModulePage implements BaseModulePage {
       useShallow((state) => state.activeModules.map((module) => module.id))
     );
 
-    const availableModules = MODULE_LIST.filter(
-      (availableModule) => !activeModuleIds.includes(availableModule.id)
-    );
-    
+    const availableModules = Object.entries(MODULE_LIST).filter(([id]) => {
+      if (id === "add-module") return false; // Ensure the AddModule is not available to select
+
+      return !activeModuleIds.includes(id as ModuleId);
+    });
+
     const addModule = useModulesStore((state) => state.addModule);
 
     if (availableModules.length === 0) {
@@ -27,8 +30,6 @@ class AddModulePage implements BaseModulePage {
       );
     }
 
-
-
     return (
       <div className="space-y-6">
         <div>
@@ -38,12 +39,12 @@ class AddModulePage implements BaseModulePage {
         </div>
 
         <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-          {availableModules.map((availableModule) => {
+          {availableModules.map(([id, config]) => {
             return (
               <ModuleCardPreview
-                key={availableModule.id}
-                moduleId={availableModule.id}
-                onSelect={() => addModule(availableModule.instantiate())}
+                key={id}
+                moduleId={id as ModuleId}
+                onSelect={() => addModule(config.instantiate())}
               />
             );
           })}

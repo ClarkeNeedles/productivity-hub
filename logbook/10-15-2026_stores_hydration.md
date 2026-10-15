@@ -2,7 +2,7 @@
 title: "stores hydration"
 date: 10-15-2026
 project-phase: in-progress
-version: 0.6.3
+version: 0.6.5
 ---
 
 we need to determine when we will hydrate the stores (fetch from the database)
@@ -55,8 +55,10 @@ finish implementing the rest of the streak counter module end-to-end - IN PROGRE
     implement the actual expanded view of the streak tracker - DONE
     implement the large variant of the metrics - DONE
         could we create components for a small variant and large variant for all metrics?
-    settings page
+    settings page -
         need to implement choosing the module card metrics user wants to show
         what metrics they want to show on the expanded view of the module
-
 need to ensure we use webp files instead of gifs - WAITING
+go over the current structure of our MODULES_LIST
+    may want to use a different method for this. consider a ModuleId and ActiveModuleId types
+    current BREAKING, need to fix ASAP
