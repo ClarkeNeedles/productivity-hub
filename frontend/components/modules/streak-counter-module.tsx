@@ -6,6 +6,7 @@ import { useStreakCounterStore } from "@/providers/modules-store-provider";
 import { CurrentStreakMetric } from "@/components/metrics/current-streak-metric";
 import { BestStreakMetric } from "@/components/metrics/best-streak-metric";
 import { StreakHeatmapMetric } from "@/components/metrics/streak-heatmap-metric";
+import { STREAK_COUNTER_MODULE_ID } from "@/configs/modules-config";
 
 function StreakCounterPage(_props: ModulePageProps) {
   const resetHistory = useStreakCounterStore((state) => state.resetHistory);
@@ -91,7 +92,7 @@ class StreakCounterSettings extends BaseModuleSettingsPage {
 }
 
 export const streakCounterModule = {
-  id: "streak-counter",
+  id: STREAK_COUNTER_MODULE_ID,
   title: "Streak Counter",
   card: {
     showOptions: true,
@@ -100,4 +101,4 @@ export const streakCounterModule = {
   },
   page: StreakCounterPage,
   settings: new StreakCounterSettings(),
-} satisfies ModuleDefinition<"streak-counter">;
+} satisfies ModuleDefinition<typeof STREAK_COUNTER_MODULE_ID>;

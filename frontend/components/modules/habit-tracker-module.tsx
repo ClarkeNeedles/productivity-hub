@@ -2,6 +2,7 @@ import type { ReactNode } from "react";
 import type { ModuleDefinition } from "@/types/module-definition";
 import type { ModulePageProps } from "@/types/module-page-component";
 import { BaseModuleSettingsPage } from "@/types/base-module-settings-page";
+import { HABIT_TRACKER_MODULE_ID } from "@/configs/modules-config";
 
 function HabitTrackerPage({ module }: ModulePageProps) {
   return <p className="mt-3 text-slate-500 dark:text-slate-400">{module.title}</p>;
@@ -21,7 +22,7 @@ class HabitTrackerSettings extends BaseModuleSettingsPage {
 }
 
 export const habitTrackerModule = {
-  id: "habit-tracker",
+  id: HABIT_TRACKER_MODULE_ID,
   title: "Habit Tracker",
   card: {
     showOptions: true,
@@ -30,4 +31,4 @@ export const habitTrackerModule = {
   },
   page: HabitTrackerPage,
   settings: new HabitTrackerSettings(),
-} satisfies ModuleDefinition<"habit-tracker">;
+} satisfies ModuleDefinition<typeof HABIT_TRACKER_MODULE_ID>;

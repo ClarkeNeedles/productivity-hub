@@ -8,6 +8,35 @@ Thank you for your interest in contributing! This document outlines our reposito
 - **Frontend Workspace:** The Next.js frontend is located inside the `frontend/` directory. It is built using the App Router, TypeScript, and Tailwind CSS v4.
 - **Scope Guardrails:** Keep frontend-specific changes strictly inside the `frontend/` path unless a modification directly belongs to shared repository documentation or root-level tooling.
 
+## 📝 Commit Messages
+
+Use the [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/) format for every commit:
+
+```text
+<type>[optional scope]: <description>
+```
+
+Use a short, imperative description and choose the type that best describes the change:
+
+- `feat`: Adds user-facing functionality.
+- `fix`: Corrects a behavior or defect.
+- `docs`: Changes documentation only.
+- `refactor`: Changes code structure without changing behavior.
+- `test`: Adds or updates tests.
+- `chore`: Performs maintenance that does not affect application behavior.
+- `build`: Changes build tooling or dependencies.
+- `ci`: Changes continuous integration or delivery configuration.
+
+Examples:
+
+```text
+feat(modules): add habit tracker module
+fix(streak-counter): preserve reset history order
+docs: clarify local Supabase setup
+```
+
+Mark breaking changes with `!` after the type or scope, or include a `BREAKING CHANGE:` footer. Refer to the [Conventional Commits specification](https://www.conventionalcommits.org/en/v1.0.0/) when a commit does not fit these examples. Release automation is not currently enabled, but these messages will provide the history needed for future changelog and version generation.
+
 ## 🎨 Code Formatting & Style
 
 - **Page-Print Readability:** Format TypeScript and TSX code so it remains clear and comfortable to read when printed sequentially on a page.

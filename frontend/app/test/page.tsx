@@ -2,6 +2,7 @@
 
 import { createClient } from '@/utils/supabase/client'
 import { useState } from 'react'
+import { STREAK_COUNTER_MODULE_ID } from '@/configs/modules-config'
 
 export default function TestSeedPage() {
   const [status, setStatus] = useState<string>('Ready')
@@ -53,7 +54,7 @@ export default function TestSeedPage() {
       .from('user_module_data')
       .upsert({
         user_id: user.id,
-        module_id: 'streak-counter',
+        module_id: STREAK_COUNTER_MODULE_ID,
         state: {
           current_streak: currentActiveStreak, // Will compute to 1 or 2 depending on current execution second
           best_streak: 9,                      // Matches your requirement

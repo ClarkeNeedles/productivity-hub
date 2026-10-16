@@ -1,5 +1,6 @@
 import { createStore } from 'zustand';
 import { createClient } from '@/utils/supabase/client';
+import { STREAK_COUNTER_MODULE_ID } from '@/configs/modules-config';
 
 export interface StreakStateProps {
   userId: string | null;
@@ -40,7 +41,7 @@ export const createStreakStore = (initProps: Partial<StreakStateProps> = {}) => 
         .from('user_module_data')
         .select('state')
         .eq('user_id', userId)
-        .eq('module_id', 'streak-counter')
+        .eq('module_id', STREAK_COUNTER_MODULE_ID)
         .single();
 
       if (error && error.code !== 'PGRST116') {
@@ -88,7 +89,7 @@ export const createStreakStore = (initProps: Partial<StreakStateProps> = {}) => 
         if (newBest > previousBest) {
           await supabase.from('user_module_data').upsert({
             user_id: userId,
-            module_id: 'streak-counter',
+            module_id: STREAK_COUNTER_MODULE_ID,
             state: { ...dbState, best_streak: newBest },
             updated_at: nowIso
           });
@@ -98,7 +99,7 @@ export const createStreakStore = (initProps: Partial<StreakStateProps> = {}) => 
         set({ currentStreak: 0, bestStreak: 0, streakStartedAt: nowIso });
         await supabase.from('user_module_data').upsert({
           user_id: userId,
-          module_id: 'streak-counter',
+          module_id: STREAK_COUNTER_MODULE_ID,
           state: { best_streak: 0, streak_started_at: nowIso, reset_history: [] },
           updated_at: nowIso
         });
@@ -117,7 +118,7 @@ export const createStreakStore = (initProps: Partial<StreakStateProps> = {}) => 
 
       await supabase.from('user_module_data').upsert({
         user_id: userId,
-        module_id: 'streak-counter',
+        module_id: STREAK_COUNTER_MODULE_ID,
         state: { 
           best_streak: bestStreak,
           streak_started_at: nowIso,

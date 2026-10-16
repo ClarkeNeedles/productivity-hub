@@ -49,7 +49,7 @@ export default function ModulesPage() {
           moduleInstance={addModuleModule}
           metrics={[
             {
-              id: "add-module",
+              id: ADD_MODULE_ID,
               name: "Add Module",
               renderMetric: AddModuleMetric,
             },
