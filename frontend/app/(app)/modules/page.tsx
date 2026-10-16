@@ -5,11 +5,9 @@ import ModuleCard from "@/components/module-shell/module-card";
 import { ModuleCardFrame } from "@/components/module-shell/module-card-frame";
 import ModulePage from "@/components/module-shell/module-page";
 import { AddModuleMetric } from "@/components/metrics/add-module-metric";
-import { AddModuleModule } from "@/components/modules/add-module-module";
+import { addModuleModule } from "@/components/modules/add-module-module";
 import { ADD_MODULE_ID } from "@/configs/modules-config";
 import { useModulesStore } from "@/providers/modules-store-provider";
-
-const addModuleUtility = new AddModuleModule();
 
 export default function ModulesPage() {
   const activeModuleIds = useModulesStore((state) => state.activeModuleIds);
@@ -48,12 +46,14 @@ export default function ModulesPage() {
           <ModuleCard key={moduleId} moduleId={moduleId} onOpen={setFocusedModuleId} />
         ))}
         <ModuleCardFrame
-          moduleInstance={addModuleUtility}
-          metrics={[{
-            id: "add-module",
-            name: "Add Module",
-            renderMetric: AddModuleMetric,
-          }]}
+          moduleInstance={addModuleModule}
+          metrics={[
+            {
+              id: "add-module",
+              name: "Add Module",
+              renderMetric: AddModuleMetric,
+            },
+          ]}
           onOpen={() => setFocusedModuleId(ADD_MODULE_ID)}
           showOptions={false}
         />

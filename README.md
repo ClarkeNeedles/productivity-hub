@@ -1,142 +1,220 @@
 ![Status: In Progress](https://img.shields.io/badge/status-in%20progress-blue)
-![Version](https://img.shields.io/badge/version-0.6.8-green)
+![Version: 0.6.8](https://img.shields.io/badge/version-0.6.8-green)
 
-# Amelify (Moduflow / AscendOS)
+# Amelify
 
-## High-Level Overview
-Amelify is a modular, AI-driven personal productivity hub and life-operating system. Instead of forcing users into a rigid, pre-built layout, the application functions as a flexible shell where individuals can select, customize, and arrange individual productivity widgets (modules) to match their personal workflows. It features a central life scoring engine that normalizes telemetry data from all active tracking widgets into a unified health metric ("Life Score"), an AI-powered conversational RAG companion, and an extensible architecture designed for custom community modules.
+Amelify is a modular personal productivity hub. Users can add productivity
+modules to a shared workspace, open a module in a focused view, and use module
+metrics to understand their progress.
 
-## System Architecture
-Amelify is built as a decoupled, multi-tier application separating a client-side Next.js frontend from a robust backend architecture, leveraging Supabase and PostgreSQL for persistent cloud data governance.
+The project is currently an active Next.js frontend prototype backed by Supabase
+authentication and persistence. The planned backend, AI assistant, scoring engine,
+and additional infrastructure are not implemented in this checkout.
 
-### High-Level Blueprint & Data Flow
-- **Frontend Presentation Layer:** Built on Next.js (App Router) with Tailwind CSS, Shadcn UI, and Zustand for state management. Uses primitive string ID tracking (`moduleId`) and decoupled store dictionaries to maintain lightning-fast render cycles.
-- **Backend Infrastructure (NestJS Engine):** An isolated microservice architecture structured into independent modules (`auth`, `workspace`, `real-time`, `queue`, `modules-data`) communicating through typed contracts.
-- **Database Persistence & Security Layer:** Powered by PostgreSQL hosted on Supabase. Utilizes native `JSONB` columns to store flexible, user-defined widget layouts and module configurations within queryable fields. Implements row-level security (RLS) policies and Passport JWT guards for REST and WebSocket connection validation.
-- **Async Background Processing:** Utilizes BullMQ coupled with a local Redis instance container to handle long-running analytical transformations, cron tasks, and scheduled summaries.
+## Contents
 
-## Tech Stack and Dependencies
+- [Current Features](#current-features)
+- [Architecture](#architecture)
+- [Technology](#technology)
+- [Requirements](#requirements)
+- [Setup](#setup)
+- [Environment Variables](#environment-variables)
+- [Development Commands](#development-commands)
+- [Project Structure](#project-structure)
+- [Roadmap](#roadmap)
+- [License](#license)
 
-### Frontend (Client-Side PWA / Web App)
-* **Core Framework:** `Next.js` (App Router)
-* **Styling & UI Systems:** `Tailwind CSS`, `Shadcn UI`
-* **State Management:** `Zustand`
-* **Icons & Assets:** `Lucide React`
+## Current Features
 
-### Backend & AI Gateway
-* **Runtime Environment:** `Node.js`
-* **Application Framework:** `NestJS`
-* **AI Integration:** `OpenAI Node SDK`, `Vercel AI SDK Core` (GPT-4o with Structured Outputs / Function Calling)
-* **Real-Time Communications:** `@nestjs/websockets` (`Socket.io`)
-* **Task Queue Engine:** `BullMQ` + `Redis`
+### Application Shell and Authentication
 
-### Database & Security
-* **Database Engine:** `PostgreSQL` (Hosted via `Supabase`)
-* **Object-Relational Mapper (ORM):** `Prisma ORM` (`@prisma/client`)
-* **Authentication & Guards:** `@nestjs/passport`, `Passport-JWT`, `bcrypt`
+- Next.js App Router route groups for authenticated and unauthenticated views.
+- Supabase authentication through server and browser clients.
+- Authenticated module routes protected by the application layout.
+- Shared application shell and sidebar navigation.
 
-### Infrastructure & DevOps
-* **Frontend Hosting:** `Vercel`
-* **Backend Hosting:** `Railway` / `Render` / `AWS ECS`
-* **Containerization:** `Docker` & `Docker Compose` (for local PostgreSQL and Redis instances)
-* **CI/CD Automation:** `GitHub Actions`
+### Module Workspace
 
-## Features
-* **Modular Dashboard Canvas:** A flexible Bento-box grid layout where users can mount, arrange, and remove individual productivity modules.
-* **Granular Module Ecosystem:** Includes foundational and plug-and-play modules such as the **Streak Counter Module** (with live heatmap histories and 24-hour reset mechanisms), **Habit Optimization Tracker**, **Unified Schedule & Task Engine**, **Intelligent Meal Planner**, **Personal Financial Ledger**, and **Strategic Idea Grader**.
-* **Global Life Score Engine:** Aggregates real-time telemetry datasets from all active sub-modules to calculate a unified performance index (out of 100%) complete with streak counters and trend analytics.
-* **Centralized AI Knowledge Copilot:** A conversational RAG workspace connected directly to the application's global data layer, capable of cross-functional queries, telemetry summaries, and in-app action execution.
-* **Persistent Authentication & State Hydration:** Secure cookie-based session validation routing users seamlessly between authenticated application views and encrypted Supabase data channels.
+- Add, remove, and open modules from the Modules workspace.
+- Stable module registry backed by `ModuleId` values.
+- Add Module is a fixed workspace utility and is not persisted as an active module.
+- Active module membership is persisted in the `user_modules` table.
+- Module state is stored separately from module definitions.
 
-## Prerequisites / System Requirements
-* **Node.js:** Version 20.x or higher
-* **Package Manager:** `npm` (v9+) or `npm ci`
-* **Container Engine:** `Docker` and `Docker Compose` (for running local PostgreSQL and Redis development dependencies)
-* **Database Provider:** A free-tier Supabase project account (for cloud persistence and migration management)
+### Streak Counter
 
-## Step-by-Step Installation / Setup
+- Current streak calculated from the streak start timestamp using 24-hour periods.
+- Best streak tracking.
+- Reset action with reset-history persistence.
+- GitHub-style reset heatmap.
+- Current and best streak metrics for module cards and focused views.
 
-### 1. Clone the Repository
-```bash
-git clone https://github.com/your-username/amelify.git
-cd amelify
+### Available Modules
+
+- **Streak Counter:** tracks reset-based streaks, best streaks, and reset history.
+- **Habit Tracker:** initial module scaffold whose feature set is still in development.
+
+## Architecture
+
+```mermaid
+flowchart TD
+    Routes[Next.js App Router]
+    Provider[ModulesStoreProvider]
+    Stores[Zustand domain stores]
+    Registry[Immutable module registry]
+    Components[Module and metric components]
+    Supabase[Supabase Auth and PostgreSQL]
+
+    Routes --> Provider
+    Provider --> Stores
+    Stores --> Supabase
+    Routes --> Registry
+    Registry --> Components
+    Stores --> Components
 ```
 
-### 2. Initialize Local Infrastructure (Database & Redis)
-Deploy local containers for PostgreSQL and Redis using Docker Compose:
-```bash
-docker compose up -d
+### Module Definitions
+
+Module definitions are immutable blueprints registered in
+`frontend/configs/add-module-config.ts`. The registry contains concrete module
+instances keyed by `ModuleId`:
+
+```ts
+export const MODULE_LIST = {
+  "habit-tracker": new HabitTrackerModule(),
+  "streak-counter": new StreakCounterModule(),
+};
 ```
 
-### 3. Configure Environment Variables
-Create a `.env.local` file inside the `frontend/` directory (and a corresponding `.env` file inside your `backend/` directory) containing your operational credentials:
-```env
-DATABASE_URL="postgresql://dev_operator:secret_db_pass123@localhost:5432/amelify_core"
-DIRECT_DATABASE_URL="postgresql://dev_operator:secret_db_pass123@localhost:5432/amelify_core"
-JWT_SECRET="your_super_secret_jwt_key_here"
-```
+The module store keeps only primitive `activeModuleIds`. Components resolve the
+current immutable definition from `MODULE_LIST` when they render.
 
-### 4. Install Dependencies & Run Database Migrations
-Navigate to your backend directory to install packages and sync Prisma schema profiles:
+The Add Module utility has its own `AddModuleId` and is rendered by the workspace
+without being included in the persisted module registry.
+
+### Zustand Stores
+
+Stores are created with Zustand `createStore()` and scoped through
+`ModulesStoreProvider`:
+
+- `modules-store.ts` manages active module IDs, focus state, database hydration,
+  and module placement changes.
+- `metrics-store.ts` manages selected metrics for active modules.
+- `streak-counter-store.ts` manages streak values, reset timestamps, best streak,
+  and reset history.
+
+The provider receives the authenticated user ID, creates isolated store instances,
+and starts store hydration when the authenticated module layout mounts.
+
+### Supabase Data
+
+The current frontend uses two application tables:
+
+- `user_modules` stores which modules are active for each user.
+- `user_module_data` stores feature-specific JSONB state, including streak data.
+
+Both tables require appropriate authenticated grants and row-level security
+policies that constrain rows to `auth.uid() = user_id`.
+
+## Technology
+
+- Next.js 16 with the App Router
+- React 19
+- TypeScript
+- Tailwind CSS v4
+- Zustand 5
+- Supabase SSR and browser clients
+- Lucide React icons
+- ESLint 9 and Prettier
+
+## Requirements
+
+- Node.js 20 or newer
+- npm
+- A Supabase project with authentication enabled
+- Supabase tables and RLS policies for `user_modules` and `user_module_data`
+
+## Setup
+
+From the repository root, install the frontend dependencies:
+
 ```bash
-cd backend
+cd frontend
 npm install
-npx prisma generate
-npx prisma migrate deploy
 ```
 
-Navigate to the frontend workspace to install client packages:
+Create the local environment file:
+
 ```bash
-cd ../frontend
-npm install
+copy .env.local.example .env.local
 ```
 
-### 5. Launch the Development Server
-Start the Next.js development server locally:
+Fill in the Supabase values, then start the development server:
+
 ```bash
 npm run dev
 ```
-Open [http://localhost:3000](http://localhost:3000) in your browser to view the application.
 
-## Configuration & Environment Variables
-The application relies on the following key environment variables for runtime security and data linkage:
-* `DATABASE_URL`: Transaction/session pool connection string pointing to your Supabase or local PostgreSQL instance.
-* `DIRECT_DATABASE_URL`: Direct TCP connection string used exclusively by Prisma to execute database migrations (`prisma migrate deploy`).
-* `JWT_SECRET`: Secret cryptographic key used to sign and verify JSON Web Tokens across HTTP and WebSocket connections.
+Open [http://localhost:3000](http://localhost:3000).
 
-## Quick Start / Usage Examples
+## Environment Variables
 
-### Instantiating a Module Programmatically (TypeScript Blueprint Example)
-To build a custom module that integrates seamlessly into the Amelify dashboard grid and scoring engine, extend the `BaseModule` abstract class:
+Create `frontend/.env.local` with:
 
-```typescript
-import { BaseModule } from '@/types/dashboard';
-
-export class CustomProductivityModule extends BaseModule {
-  readonly moduleId = 'custom-module';
-  moduleTitle = 'Custom Tracker';
-
-  renderCompactPreview(): JSX.Element {
-    return <CustomCardPreview />;
-  }
-
-  renderFocusView(): JSX.Element {
-    return <CustomSandboxDashboard />;
-  }
-
-  exposeTelemetryData() {
-    return {
-      sourceModuleToken: this.moduleId,
-      timestampUTC: new Date().toISOString(),
-      scoringContributionFactor: 85,
-      localizedMetrics: [
-        { label: 'Completed Actions', numericalValue: 4, unitString: 'items' }
-      ],
-      textSummaryExport: 'User completed 4 custom actions successfully today.'
-    };
-  }
-}
+```env
+NEXT_PUBLIC_SUPABASE_URL=your_supabase_project_url
+NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY=your_supabase_publishable_key
 ```
 
-## License Declaration
-This project is open-source software available under the terms of the MIT License.
+The publishable key is used by the browser client. Row-level security must protect
+database access; do not place a Supabase service-role key in this file or expose it
+to the browser.
+
+## Development Commands
+
+Run these commands from `frontend/`:
+
+```bash
+npm run dev      # Start the development server
+npm run lint     # Run ESLint
+npm run build    # Create a production build and type-check the application
+npm run start    # Start the production server after a build
+```
+
+## Project Structure
+
+```text
+.
+├── frontend/
+│   ├── app/                 # App Router pages, layouts, and route groups
+│   ├── components/          # Layout, module, metric, and shell components
+│   ├── configs/             # Module and metric registries
+│   ├── providers/           # Scoped Zustand store provider
+│   ├── stores/              # Domain stores and database hydration
+│   ├── types/               # Module, page, card, and metric contracts
+│   ├── utils/supabase/      # Server and browser Supabase clients
+│   └── public/              # Images and animation assets
+├── logbook/                 # Development notes and design decisions
+├── scripts/                 # Repository maintenance scripts
+├── AGENTS.md                # Agent and architecture guardrails
+├── CONTRIBUTING.md          # Engineering conventions
+└── LICENSE                  # Project license
+```
+
+## Roadmap
+
+Planned work includes:
+
+- Complete Habit Tracker functionality.
+- Module settings for selecting visible card and focused-view metrics.
+- Additional productivity modules and metrics.
+- Life Score aggregation across module data.
+- AI-assisted productivity features.
+- Expanded backend and deployment infrastructure.
+
+These items are design and development plans, not currently available services in
+this repository.
+
+## License
+
+This project is licensed under the MIT License. See [LICENSE](LICENSE) for details.

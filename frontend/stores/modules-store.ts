@@ -10,9 +10,9 @@ export interface ModulesStateProps {
 }
 
 export interface ModulesActions {
-  fetchModules: () => Promise<void>;
-  addModule: (moduleId: ModuleId) => Promise<void>;
-  removeModule: (moduleId: ModuleId) => Promise<void>;
+  fetchActiveModuleIds: () => Promise<void>;
+  addModuleId: (moduleId: ModuleId) => Promise<void>;
+  removeModuleId: (moduleId: ModuleId) => Promise<void>;
   setFocusedModuleId: (moduleId: FocusedModuleId | null) => void;
 }
 
@@ -29,7 +29,7 @@ export const createModulesStore = (initProps: Partial<ModulesStateProps> = {}) =
     error: null,
     ...initProps, // Allows passing initial hydration data from Server Components
 
-    fetchModules: async () => {
+    fetchActiveModuleIds: async () => {
       const { userId } = get();
       if (!userId) return;
 
@@ -49,15 +49,15 @@ export const createModulesStore = (initProps: Partial<ModulesStateProps> = {}) =
         const savedIds: string[] = data.map((row: { module_id: string }) => row.module_id);
 
         // Ignore unknown IDs so stale or invalid database rows cannot index the catalog
-        const activeModuleIds = savedIds.filter(
-          (id): id is ModuleId => MODULE_IDS.some((moduleId) => moduleId === id),
+        const activeModuleIds = savedIds.filter((id): id is ModuleId =>
+          MODULE_IDS.some((moduleId) => moduleId === id)
         );
 
         set({ activeModuleIds });
       }
     },
 
-    addModule: async (moduleId) => {
+    addModuleId: async (moduleId) => {
       const { userId, activeModuleIds } = get();
       if (!userId) return;
 
@@ -81,7 +81,7 @@ export const createModulesStore = (initProps: Partial<ModulesStateProps> = {}) =
       }
     },
 
-    removeModule: async (moduleId) => {
+    removeModuleId: async (moduleId) => {
       const { userId, activeModuleIds } = get();
       if (!userId) return;
 

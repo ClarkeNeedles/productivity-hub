@@ -3,12 +3,12 @@
 import { Ellipsis, GripVertical, Settings2, Trash2 } from "lucide-react";
 import { useState } from "react";
 import { MetricSlots } from "@/components/module-shell/metric-slots";
-import type { BaseModule } from "@/types/base-module";
-import type { BaseModuleMetric } from "@/types/base-module-metric";
+import type { ModuleDefinition } from "@/types/module-definition";
+import type { ModuleMetricDefinition } from "@/types/module-metric-definition";
 
 type ModuleCardFrameProps = {
-  moduleInstance: Pick<BaseModule<string>, "id" | "title" | "card">;
-  metrics: readonly BaseModuleMetric[];
+  moduleInstance: Pick<ModuleDefinition<string>, "id" | "title" | "card">;
+  metrics: readonly ModuleMetricDefinition[];
   onOpen: () => void;
   onRemove?: () => void;
   showOptions?: boolean;

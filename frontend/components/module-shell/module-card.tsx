@@ -20,13 +20,13 @@ export default function ModuleCard({ moduleId, onOpen }: ModuleCardProps) {
     useShallow((state) => state.activeModuleMetricIds[moduleId] || [])
   );
 
-  const removeModule = useModulesStore((state) => state.removeModule);
+  const removeModuleId = useModulesStore((state) => state.removeModuleId);
 
   const activeMetrics = useMemo(() => {
-    return (AVAILABLE_MODULE_METRICS[moduleId] || [])
-      .filter((metric) => activeMetricIds.includes(metric.id));
+    return (AVAILABLE_MODULE_METRICS[moduleId] || []).filter((metric) =>
+      activeMetricIds.includes(metric.id)
+    );
   }, [activeMetricIds, moduleId]);
-
 
   if (!moduleInstance) return null;
 
@@ -35,7 +35,7 @@ export default function ModuleCard({ moduleId, onOpen }: ModuleCardProps) {
       moduleInstance={moduleInstance}
       metrics={activeMetrics}
       onOpen={() => onOpen(moduleId)}
-      onRemove={() => removeModule(moduleId)}
+      onRemove={() => removeModuleId(moduleId)}
     />
   );
 }

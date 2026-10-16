@@ -1,7 +1,7 @@
-import type { BaseModuleMetric } from "@/types/base-module-metric";
+import type { ModuleMetricDefinition } from "@/types/module-metric-definition";
 
 type MetricSlotsProps = {
-  metrics: readonly BaseModuleMetric[];
+  metrics: readonly ModuleMetricDefinition[];
   maxMetrics: number;
 };
 
@@ -12,9 +12,7 @@ export function MetricSlots({ metrics, maxMetrics }: MetricSlotsProps) {
 
   return (
     <div
-      className={`grid w-full gap-3 ${
-        visibleMetrics.length === 1 ? "grid-cols-1" : "grid-cols-2"
-      }`}
+      className={`grid w-full gap-3 ${visibleMetrics.length === 1 ? "grid-cols-1" : "grid-cols-2"}`}
     >
       {visibleMetrics.map((metric) => (
         <div key={metric.id} className="flex items-center justify-center">

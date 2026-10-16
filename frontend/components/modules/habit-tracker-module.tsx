@@ -1,14 +1,10 @@
-import { ReactNode } from "react";
-import { BaseModule } from "@/types/base-module";
-import { BaseModuleCard } from "@/types/base-module-card";
-import type { BaseModulePage, ModulePageContext } from "@/types/base-module-page";
+import type { ReactNode } from "react";
+import type { ModuleDefinition } from "@/types/module-definition";
+import type { ModulePageProps } from "@/types/module-page-component";
 import { BaseModuleSettingsPage } from "@/types/base-module-settings-page";
-import { ModuleId } from "@/configs/modules-config";
 
-class HabitTrackerPage implements BaseModulePage {
-  public renderContentArea(module: ModulePageContext): ReactNode {
-    return <p className="mt-3 text-slate-500 dark:text-slate-400">{module.title}</p>;
-  }
+function HabitTrackerPage({ module }: ModulePageProps) {
+  return <p className="mt-3 text-slate-500 dark:text-slate-400">{module.title}</p>;
 }
 
 class HabitTrackerSettings extends BaseModuleSettingsPage {
@@ -24,14 +20,14 @@ class HabitTrackerSettings extends BaseModuleSettingsPage {
   }
 }
 
-export class HabitTrackerModule extends BaseModule {
-  constructor() {
-    super(
-      "habit-tracker",
-      "Habit Tracker",
-      new BaseModuleCard(),
-      new HabitTrackerPage(),
-      new HabitTrackerSettings()
-    );
-  }
-}
+export const habitTrackerModule = {
+  id: "habit-tracker",
+  title: "Habit Tracker",
+  card: {
+    showOptions: true,
+    showTitle: true,
+    maxMetrics: 2,
+  },
+  page: HabitTrackerPage,
+  settings: new HabitTrackerSettings(),
+} satisfies ModuleDefinition<"habit-tracker">;

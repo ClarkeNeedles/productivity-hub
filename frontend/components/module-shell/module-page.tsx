@@ -1,19 +1,15 @@
 "use client";
 
-import { AddModuleModule } from "@/components/modules/add-module-module";
+import { addModuleModule } from "@/components/modules/add-module-module";
 import { MODULE_LIST } from "@/configs/add-module-config";
 import type { FocusedModuleId } from "@/configs/modules-config";
-
-// Permanent static memory singleton to handle the full catalog blueprint interface
-const addModuleUtility = new AddModuleModule();
 
 type ModulePageProps = {
   moduleId: FocusedModuleId;
 };
 
 export default function ModulePage({ moduleId }: ModulePageProps) {
-  // Fetch freshest module instance from store, or fall back to utility singleton
-  const module = moduleId === "add-module" ? addModuleUtility : MODULE_LIST[moduleId];
+  const module = moduleId === "add-module" ? addModuleModule : MODULE_LIST[moduleId];
 
   // Guard safety fallback check if the module was unmounted while open
   if (!module) return null;
@@ -28,7 +24,9 @@ export default function ModulePage({ moduleId }: ModulePageProps) {
         </div>
       </header>
 
-      <main className="min-h-[400px] w-full">{module.page.renderContentArea(module)}</main>
+      <main className="min-h-[400px] w-full">
+        <module.page module={module} />
+      </main>
     </div>
   );
 }

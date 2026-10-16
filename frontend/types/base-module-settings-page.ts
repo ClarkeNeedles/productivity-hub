@@ -1,7 +1,6 @@
 import type { ReactNode } from "react";
-import { BaseModulePage } from "@/types/base-module-page";
 
-export abstract class BaseModuleSettingsPage implements BaseModulePage {
+export abstract class BaseModuleSettingsPage {
   constructor(private _lifeScoreFactor: number = 1.0) {}
 
   public get lifeScoreFactor(): number {
@@ -11,11 +10,6 @@ export abstract class BaseModuleSettingsPage implements BaseModulePage {
   public set lifeScoreFactor(value: number) {
     this._lifeScoreFactor = this.validateFactor(value);
     this.onConfigurationChanged(); // Central hook for triggers/side-effects
-  }
-
-  // Fulfills the standard Content Area by placing the required configuration views inside it
-  public renderContentArea(): ReactNode {
-    return this.renderModuleCardConfigSection() || this.renderModulePageConfigSection();
   }
 
   // Purpose-built customization hooks
