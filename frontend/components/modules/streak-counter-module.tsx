@@ -3,9 +3,9 @@ import { BaseModule } from "@/types/base-module";
 import { BaseModuleCard } from "@/types/base-module-card";
 import type { BaseModulePage, ModulePageContext } from "@/types/base-module-page";
 import { BaseModuleSettingsPage } from "@/types/base-module-settings-page";
-import { ModuleId } from "@/configs/modules-config";
 import { useStreakCounterStore } from "@/providers/modules-store-provider";
 import { CurrentStreakMetric } from "@/components/metrics/current-streak-metric";
+import { BestStreakMetric } from "@/components/metrics/best-streak-metric";
 import { StreakHeatmapMetric } from "@/components/metrics/streak-heatmap-metric";
 
 class StreakCounterPage implements BaseModulePage {
@@ -49,15 +49,7 @@ class StreakCounterPage implements BaseModulePage {
 
           <div className="flex flex-col gap-4">
             <div className="rounded-xl border border-slate-100 bg-white p-5 shadow-sm dark:border-slate-800/60 dark:bg-slate-900/40">
-              <span className="text-[0.68rem] font-bold tracking-[0.15em] text-slate-400 uppercase dark:text-slate-500">
-                Personal Record
-              </span>
-              <div className="mt-1 flex items-baseline gap-2">
-                <span className="text-3xl font-black text-slate-800 dark:text-white">
-                  {bestStreak}
-                </span>
-                <span className="text-xs font-medium text-slate-500 dark:text-slate-400">days</span>
-              </div>
+              <BestStreakMetric />
             </div>
 
             <div className="rounded-xl border border-slate-100 bg-white p-5 shadow-sm dark:border-slate-800/60 dark:bg-slate-900/40">

@@ -2,7 +2,7 @@
 title: "stores hydration"
 date: 10-15-2026
 project-phase: in-progress
-version: 0.6.7
+version: 0.6.8
 ---
 
 we need to determine when we will hydrate the stores (fetch from the database)
@@ -81,7 +81,9 @@ export const MODULE_LIST = {
 } satisfies Record<ModuleId, BaseModule>;
 ```
 updated to v0.6.7
-we can get rid of the renderMicro vs renderLarge variant functions, just use a single renderMetric function
+we can get rid of the renderMicro vs renderLarge variant functions, just use a single renderMetric function - DONE
+need to ensure we use webp files instead of gifs - DONE
+updated to v0.6.8
 
 TODO
 finish implementing the rest of the streak counter module end-to-end - IN PROGRESS
@@ -90,7 +92,9 @@ finish implementing the rest of the streak counter module end-to-end - IN PROGRE
     implement the actual expanded view of the streak tracker - DONE
     implement the large variant of the metrics - DONE
         could we create components for a small variant and large variant for all metrics?
-    settings page -
+    settings page - WAITING
         need to implement choosing the module card metrics user wants to show
         what metrics they want to show on the expanded view of the module
-need to ensure we use webp files instead of gifs - WAITING
+need to revisit the types structure - WAITING
+    many classes can just turn into a type structure
+    consider transitioning the BaseModulePage class to just a function
