@@ -13,5 +13,5 @@ export const MODULE_IDS = [
 // Evaluates to "habit-tracker" | "streak-counter" | etc.`
 export type ModuleId = (typeof MODULE_IDS)[number];
 
-export type AddModuleId = typeof ADD_MODULE_ID;
-export type FocusedModuleId = ModuleId | AddModuleId;
+export const FOCUSED_MODULE_IDS = [...MODULE_IDS, ADD_MODULE_ID] as const;
+export type FocusedModuleId = (typeof FOCUSED_MODULE_IDS)[number];

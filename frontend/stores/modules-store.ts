@@ -1,11 +1,10 @@
 import { createStore } from "zustand";
-import { MODULE_IDS, type ModuleId, type FocusedModuleId } from "@/configs/modules-config";
+import { MODULE_IDS, type ModuleId } from "@/configs/modules-config";
 import { createClient } from "@/utils/supabase/client";
 
 export interface ModulesStateProps {
   userId: string | null;
   activeModuleIds: ModuleId[];
-  focusedModuleId: FocusedModuleId | null;
   error: string | null;
 }
 
@@ -13,7 +12,6 @@ export interface ModulesActions {
   fetchActiveModuleIds: () => Promise<void>;
   addModuleId: (moduleId: ModuleId) => Promise<void>;
   removeModuleId: (moduleId: ModuleId) => Promise<void>;
-  setFocusedModuleId: (moduleId: FocusedModuleId | null) => void;
 }
 
 export type ModulesStore = ModulesStateProps & ModulesActions;
@@ -25,7 +23,6 @@ export const createModulesStore = (initProps: Partial<ModulesStateProps> = {}) =
   return createStore<ModulesStore>((set, get) => ({
     userId: null,
     activeModuleIds: [],
-    focusedModuleId: null,
     error: null,
     ...initProps, // Allows passing initial hydration data from Server Components
 
@@ -66,7 +63,6 @@ export const createModulesStore = (initProps: Partial<ModulesStateProps> = {}) =
           ...activeModuleIds.filter((activeModuleId) => activeModuleId !== moduleId),
           moduleId,
         ],
-        focusedModuleId: null,
       });
 
       // Insert the relational row securely over the wire
@@ -103,6 +99,5 @@ export const createModulesStore = (initProps: Partial<ModulesStateProps> = {}) =
       }
     },
 
-    setFocusedModuleId: (moduleId) => set({ focusedModuleId: moduleId }),
   }));
 };

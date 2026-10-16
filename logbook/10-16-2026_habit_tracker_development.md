@@ -16,7 +16,19 @@ bump to v0.6.9
 start using conventional commits
 after the first release, we can implement a workflow which auto bumps the project version
 start working on the habit tracking module - IN PROGRESS
-    what sort of data should the database contain?
+    I think that we should create a list component that can eventually be reused for the todo list
+        there was an original plan of linking the habits in the todo list, but we arent doing this right now
+    what components do we want to have on the page?
+        Today's Habits List (Top of Page)
+            only displays the subset of habit tasks scheduled for the current day
+            you may have daily habits and habits once a week
+        Streaks Dashboard Section
+            Displays current best streak and its associated habit name.
+            Displays longest lifetime streak and its historical habit name.
+            Displays the current overall perfect day streak.
+        Visual Analytics & Data Charts
+            A GitHub-style density grid displaying the total volume of daily completed to-dos
+
 
 TODO
 start working on the life score module - WAITING
