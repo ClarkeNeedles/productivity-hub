@@ -10,8 +10,8 @@ export type MetricId = (typeof AVAILABLE_METRICS)[number];
 
 export const AVAILABLE_MODULE_METRICS = {
   "streak-counter": [
-    { id: "current-streak", name: "Current Streak", renderMicroVariant: CurrentStreakMetric },
-    { id: "best-streak", name: "Best Streak", renderMicroVariant: BestStreakMetric },
+    { id: "current-streak", name: "Current Streak", renderMetric: CurrentStreakMetric },
+    { id: "best-streak", name: "Best Streak", renderMetric: BestStreakMetric },
   ],
   "habit-tracker": [],
 } satisfies Record<ModuleId, readonly BaseModuleMetric<MetricId>[]>;

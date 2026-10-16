@@ -52,7 +52,7 @@ export default function ModulesPage() {
           metrics={[{
             id: "add-module",
             name: "Add Module",
-            renderMicroVariant: AddModuleMetric,
+            renderMetric: AddModuleMetric,
           }]}
           onOpen={() => setFocusedModuleId(ADD_MODULE_ID)}
           showOptions={false}

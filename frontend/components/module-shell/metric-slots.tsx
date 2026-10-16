@@ -17,8 +17,8 @@ export function MetricSlots({ metrics, maxMetrics }: MetricSlotsProps) {
       }`}
     >
       {visibleMetrics.map((metric) => (
-        <div key={metric.id}>
-          <metric.renderMicroVariant />
+        <div key={metric.id} className="flex items-center justify-center">
+          <metric.renderMetric />
         </div>
       ))}
     </div>
