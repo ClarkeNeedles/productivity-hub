@@ -62,7 +62,7 @@ def generate_readme():
         f"no data provided in the logs, OMIT that section entirely. Do not generate empty headers, "
         f"and do not write generic filler or placeholder text.\n\n"
         f"REQUESTED README SECTIONS (Include ONLY if sufficient data exists):\n"
-        f"1. Badges: Include status pills, project size indicators, or license badges if declared in metadata.\n"
+        f"1. Badges: Look into the most recent logbook entry to find what status the project is in as well as the project version. Create appropriate badges for each.\n"
         f"2. Project Title\n"
         f"3. High-Level Overview\n"
         f"4. Table of Contents: Dynamically map only the sections that survive the data filter.\n"
@@ -87,7 +87,7 @@ def generate_readme():
     # Call the current Gemini Flash model
     try:
         response = client.models.generate_content(
-            model='gemini-3.8-flash',
+            model='gemini-3.5-flash-lite',
             contents=prompt,
         )
         

@@ -54,14 +54,11 @@ class StreakCounterPage implements BaseModulePage {
 
             <div className="rounded-xl border border-slate-100 bg-white p-5 shadow-sm dark:border-slate-800/60 dark:bg-slate-900/40">
               <span className="text-[0.68rem] font-bold tracking-[0.15em] text-slate-400 uppercase dark:text-slate-500">
-                Reset Volatility
+                Number of resets
               </span>
               <div className="mt-1 flex items-baseline gap-2">
                 <span className="text-3xl font-black text-slate-800 dark:text-white">
                   {resetHistory.length}
-                </span>
-                <span className="text-xs font-medium text-slate-500 dark:text-slate-400">
-                  events
                 </span>
               </div>
             </div>

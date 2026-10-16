@@ -1,218 +1,142 @@
-![Project Status](https://img.shields.io/badge/status-in--progress-yellowgreen)
-![Version](https://img.shields.io/badge/version-0.5.5-blue)
+![Status: In Progress](https://img.shields.io/badge/status-in%20progress-blue)
+![Version](https://img.shields.io/badge/version-0.6.8-green)
 
-# Amelify
+# Amelify (Moduflow / AscendOS)
 
-Amelify is a modular productivity hub in active development. The application is
-designed around a customizable workspace where users can add productivity modules,
-open them in a focused view, and eventually use their metrics in a shared scoring
-system.
+## High-Level Overview
+Amelify is a modular, AI-driven personal productivity hub and life-operating system. Instead of forcing users into a rigid, pre-built layout, the application functions as a flexible shell where individuals can select, customize, and arrange individual productivity widgets (modules) to match their personal workflows. It features a central life scoring engine that normalizes telemetry data from all active tracking widgets into a unified health metric ("Life Score"), an AI-powered conversational RAG companion, and an extensible architecture designed for custom community modules.
 
-The current repository contains the Next.js frontend and the first iteration of the
-module architecture. Backend, persistence, authentication, and AI features are
-planned but are not implemented in this checkout.
+## System Architecture
+Amelify is built as a decoupled, multi-tier application separating a client-side Next.js frontend from a robust backend architecture, leveraging Supabase and PostgreSQL for persistent cloud data governance.
 
-## Contents
+### High-Level Blueprint & Data Flow
+- **Frontend Presentation Layer:** Built on Next.js (App Router) with Tailwind CSS, Shadcn UI, and Zustand for state management. Uses primitive string ID tracking (`moduleId`) and decoupled store dictionaries to maintain lightning-fast render cycles.
+- **Backend Infrastructure (NestJS Engine):** An isolated microservice architecture structured into independent modules (`auth`, `workspace`, `real-time`, `queue`, `modules-data`) communicating through typed contracts.
+- **Database Persistence & Security Layer:** Powered by PostgreSQL hosted on Supabase. Utilizes native `JSONB` columns to store flexible, user-defined widget layouts and module configurations within queryable fields. Implements row-level security (RLS) policies and Passport JWT guards for REST and WebSocket connection validation.
+- **Async Background Processing:** Utilizes BullMQ coupled with a local Redis instance container to handle long-running analytical transformations, cron tasks, and scheduled summaries.
 
-- [Current Status](#current-status)
-- [Architecture](#architecture)
-- [Implemented Features](#implemented-features)
-- [Technology](#technology)
-- [Project Structure](#project-structure)
-- [Local Setup](#local-setup)
-- [README Generator](#readme-generator)
-- [Roadmap](#roadmap)
-- [License](#license)
+## Tech Stack and Dependencies
 
-## Current Status
+### Frontend (Client-Side PWA / Web App)
+* **Core Framework:** `Next.js` (App Router)
+* **Styling & UI Systems:** `Tailwind CSS`, `Shadcn UI`
+* **State Management:** `Zustand`
+* **Icons & Assets:** `Lucide React`
 
-The frontend currently provides:
+### Backend & AI Gateway
+* **Runtime Environment:** `Node.js`
+* **Application Framework:** `NestJS`
+* **AI Integration:** `OpenAI Node SDK`, `Vercel AI SDK Core` (GPT-4o with Structured Outputs / Function Calling)
+* **Real-Time Communications:** `@nestjs/websockets` (`Socket.io`)
+* **Task Queue Engine:** `BullMQ` + `Redis`
 
-- A Next.js App Router application with authenticated and application route groups.
-- A shared application shell with sidebar navigation.
-- A Modules workspace containing module cards and focused module pages.
-- An Add Module module that acts as the module catalog entry point.
-- A first Habit Tracker module scaffold.
-- Shared module card previews and metric slots.
-- Zustand stores for module layout state and add-module state.
+### Database & Security
+* **Database Engine:** `PostgreSQL` (Hosted via `Supabase`)
+* **Object-Relational Mapper (ORM):** `Prisma ORM` (`@prisma/client`)
+* **Authentication & Guards:** `@nestjs/passport`, `Passport-JWT`, `bcrypt`
 
-The project is still a UI and architecture prototype. Module data is held in memory,
-and the current stores are not connected to a backend or database.
+### Infrastructure & DevOps
+* **Frontend Hosting:** `Vercel`
+* **Backend Hosting:** `Railway` / `Render` / `AWS ECS`
+* **Containerization:** `Docker` & `Docker Compose` (for local PostgreSQL and Redis instances)
+* **CI/CD Automation:** `GitHub Actions`
 
-## Architecture
+## Features
+* **Modular Dashboard Canvas:** A flexible Bento-box grid layout where users can mount, arrange, and remove individual productivity modules.
+* **Granular Module Ecosystem:** Includes foundational and plug-and-play modules such as the **Streak Counter Module** (with live heatmap histories and 24-hour reset mechanisms), **Habit Optimization Tracker**, **Unified Schedule & Task Engine**, **Intelligent Meal Planner**, **Personal Financial Ledger**, and **Strategic Idea Grader**.
+* **Global Life Score Engine:** Aggregates real-time telemetry datasets from all active sub-modules to calculate a unified performance index (out of 100%) complete with streak counters and trend analytics.
+* **Centralized AI Knowledge Copilot:** A conversational RAG workspace connected directly to the application's global data layer, capable of cross-functional queries, telemetry summaries, and in-app action execution.
+* **Persistent Authentication & State Hydration:** Secure cookie-based session validation routing users seamlessly between authenticated application views and encrypted Supabase data channels.
 
-The frontend separates immutable module definitions from runtime state:
+## Prerequisites / System Requirements
+* **Node.js:** Version 20.x or higher
+* **Package Manager:** `npm` (v9+) or `npm ci`
+* **Container Engine:** `Docker` and `Docker Compose` (for running local PostgreSQL and Redis development dependencies)
+* **Database Provider:** A free-tier Supabase project account (for cloud persistence and migration management)
 
-```mermaid
-flowchart TD
-    Config[Module configuration and metric definitions]
-    Classes[Immutable module blueprints]
-    Stores[Zustand runtime stores]
-    Components[React components]
-    Config --> Classes
-    Config --> Stores
-    Stores --> Components
-    Classes --> Components
-```
+## Step-by-Step Installation / Setup
 
-### Module Blueprints
-
-Each module extends `BaseModule` and provides:
-
-- Stable identity and title.
-- Card configuration such as title visibility, options visibility, and metric slots.
-- A page rendering contract.
-- Optional settings behavior.
-
-Card configuration is immutable. Runtime values such as active metric IDs, live
-counts, filters, and user preferences belong in Zustand stores.
-
-### Module Rendering
-
-The shared module shell is responsible for consistent presentation:
-
-- `ModuleCard` resolves an active module by ID.
-- `ModuleCardFrame` renders the common card layout and controls.
-- `ModuleCardPreview` reuses the same frame for catalog previews.
-- `MetricSlots` renders up to two configured micro-variant metrics.
-- `ModulePage` renders the focused module view.
-
-## Implemented Features
-
-### Module Workspace
-
-The Modules route displays active modules in a responsive grid. Selecting a card
-opens its focused page. The Add Module card remains fixed at the end of the grid.
-
-### Add Module Flow
-
-The Add Module page filters out modules already present in the workspace and shows
-available modules using the same card frame as the main workspace. Each preview can
-be selected to add that module to the in-memory module store.
-
-### Metric Slots
-
-Metric definitions provide an ID, display name, and micro variant renderer. The
-shared slot component supports one or two metrics and enforces the card's maximum
-metric count. The Add Module card is the first metric implementation.
-
-### Habit Tracker
-
-The Habit Tracker currently provides a module, page, settings contract, and catalog
-entry. Habit data and its planned metrics are still under development.
-
-## Technology
-
-### Frontend
-
-- Next.js with the App Router
-- TypeScript
-- React
-- Tailwind CSS v4
-- Zustand
-- Lucide React icons
-
-### Planned Infrastructure
-
-The project logs describe future plans for:
-
-- A NestJS backend.
-- PostgreSQL and Prisma persistence.
-- Supabase hosting.
-- JWT authentication.
-- Redis and BullMQ background jobs.
-- Socket.IO real-time updates.
-- AI-assisted features and retrieval-augmented generation.
-
-These services are architectural plans, not currently available applications in this
-repository.
-
-## Project Structure
-
-```text
-.
-├── frontend/
-│   ├── app/                 # Next.js routes and layouts
-│   ├── components/         # Shared layout and module-shell components
-│   ├── config/              # Module catalog and static definitions
-│   ├── modules/             # Concrete module implementations
-│   ├── store/               # Zustand runtime state
-│   └── types/               # Shared module contracts
-├── logbook/                 # Project planning and development notes
-├── scripts/                 # Repository maintenance scripts
-├── CONTRIBUTING.md          # Engineering and contribution conventions
-└── requirements.txt         # Python dependencies for the README generator
-```
-
-## Local Setup
-
-### Requirements
-
-- Node.js 20 or newer
-- npm
-
-### Frontend
-
-From the repository root:
-
+### 1. Clone the Repository
 ```bash
-cd frontend
+git clone https://github.com/your-username/amelify.git
+cd amelify
+```
+
+### 2. Initialize Local Infrastructure (Database & Redis)
+Deploy local containers for PostgreSQL and Redis using Docker Compose:
+```bash
+docker compose up -d
+```
+
+### 3. Configure Environment Variables
+Create a `.env.local` file inside the `frontend/` directory (and a corresponding `.env` file inside your `backend/` directory) containing your operational credentials:
+```env
+DATABASE_URL="postgresql://dev_operator:secret_db_pass123@localhost:5432/amelify_core"
+DIRECT_DATABASE_URL="postgresql://dev_operator:secret_db_pass123@localhost:5432/amelify_core"
+JWT_SECRET="your_super_secret_jwt_key_here"
+```
+
+### 4. Install Dependencies & Run Database Migrations
+Navigate to your backend directory to install packages and sync Prisma schema profiles:
+```bash
+cd backend
 npm install
+npx prisma generate
+npx prisma migrate deploy
+```
+
+Navigate to the frontend workspace to install client packages:
+```bash
+cd ../frontend
+npm install
+```
+
+### 5. Launch the Development Server
+Start the Next.js development server locally:
+```bash
 npm run dev
 ```
+Open [http://localhost:3000](http://localhost:3000) in your browser to view the application.
 
-Open [http://localhost:3000](http://localhost:3000) in a browser.
+## Configuration & Environment Variables
+The application relies on the following key environment variables for runtime security and data linkage:
+* `DATABASE_URL`: Transaction/session pool connection string pointing to your Supabase or local PostgreSQL instance.
+* `DIRECT_DATABASE_URL`: Direct TCP connection string used exclusively by Prisma to execute database migrations (`prisma migrate deploy`).
+* `JWT_SECRET`: Secret cryptographic key used to sign and verify JSON Web Tokens across HTTP and WebSocket connections.
 
-Available frontend commands:
+## Quick Start / Usage Examples
 
-```bash
-npm run lint
-npm run build
-npm run start
+### Instantiating a Module Programmatically (TypeScript Blueprint Example)
+To build a custom module that integrates seamlessly into the Amelify dashboard grid and scoring engine, extend the `BaseModule` abstract class:
+
+```typescript
+import { BaseModule } from '@/types/dashboard';
+
+export class CustomProductivityModule extends BaseModule {
+  readonly moduleId = 'custom-module';
+  moduleTitle = 'Custom Tracker';
+
+  renderCompactPreview(): JSX.Element {
+    return <CustomCardPreview />;
+  }
+
+  renderFocusView(): JSX.Element {
+    return <CustomSandboxDashboard />;
+  }
+
+  exposeTelemetryData() {
+    return {
+      sourceModuleToken: this.moduleId,
+      timestampUTC: new Date().toISOString(),
+      scoringContributionFactor: 85,
+      localizedMetrics: [
+        { label: 'Completed Actions', numericalValue: 4, unitString: 'items' }
+      ],
+      textSummaryExport: 'User completed 4 custom actions successfully today.'
+    };
+  }
+}
 ```
 
-The production build currently depends on the route files under `frontend/app/`
-being valid Next.js page modules.
-
-## README Generator
-
-The repository includes [`scripts/generate_readme.py`](scripts/generate_readme.py),
-which combines the Markdown files in `logbook/` and asks Gemini to generate the root
-README.
-
-Install the Python dependencies from the repository root:
-
-```bash
-python -m pip install -r requirements.txt
-```
-
-Create a root `.env` file containing:
-
-```env
-GEMINI_API_KEY=your-api-key
-```
-
-Run the generator with the repository virtual environment when available:
-
-```powershell
-.\.venv\Scripts\python.exe scripts/generate_readme.py
-```
-
-The script writes directly to the root `README.md`. Generated output should be
-reviewed before committing because the logbook contains both implemented work and
-future plans.
-
-## Roadmap
-
-Planned work includes:
-
-1. Complete the Habit Tracker's runtime data and metrics.
-2. Add module-specific Zustand stores for live data and active metric selections.
-3. Connect module settings to the card options menu.
-4. Add persistent workspace and module data through a backend API.
-5. Implement the shared scoring and Life Score engine.
-6. Add authentication, AI assistance, and background processing.
-
-## License
-
-See [LICENSE](LICENSE) for the project license.
+## License Declaration
+This project is open-source software available under the terms of the MIT License.

@@ -84,6 +84,11 @@ updated to v0.6.7
 we can get rid of the renderMicro vs renderLarge variant functions, just use a single renderMetric function - DONE
 need to ensure we use webp files instead of gifs - DONE
 updated to v0.6.8
+big realization
+    I thought that we would maybe have to implement the settings page soon, but not exactly
+    we are currently just developing for personal usage, so we can postpone this
+    the settings page was only for user customization of module card and module page
+        if we are tailoring it to ourselves, we do not have to worry about this for now
 
 TODO
 finish implementing the rest of the streak counter module end-to-end - IN PROGRESS
@@ -98,3 +103,8 @@ finish implementing the rest of the streak counter module end-to-end - IN PROGRE
 need to revisit the types structure - WAITING
     many classes can just turn into a type structure
     consider transitioning the BaseModulePage class to just a function
+start working on the habit tracking module - WAITING
+    the design ideas are in a logbook entry
+start working on the life score module - WAITING
+    design ideas are in a logbook entry
+    this is essentially our dashboard module
