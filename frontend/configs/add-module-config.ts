@@ -3,15 +3,7 @@ import { StreakCounterModule } from "@/components/modules/streak-counter-module"
 import type { BaseModule } from "@/types/base-module";
 import type { ModuleId } from "@/configs/modules-config";
 
-export interface ModuleListProps {
-  instantiate: () => BaseModule; // Factory function, instantiates the concrete class for the module
-}
-
-export const MODULE_LIST: Record<ModuleId, ModuleListProps> = {
-  "habit-tracker": {
-    instantiate: () => new HabitTrackerModule(),
-  },
-  "streak-counter": {
-    instantiate: () => new StreakCounterModule(),
-  },
-};
+export const MODULE_LIST = {
+  "habit-tracker": new HabitTrackerModule(),
+  "streak-counter": new StreakCounterModule(),
+} satisfies Record<ModuleId, BaseModule>;

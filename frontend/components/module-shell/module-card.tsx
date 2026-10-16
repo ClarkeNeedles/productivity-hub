@@ -5,7 +5,8 @@ import { useShallow } from "zustand/react/shallow";
 import { ModuleCardFrame } from "@/components/module-shell/module-card-frame";
 import { useModulesStore } from "@/providers/modules-store-provider";
 import { useMetricsStore } from "@/providers/modules-store-provider";
-import { ModuleId } from "@/configs/modules-config";
+import type { ModuleId } from "@/configs/modules-config";
+import { MODULE_LIST } from "@/configs/add-module-config";
 import { AVAILABLE_MODULE_METRICS } from "@/configs/metrics-config";
 
 type ModuleCardProps = {
@@ -14,9 +15,7 @@ type ModuleCardProps = {
 };
 
 export default function ModuleCard({ moduleId, onOpen }: ModuleCardProps) {
-  const moduleInstance = useModulesStore((state) =>
-    state.activeModules.find((m) => m.id === moduleId)
-  );
+  const moduleInstance = MODULE_LIST[moduleId];
   const activeMetricIds = useMetricsStore(
     useShallow((state) => state.activeModuleMetricIds[moduleId] || [])
   );

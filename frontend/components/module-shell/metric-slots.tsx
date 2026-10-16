@@ -17,7 +17,9 @@ export function MetricSlots({ metrics, maxMetrics }: MetricSlotsProps) {
       }`}
     >
       {visibleMetrics.map((metric) => (
-        <div key={metric.id}>{metric.renderMicroVariant()}</div>
+        <div key={metric.id}>
+          <metric.renderMicroVariant />
+        </div>
       ))}
     </div>
   );

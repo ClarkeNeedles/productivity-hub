@@ -2,7 +2,7 @@
 title: "stores hydration"
 date: 10-15-2026
 project-phase: in-progress
-version: 0.6.5
+version: 0.6.6
 ---
 
 we need to determine when we will hydrate the stores (fetch from the database)
@@ -70,6 +70,9 @@ for select
 to authenticated
 using ((select auth.uid()) = user_id);
 ```
+updated to v0.6.6
+there was a small bug with the heatmap where it was not showing the dates in order - fixed
+we can get rid of the renderMicro vs renderLarge variant functions, just use a single renderMetric function
 
 TODO
 update all the naming conventions to explictly use archetype - DONE
@@ -86,7 +89,7 @@ finish implementing the rest of the streak counter module end-to-end - IN PROGRE
     settings page -
         need to implement choosing the module card metrics user wants to show
         what metrics they want to show on the expanded view of the module
-need to ensure we use webp files instead of gifs - WAITING
 go over the current structure of our MODULES_LIST - DONE
     may want to use a different method for this. consider a ModuleId and ActiveModuleId types
     current BREAKING, need to fix ASAP
+need to ensure we use webp files instead of gifs - WAITING

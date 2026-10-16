@@ -12,7 +12,7 @@ import { useModulesStore } from "@/providers/modules-store-provider";
 const addModuleUtility = new AddModuleModule();
 
 export default function ModulesPage() {
-  const activeModules = useModulesStore((state) => state.activeModules);
+  const activeModuleIds = useModulesStore((state) => state.activeModuleIds);
   const focusedModuleId = useModulesStore((state) => state.focusedModuleId);
   const setFocusedModuleId = useModulesStore((state) => state.setFocusedModuleId);
 
@@ -44,8 +44,8 @@ export default function ModulesPage() {
       </div>
 
       <div className="grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3">
-        {activeModules.map((module) => (
-          <ModuleCard key={module.id} moduleId={module.id} onOpen={setFocusedModuleId} />
+        {activeModuleIds.map((moduleId) => (
+          <ModuleCard key={moduleId} moduleId={moduleId} onOpen={setFocusedModuleId} />
         ))}
         <ModuleCardFrame
           moduleInstance={addModuleUtility}

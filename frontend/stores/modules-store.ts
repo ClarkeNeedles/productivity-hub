@@ -1,19 +1,17 @@
 import { createStore } from "zustand";
-import type { BaseModule } from "@/types/base-module";
 import { MODULE_IDS, type ModuleId, type FocusedModuleId } from "@/configs/modules-config";
 import { createClient } from "@/utils/supabase/client";
-import { MODULE_LIST } from "@/configs/add-module-config";
 
 export interface ModulesStateProps {
   userId: string | null;
-  activeModules: BaseModule[];
+  activeModuleIds: ModuleId[];
   focusedModuleId: FocusedModuleId | null;
   error: string | null;
 }
 
 export interface ModulesActions {
   fetchModules: () => Promise<void>;
-  addModule: (newModule: BaseModule<ModuleId>) => Promise<void>;
+  addModule: (moduleId: ModuleId) => Promise<void>;
   removeModule: (moduleId: ModuleId) => Promise<void>;
   setFocusedModuleId: (moduleId: FocusedModuleId | null) => void;
 }
@@ -26,7 +24,7 @@ const supabase = createClient();
 export const createModulesStore = (initProps: Partial<ModulesStateProps> = {}) => {
   return createStore<ModulesStore>((set, get) => ({
     userId: null,
-    activeModules: [],
+    activeModuleIds: [],
     focusedModuleId: null,
     error: null,
     ...initProps, // Allows passing initial hydration data from Server Components
@@ -51,27 +49,30 @@ export const createModulesStore = (initProps: Partial<ModulesStateProps> = {}) =
         const savedIds: string[] = data.map((row: { module_id: string }) => row.module_id);
 
         // Ignore unknown IDs so stale or invalid database rows cannot index the catalog
-        const mappedModules = savedIds
-          .filter((id): id is ModuleId => MODULE_IDS.some((moduleId) => moduleId === id))
-          .map((id) => MODULE_LIST[id].instantiate());
+        const activeModuleIds = savedIds.filter(
+          (id): id is ModuleId => MODULE_IDS.some((moduleId) => moduleId === id),
+        );
 
-        set({ activeModules: mappedModules });
+        set({ activeModuleIds });
       }
     },
 
-    addModule: async (newModule) => {
-      const { userId, activeModules } = get();
+    addModule: async (moduleId) => {
+      const { userId, activeModuleIds } = get();
       if (!userId) return;
 
       set({
-        activeModules: [...activeModules.filter((module) => module.id !== newModule.id), newModule],
+        activeModuleIds: [
+          ...activeModuleIds.filter((activeModuleId) => activeModuleId !== moduleId),
+          moduleId,
+        ],
         focusedModuleId: null,
       });
 
       // Insert the relational row securely over the wire
       const { error } = await supabase.from("user_modules").insert({
         user_id: userId,
-        module_id: newModule.id,
+        module_id: moduleId,
       });
 
       if (error) {
@@ -81,12 +82,12 @@ export const createModulesStore = (initProps: Partial<ModulesStateProps> = {}) =
     },
 
     removeModule: async (moduleId) => {
-      const { userId, activeModules } = get();
+      const { userId, activeModuleIds } = get();
       if (!userId) return;
 
       // Optimistically slide the component away locally
       set({
-        activeModules: activeModules.filter((item) => item.id !== moduleId),
+        activeModuleIds: activeModuleIds.filter((item) => item !== moduleId),
       });
 
       // Wipe out the database relationship tracking row

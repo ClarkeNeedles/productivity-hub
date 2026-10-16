@@ -24,7 +24,7 @@ export default function ModuleCardPreview({
   return (
     <div className="space-y-3">
       <ModuleCardFrame
-        moduleInstance={MODULE_LIST[moduleId as ModuleId]?.instantiate()}
+        moduleInstance={MODULE_LIST[moduleId]}
         metrics={defaultMetrics}
         onOpen={onSelect}
         showOptions={false}

@@ -3,26 +3,20 @@ import { BaseModule } from "@/types/base-module";
 import { BaseModuleCard } from "@/types/base-module-card";
 import type { BaseModulePage } from "@/types/base-module-page";
 import ModuleCardPreview from "@/components/module-shell/module-card-preview";
-import { MODULE_LIST } from "@/configs/add-module-config";
+import { MODULE_IDS } from "@/configs/modules-config";
 import { useModulesStore } from "@/providers/modules-store-provider";
 import { useShallow } from "zustand/react/shallow";
-import { ADD_MODULE_ID, type ModuleId, type AddModuleId } from "@/configs/modules-config";
+import { ADD_MODULE_ID, type AddModuleId } from "@/configs/modules-config";
 
 class AddModulePage implements BaseModulePage {
   public renderContentArea(): ReactNode {
-    const activeModuleIds = useModulesStore(
-      useShallow((state) => state.activeModules.map((module) => module.id))
-    );
+    const activeModuleIds = useModulesStore(useShallow((state) => state.activeModuleIds));
 
-    const availableModules = Object.entries(MODULE_LIST).filter(([id]) => {
-      if (id === "add-module") return false; // Ensure the AddModule is not available to select
-
-      return !activeModuleIds.includes(id as ModuleId);
-    });
+    const availableModuleIds = MODULE_IDS.filter((id) => !activeModuleIds.includes(id));
 
     const addModule = useModulesStore((state) => state.addModule);
 
-    if (availableModules.length === 0) {
+    if (availableModuleIds.length === 0) {
       return (
         <div className="mt-12 text-center text-sm text-slate-500 dark:text-slate-400">
           All available modules have been added to your dashboard.
@@ -39,14 +33,8 @@ class AddModulePage implements BaseModulePage {
         </div>
 
         <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-          {availableModules.map(([id, config]) => {
-            return (
-              <ModuleCardPreview
-                key={id}
-                moduleId={id as ModuleId}
-                onSelect={() => addModule(config.instantiate())}
-              />
-            );
+          {availableModuleIds.map((id) => {
+            return <ModuleCardPreview key={id} moduleId={id} onSelect={() => addModule(id)} />;
           })}
         </div>
       </div>

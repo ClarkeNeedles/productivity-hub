@@ -51,11 +51,22 @@ export const createStreakStore = (initProps: Partial<StreakStateProps> = {}) => 
       const nowIso = new Date().toISOString();
 
       if (data?.state) {
-        const dbState = data.state as { 
-          best_streak?: number; 
+        type PersistedStreakState = {
+          best_streak?: number;
           streak_started_at?: string;
           reset_history?: string[];
         };
+
+        let dbState: PersistedStreakState;
+
+        try {
+          dbState = (
+            typeof data.state === "string" ? JSON.parse(data.state) : data.state
+          ) as PersistedStreakState;
+        } catch {
+          set({ error: "Stored streak data is not valid JSON." });
+          return;
+        }
 
         // Calculate streak based on previous reset
         const startedAt = dbState.streak_started_at ?? nowIso;
