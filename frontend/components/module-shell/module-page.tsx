@@ -2,20 +2,20 @@
 
 import { useModulesStore } from "@/providers/modules-store-provider";
 import { AddModuleModule } from "@/components/modules/add-module-module";
-import { ModuleId } from "@/configs/modules-config";
+import type { FocusedModuleId } from "@/configs/modules-config";
 
 // Permanent static memory singleton to handle the full catalog blueprint interface
 const addModuleUtility = new AddModuleModule();
 
 type ModulePageProps = {
-  moduleId: ModuleId;
+  moduleId: FocusedModuleId;
 };
 
 export default function ModulePage({ moduleId }: ModulePageProps) {
   // Fetch freshest module instance from store, or fall back to utility singleton
   const module = useModulesStore((state) =>
-    moduleId === "add-module" 
-      ? addModuleUtility 
+    moduleId === "add-module"
+      ? addModuleUtility
       : state.activeModules.find((m) => m.id === moduleId)
   );
 

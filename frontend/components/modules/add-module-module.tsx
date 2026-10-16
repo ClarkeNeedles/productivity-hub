@@ -5,8 +5,8 @@ import type { BaseModulePage } from "@/types/base-module-page";
 import ModuleCardPreview from "@/components/module-shell/module-card-preview";
 import { MODULE_LIST } from "@/configs/add-module-config";
 import { useModulesStore } from "@/providers/modules-store-provider";
-import { useShallow } from 'zustand/react/shallow';
-import { ModuleId } from "@/configs/modules-config";
+import { useShallow } from "zustand/react/shallow";
+import { ADD_MODULE_ID, type ModuleId, type AddModuleId } from "@/configs/modules-config";
 
 class AddModulePage implements BaseModulePage {
   public renderContentArea(): ReactNode {
@@ -54,13 +54,8 @@ class AddModulePage implements BaseModulePage {
   }
 }
 
-export class AddModuleModule extends BaseModule {
+export class AddModuleModule extends BaseModule<AddModuleId> {
   constructor() {
-    super(
-      "add-module",
-      "Add Module",
-      new BaseModuleCard(false, false),
-      new AddModulePage(),
-    );
+    super(ADD_MODULE_ID, "Add Module", new BaseModuleCard(false, false), new AddModulePage());
   }
 }

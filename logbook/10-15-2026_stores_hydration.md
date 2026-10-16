@@ -42,6 +42,34 @@ created the streak counter page
 updated to v0.6.4
 created a reset-heatmap-metric
 updated to v0.6.5
+fixed an issue with the MODULE_LIST and the ModuleId
+    move the add-module out of ActiveModules and prefer creating the component on the page instead
+    this gets rid of redundant moduleId !== "add-module" checks
+take the add-module out of modules list and metrics list entirely as it will never change
+    this is a far cleaner approach
+One additional improvement: store activeModuleIds: ModuleId[] rather than instantiated BaseModule[]. The components can resolve instances from MODULE_LIST. This follows the project’s own rule that Zustand state should contain flat primitives rather than class instances.
+```ts
+export const MODULE_LIST = {
+  "habit-tracker": new HabitTrackerModule(),
+  "streak-counter": new StreakCounterModule(),
+} satisfies Record<ModuleId, BaseModule>;
+```
+you have to ensure that the table has both RLS policies for read and write as well as it is authenticated
+```sql
+create policy "Users can modify their own modules"
+on public.user_modules
+for all
+to authenticated
+using ((select auth.uid()) = user_id)
+with check ((select auth.uid()) = user_id);
+```
+```sql
+create policy "Users can view their own modules"
+on public.user_modules
+for select
+to authenticated
+using ((select auth.uid()) = user_id);
+```
 
 TODO
 update all the naming conventions to explictly use archetype - DONE
@@ -59,6 +87,6 @@ finish implementing the rest of the streak counter module end-to-end - IN PROGRE
         need to implement choosing the module card metrics user wants to show
         what metrics they want to show on the expanded view of the module
 need to ensure we use webp files instead of gifs - WAITING
-go over the current structure of our MODULES_LIST
+go over the current structure of our MODULES_LIST - DONE
     may want to use a different method for this. consider a ModuleId and ActiveModuleId types
     current BREAKING, need to fix ASAP

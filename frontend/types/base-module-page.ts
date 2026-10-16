@@ -1,6 +1,10 @@
 import type { ReactNode } from "react";
-import type { BaseModule } from "@/types/base-module";
+
+export interface ModulePageContext {
+  readonly id: string;
+  readonly title: string;
+}
 
 export interface BaseModulePage {
-  renderContentArea(module: BaseModule): ReactNode;
+  renderContentArea(module: ModulePageContext): ReactNode;
 }

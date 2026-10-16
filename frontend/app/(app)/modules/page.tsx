@@ -2,8 +2,14 @@
 
 import { ArrowLeft } from "lucide-react";
 import ModuleCard from "@/components/module-shell/module-card";
+import { ModuleCardFrame } from "@/components/module-shell/module-card-frame";
 import ModulePage from "@/components/module-shell/module-page";
+import { AddModuleMetric } from "@/components/metrics/add-module-metric";
+import { AddModuleModule } from "@/components/modules/add-module-module";
+import { ADD_MODULE_ID } from "@/configs/modules-config";
 import { useModulesStore } from "@/providers/modules-store-provider";
+
+const addModuleUtility = new AddModuleModule();
 
 export default function ModulesPage() {
   const activeModules = useModulesStore((state) => state.activeModules);
@@ -41,6 +47,16 @@ export default function ModulesPage() {
         {activeModules.map((module) => (
           <ModuleCard key={module.id} moduleId={module.id} onOpen={setFocusedModuleId} />
         ))}
+        <ModuleCardFrame
+          moduleInstance={addModuleUtility}
+          metrics={[{
+            id: "add-module",
+            name: "Add Module",
+            renderMicroVariant: AddModuleMetric,
+          }]}
+          onOpen={() => setFocusedModuleId(ADD_MODULE_ID)}
+          showOptions={false}
+        />
       </div>
     </section>
   );

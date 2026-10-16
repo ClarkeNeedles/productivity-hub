@@ -1,12 +1,12 @@
 import { ReactNode } from "react";
 import { BaseModule } from "@/types/base-module";
 import { BaseModuleCard } from "@/types/base-module-card";
-import type { BaseModulePage } from "@/types/base-module-page";
+import type { BaseModulePage, ModulePageContext } from "@/types/base-module-page";
 import { BaseModuleSettingsPage } from "@/types/base-module-settings-page";
 import { ModuleId } from "@/configs/modules-config";
 
 class HabitTrackerPage implements BaseModulePage {
-  public renderContentArea(module: BaseModule): ReactNode {
+  public renderContentArea(module: ModulePageContext): ReactNode {
     return <p className="mt-3 text-slate-500 dark:text-slate-400">{module.title}</p>;
   }
 }
@@ -31,7 +31,7 @@ export class HabitTrackerModule extends BaseModule {
       "Habit Tracker",
       new BaseModuleCard(),
       new HabitTrackerPage(),
-      new HabitTrackerSettings(),
+      new HabitTrackerSettings()
     );
   }
 }

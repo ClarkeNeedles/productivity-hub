@@ -1,7 +1,7 @@
 import { ReactNode } from "react";
 import { BaseModule } from "@/types/base-module";
 import { BaseModuleCard } from "@/types/base-module-card";
-import type { BaseModulePage } from "@/types/base-module-page";
+import type { BaseModulePage, ModulePageContext } from "@/types/base-module-page";
 import { BaseModuleSettingsPage } from "@/types/base-module-settings-page";
 import { ModuleId } from "@/configs/modules-config";
 import { useStreakCounterStore } from "@/providers/modules-store-provider";
@@ -9,31 +9,35 @@ import { CurrentStreakMetric } from "@/components/metrics/current-streak-metric"
 import { StreakHeatmapMetric } from "@/components/metrics/streak-heatmap-metric";
 
 class StreakCounterPage implements BaseModulePage {
-  public renderContentArea(module: BaseModule): ReactNode {
-    const bestStreak = useStreakCounterStore((state) => state.bestStreak)
-    const resetHistory = useStreakCounterStore((state) => state.resetHistory)
-    const resetStreak = useStreakCounterStore((state) => state.resetStreak)
-    
+  public renderContentArea(module: ModulePageContext): ReactNode {
+    const bestStreak = useStreakCounterStore((state) => state.bestStreak);
+    const resetHistory = useStreakCounterStore((state) => state.resetHistory);
+    const resetStreak = useStreakCounterStore((state) => state.resetStreak);
+
     return (
       <div className="space-y-6 p-1">
         <div>
-          <h2 className="text-xl  text-slate-500 dark:text-slate-400">
+          <h2 className="text-xl text-slate-500 dark:text-slate-400">
             Monitor your personal streaks and see patterns.
           </h2>
         </div>
 
         <div className="grid gap-6 md:grid-cols-3">
-          <div className="md:col-span-2 flex flex-col items-center justify-center rounded-2xl border border-slate-100 bg-white p-8 shadow-sm dark:border-slate-800/60 dark:bg-slate-900/40">
-            <div className="my-8 scale-150 transform origin-center transition-transform duration-300 hover:scale-[1.55]">
+          <div className="flex flex-col items-center justify-center rounded-2xl border border-slate-100 bg-white p-8 shadow-sm md:col-span-2 dark:border-slate-800/60 dark:bg-slate-900/40">
+            <div className="my-8 origin-center scale-150 transform transition-transform duration-300 hover:scale-[1.55]">
               <CurrentStreakMetric />
             </div>
 
-            <div className="w-full max-w-sm border-t border-slate-100 pt-8 mt-4 dark:border-slate-800/80">
+            <div className="mt-4 w-full max-w-sm border-t border-slate-100 pt-8 dark:border-slate-800/80">
               <button
                 type="button"
                 onClick={() => {
-                  if (confirm('Are you absolutely sure you want to reset your baseline anchor right now?')) {
-                    resetStreak()
+                  if (
+                    confirm(
+                      "Are you absolutely sure you want to reset your baseline anchor right now?"
+                    )
+                  ) {
+                    resetStreak();
                   }
                 }}
                 className="w-full rounded-xl bg-red-600 py-3 text-sm font-semibold tracking-wide text-white shadow-sm transition-all duration-200 hover:bg-red-500 hover:shadow-red-500/10 active:scale-[0.99]"
@@ -49,7 +53,9 @@ class StreakCounterPage implements BaseModulePage {
                 Personal Record
               </span>
               <div className="mt-1 flex items-baseline gap-2">
-                <span className="text-3xl font-black text-slate-800 dark:text-white">{bestStreak}</span>
+                <span className="text-3xl font-black text-slate-800 dark:text-white">
+                  {bestStreak}
+                </span>
                 <span className="text-xs font-medium text-slate-500 dark:text-slate-400">days</span>
               </div>
             </div>
@@ -59,18 +65,23 @@ class StreakCounterPage implements BaseModulePage {
                 Reset Volatility
               </span>
               <div className="mt-1 flex items-baseline gap-2">
-                <span className="text-3xl font-black text-slate-800 dark:text-white">{resetHistory.length}</span>
-                <span className="text-xs font-medium text-slate-500 dark:text-slate-400">events</span>
+                <span className="text-3xl font-black text-slate-800 dark:text-white">
+                  {resetHistory.length}
+                </span>
+                <span className="text-xs font-medium text-slate-500 dark:text-slate-400">
+                  events
+                </span>
               </div>
             </div>
           </div>
-
         </div>
 
         <div className="rounded-2xl border border-slate-100 bg-white p-6 shadow-sm dark:border-slate-800/60 dark:bg-slate-900/40">
           <div className="mb-4 flex items-center justify-between">
             <div>
-              <h3 className="text-sm font-bold text-slate-900 dark:text-white">Reset Activity Map</h3>
+              <h3 className="text-sm font-bold text-slate-900 dark:text-white">
+                Reset Activity Map
+              </h3>
             </div>
           </div>
 
@@ -103,7 +114,7 @@ export class StreakCounterModule extends BaseModule {
       "Streak Counter",
       new BaseModuleCard(),
       new StreakCounterPage(),
-      new StreakCounterSettings(),
+      new StreakCounterSettings()
     );
   }
 }

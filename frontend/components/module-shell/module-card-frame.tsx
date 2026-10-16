@@ -7,7 +7,7 @@ import type { BaseModule } from "@/types/base-module";
 import type { BaseModuleMetric } from "@/types/base-module-metric";
 
 type ModuleCardFrameProps = {
-  moduleInstance: BaseModule;
+  moduleInstance: Pick<BaseModule<string>, "id" | "title" | "card">;
   metrics: readonly BaseModuleMetric[];
   onOpen: () => void;
   onRemove?: () => void;
