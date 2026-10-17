@@ -18,7 +18,10 @@ after the first release, we can implement a workflow which auto bumps the projec
 implement routing for all of the module pages so that we can: - DONE
     refresh, copy module links, use browser naigation, etc.
 bump to v0.7.0
-
+after adding module, it gets stuck on add module page before returning to /modules - WAITING
+overall loading is slow and there are visible transitions - WAITING
+    need to pre load all the module cards as well as metrics before hand
+    the module pages themselves are loading just fine
 
 TODO
 start working on the habit tracking module - IN PROGRESS

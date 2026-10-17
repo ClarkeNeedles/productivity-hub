@@ -7,11 +7,13 @@ import { useStore } from "zustand";
 import { createStreakStore, type StreakStore } from "@/stores/streak-counter-store";
 import { createModulesStore, type ModulesStore } from "@/stores/modules-store";
 import { createMetricsStore, type MetricsStore } from "@/stores/metrics-store";
+import { createHabitTrackerStore, type HabitTrackerStore } from "@/stores/habit-tracker-store";
 
 interface ModulesStores {
   streakStore: ReturnType<typeof createStreakStore>;
   modulesStore: ReturnType<typeof createModulesStore>;
   metricsStore: ReturnType<typeof createMetricsStore>;
+  habitTrackerStore: ReturnType<typeof createHabitTrackerStore>;
 }
 
 const ModulesStoreContext = createContext<ModulesStores | undefined>(undefined);
@@ -31,6 +33,7 @@ export const ModulesStoreProvider = ({
       streakStore: createStreakStore({ userId }),
       modulesStore: createModulesStore({ userId }),
       metricsStore: createMetricsStore(),
+      habitTrackerStore: createHabitTrackerStore({ userId }),
     };
   }
 
@@ -39,6 +42,7 @@ export const ModulesStoreProvider = ({
     if (userId && storesRef.current) {
       storesRef.current.streakStore.getState().fetchStreak();
       storesRef.current.modulesStore.getState().fetchActiveModuleIds();
+      storesRef.current.habitTrackerStore.getState().fetchHabits();
     }
   }, [userId]);
 
@@ -69,4 +73,11 @@ export const useMetricsStore = <T,>(selector: (store: MetricsStore) => T): T => 
   if (!context) throw new Error("useModulesStreak must be used within ModulesStoreProvider");
 
   return useStore(context.metricsStore, selector);
+};
+
+export const useHabitTrackerStore = <T,>(selector: (store: HabitTrackerStore) => T): T => {
+  const context = useContext(ModulesStoreContext);
+  if (!context) throw new Error("useHabitTrackerStore must be used within ModulesStoreProvider");
+
+  return useStore(context.habitTrackerStore, selector);
 };

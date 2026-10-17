@@ -1,6 +1,5 @@
 import type { ReactNode } from "react";
 import type { ModuleDefinition } from "@/types/module-definition";
-import type { ModulePageProps } from "@/types/module-page-component";
 import { BaseModuleSettingsPage } from "@/types/base-module-settings-page";
 import { useStreakCounterStore } from "@/providers/modules-store-provider";
 import { CurrentStreakMetric } from "@/components/metrics/current-streak-metric";
@@ -8,7 +7,7 @@ import { BestStreakMetric } from "@/components/metrics/best-streak-metric";
 import { StreakHeatmapMetric } from "@/components/metrics/streak-heatmap-metric";
 import { STREAK_COUNTER_MODULE_ID } from "@/configs/modules-config";
 
-function StreakCounterPage(_props: ModulePageProps) {
+function StreakCounterPage() {
   const resetHistory = useStreakCounterStore((state) => state.resetHistory);
   const resetStreak = useStreakCounterStore((state) => state.resetStreak);
 

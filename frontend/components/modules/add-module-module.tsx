@@ -1,5 +1,4 @@
 import type { ModuleDefinition } from "@/types/module-definition";
-import type { ModulePageProps } from "@/types/module-page-component";
 import ModuleCardPreview from "@/components/module-shell/module-card-preview";
 import { MODULE_IDS } from "@/configs/modules-config";
 import { useRouter } from "next/navigation";
@@ -7,7 +6,7 @@ import { useModulesStore } from "@/providers/modules-store-provider";
 import { useShallow } from "zustand/react/shallow";
 import { ADD_MODULE_ID } from "@/configs/modules-config";
 
-function AddModulePage(_props: ModulePageProps) {
+function AddModulePage() {
   const router = useRouter();
   const activeModuleIds = useModulesStore(useShallow((state) => state.activeModuleIds));
   const availableModuleIds = MODULE_IDS.filter((id) => !activeModuleIds.includes(id));

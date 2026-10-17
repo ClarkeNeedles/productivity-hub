@@ -1,11 +1,10 @@
 import type { ReactNode } from "react";
 import type { ModuleDefinition } from "@/types/module-definition";
-import type { ModulePageProps } from "@/types/module-page-component";
 import { BaseModuleSettingsPage } from "@/types/base-module-settings-page";
 import { TODO_LIST_MODULE_ID } from "@/configs/modules-config";
 
-function TodoListPage({ module }: ModulePageProps) {
-  return <p className="mt-3 text-slate-500 dark:text-slate-400">{module.title}</p>;
+function TodoListPage() {
+  return <p className="mt-3 text-slate-500 dark:text-slate-400">To-do list content coming soon.</p>;
 }
 
 class TodoListSettings extends BaseModuleSettingsPage {

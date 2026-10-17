@@ -14,6 +14,8 @@ export default function ModulePage({ moduleId }: ModulePageProps) {
   // Guard safety fallback check if the module was unmounted while open
   if (!module) return null;
 
+  const Page = module.page;
+
   return (
     <div className="mx-auto max-w-7xl space-y-6 p-6">
       <header className="border-b border-slate-100 pb-5 dark:border-slate-800/60">
@@ -25,7 +27,7 @@ export default function ModulePage({ moduleId }: ModulePageProps) {
       </header>
 
       <main className="min-h-[400px] w-full">
-        <module.page module={module} />
+        <Page />
       </main>
     </div>
   );
