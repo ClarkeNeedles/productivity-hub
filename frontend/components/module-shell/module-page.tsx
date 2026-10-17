@@ -1,6 +1,7 @@
 "use client";
 
 import { addModuleModule } from "@/components/modules/add-module-module";
+import { ModulePageFrame } from "@/components/module-shell/module-page-frame";
 import { MODULE_LIST } from "@/configs/add-module-config";
 import { ADD_MODULE_ID, type FocusedModuleId } from "@/configs/modules-config";
 
@@ -17,18 +18,8 @@ export default function ModulePage({ moduleId }: ModulePageProps) {
   const Page = module.page;
 
   return (
-    <div className="mx-auto max-w-7xl space-y-6 p-6">
-      <header className="border-b border-slate-100 pb-5 dark:border-slate-800/60">
-        <div>
-          <h2 className="mt-1 text-3xl font-semibold tracking-tight text-slate-900 dark:text-white">
-            {module.title}
-          </h2>
-        </div>
-      </header>
-
-      <main className="min-h-[400px] w-full">
-        <Page />
-      </main>
-    </div>
+    <ModulePageFrame title={module.title} backHref="/modules" backLabel="Back to modules">
+      <Page />
+    </ModulePageFrame>
   );
 }

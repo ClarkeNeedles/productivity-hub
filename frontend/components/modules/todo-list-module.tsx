@@ -1,23 +1,8 @@
-import type { ReactNode } from "react";
 import type { ModuleDefinition } from "@/types/module-definition";
-import { BaseModuleSettingsPage } from "@/types/base-module-settings-page";
 import { TODO_LIST_MODULE_ID } from "@/configs/modules-config";
 
 function TodoListPage() {
   return <p className="mt-3 text-slate-500 dark:text-slate-400">To-do list content coming soon.</p>;
-}
-
-class TodoListSettings extends BaseModuleSettingsPage {
-  constructor() {
-    super(0.5);
-  }
-
-  public renderModuleCardConfigSection(): ReactNode {
-    return <p className="text-sm text-slate-500">Card configurations coming soon.</p>;
-  }
-  public renderModulePageConfigSection(): ReactNode {
-    return <p className="text-sm text-slate-500">Workspace customizers coming soon.</p>;
-  }
 }
 
 export const todoListModule = {
@@ -29,5 +14,5 @@ export const todoListModule = {
     maxMetrics: 2,
   },
   page: TodoListPage,
-  settings: new TodoListSettings(),
+  settingsPage: null,
 } satisfies ModuleDefinition<typeof TODO_LIST_MODULE_ID>;

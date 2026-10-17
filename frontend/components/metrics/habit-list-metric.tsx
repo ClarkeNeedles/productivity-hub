@@ -47,7 +47,7 @@ export function HabitListMetric() {
           </h2>
         </div>
         <Link
-          href="/modules/habit-tracker/edit"
+          href="/modules/habit-tracker/settings"
           className="inline-flex items-center gap-2 rounded-lg border border-slate-200 px-3 py-2 text-sm font-semibold text-slate-600 hover:border-blue-300 hover:text-blue-600 dark:border-slate-700 dark:text-slate-300 dark:hover:border-blue-500 dark:hover:text-blue-400"
         >
           <Settings2 size={16} aria-hidden="true" />

@@ -51,5 +51,5 @@ export const addModuleModule = {
     maxMetrics: 2,
   },
   page: AddModulePage,
-  settings: null,
+  settingsPage: null,
 } satisfies ModuleDefinition<typeof ADD_MODULE_ID>;

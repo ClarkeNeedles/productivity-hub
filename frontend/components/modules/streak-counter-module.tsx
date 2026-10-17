@@ -1,6 +1,4 @@
-import type { ReactNode } from "react";
 import type { ModuleDefinition } from "@/types/module-definition";
-import { BaseModuleSettingsPage } from "@/types/base-module-settings-page";
 import { useStreakCounterStore } from "@/providers/modules-store-provider";
 import { CurrentStreakMetric } from "@/components/metrics/current-streak-metric";
 import { BestStreakMetric } from "@/components/metrics/best-streak-metric";
@@ -77,19 +75,6 @@ function StreakCounterPage() {
   );
 }
 
-class StreakCounterSettings extends BaseModuleSettingsPage {
-  constructor() {
-    super(0.5);
-  }
-
-  public renderModuleCardConfigSection(): ReactNode {
-    return <p className="text-sm text-slate-500">Card configurations coming soon.</p>;
-  }
-  public renderModulePageConfigSection(): ReactNode {
-    return <p className="text-sm text-slate-500">Workspace customizers coming soon.</p>;
-  }
-}
-
 export const streakCounterModule = {
   id: STREAK_COUNTER_MODULE_ID,
   title: "Streak Counter",
@@ -99,5 +84,5 @@ export const streakCounterModule = {
     maxMetrics: 2,
   },
   page: StreakCounterPage,
-  settings: new StreakCounterSettings(),
+  settingsPage: null,
 } satisfies ModuleDefinition<typeof STREAK_COUNTER_MODULE_ID>;

@@ -2,7 +2,7 @@
 title: "habit tracker development"
 date: 10-17-2026
 project-phase: in-progress
-version: 0.7.0
+version: 0.8.0
 ---
 
 start working on the habit tracking module - DONE
@@ -26,6 +26,11 @@ start working on the habit tracking module - DONE
             id, title, date completed
 completed the first version of the habit tracker module
 bump to v0.8.0
+get rid of old BaseModuleSettinsPage - DONE
+convert the habit tracker edit to a settings page - DONE
+Move the settings page into the module file itself - DONE
+prefer using form rather than FormEvent (depricated) - 
+make the routing for settings pages generic - DONE
 
 TODO
 start working on the life score module - WAITING
