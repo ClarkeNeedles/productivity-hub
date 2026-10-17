@@ -2,7 +2,7 @@
 title: "habit tracker development"
 date: 10-16-2026
 project-phase: in-progress
-version: 0.6.9
+version: 0.7.0
 ---
 
 most of the types like the BaseModuleCard are just classes with data constructors
@@ -15,6 +15,12 @@ update modules-store function names to show they are using with ids - DONE
 bump to v0.6.9
 start using conventional commits
 after the first release, we can implement a workflow which auto bumps the project version
+implement routing for all of the module pages so that we can: - DONE
+    refresh, copy module links, use browser naigation, etc.
+bump to v0.7.0
+
+
+TODO
 start working on the habit tracking module - IN PROGRESS
     I think that we should create a list component that can eventually be reused for the todo list
         there was an original plan of linking the habits in the todo list, but we arent doing this right now
@@ -28,9 +34,6 @@ start working on the habit tracking module - IN PROGRESS
             Displays the current overall perfect day streak.
         Visual Analytics & Data Charts
             A GitHub-style density grid displaying the total volume of daily completed to-dos
-
-
-TODO
 start working on the life score module - WAITING
     design ideas are in a logbook entry
     this is essentially our dashboard module
