@@ -2,7 +2,7 @@
 title: "habit tracker development"
 date: 10-17-2026
 project-phase: in-progress
-version: 0.8.0
+version: 0.8.1
 ---
 
 start working on the habit tracking module - DONE
@@ -29,8 +29,18 @@ bump to v0.8.0
 get rid of old BaseModuleSettinsPage - DONE
 convert the habit tracker edit to a settings page - DONE
 Move the settings page into the module file itself - DONE
-prefer using form rather than FormEvent (depricated) - 
+prefer using form rather than FormEvent (depricated) - DONE
 make the routing for settings pages generic - DONE
+made a generic settings page component based on a new page frame component - DONE
+visual improvements - DONE
+bump to v0.8.1
+look into the streak updating sooner than I expected it? - WAITING
+    the most recent reset was at "2026-10-16T18:00:35.487Z" but on my phone it was reset by 2:00 pm when I checked
+sort the habits by alphabetical order - WAITING
+push the completed habits to the bottom of the list - WAITING
+force the habits list to only show 10 at a time, but make it scrollable - WAITING
+create a habit heatmap similar to the streak one - WAITING
+    may reuse the component or make the metric itself more generic?
 
 TODO
 start working on the life score module - WAITING
