@@ -1,5 +1,5 @@
 ![Status: In Progress](https://img.shields.io/badge/status-in%20progress-blue)
-![Version: 0.6.8](https://img.shields.io/badge/version-0.6.8-green)
+![Version: 0.8.1](https://img.shields.io/badge/version-0.8.1-green)
 
 # Amelify
 
