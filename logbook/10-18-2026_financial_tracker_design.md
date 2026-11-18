@@ -1,0 +1,41 @@
+- how should the financial tracker look and feel?
+- it should have all the basic functionality of the current financial entry form and google sheet that I have set up
+- features
+    - it should look similar to the habit tracker with the main user interface in the top left and the stats and other stuff around it
+        - the main interface should have the purchase form
+    - easy to use financial purchase form (main purpose), this should mimic the google form
+        - it would contain two seperate options, either purchase or gain
+        - it would have the fields: category of purchase, amount, specifically what it is (common options as a dropdown with an other typing box)
+    - ability to create recurring salary
+    - ability to create recurring payments
+    - it should have a list of everything that you bought or gained for that given day
+    - you should have the ability to set weekly and monthly budgets for all categories and see how much you have used up weekly and monthly
+    - you should show your profits per payment period
+- my old financial tracker data was only calculating financial expenses which is fine, we can just assume I was in the red for all that time
+    - now I can use this tracker to track expenses as well as income
+    - you can use it to check how much you are profiting per payment period
+        - even during the current payment period it could show you how much you would profit
+    - I wonder if there is a way to show how much total you have profitted, but it would include all the previous data as well
+        - you could make this a range which only includes the data from a certain chunk of time
+    
+
+- TODO
+    - look into the streak updating sooner than I expected it? - WAITING
+        - the most recent reset was at "2026-10-16T18:00:35.487Z" but on my phone it was reset by 2:00 pm when I checked
+    - sort the habits by alphabetical order - WAITING
+    - push the completed habits to the bottom of the list - WAITING
+    - force the habits list to only show 10 at a time, but make it scrollable - WAITING
+    - create a habit heatmap similar to the streak one - WAITING
+        - may reuse the component or make the metric itself more generic?
+    - this goes for many of the modules, we should be have an edit specific day button
+        - this would allow you to go back to a certain day and check off things you did that day
+        - essentially updating that day in the database
+        - like if you forgot to tick off a habit you did on that given day
+    - start working on the life score module - WAITING
+        - design ideas are in a logbook entry
+        - this is essentially our dashboard module
+    - create a python script that enables a developer to easily create a new module and wire everything up so they can start developing right away
+    - after adding module, it gets stuck on add module page before returning to /modules - WAITING
+    - overall loading is slow and there are visible transitions - WAITING
+        - need to pre load all the module cards as well as metrics before hand
+        - the module pages themselves are loading just fine
